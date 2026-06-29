@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="6/29/2026 3:03:15 AM">
+
+	<Script>Pick Random Class and Race
+		<Action>SetList/Race List,Human|Lissit|Shadowling|Spriggat|Spirit|Golem</Action>
+		<Action>SetString/Selected Race,PICKFROMLIST{Race List}</Action>
+		<Action>SetList/Human Classes,Bowman|Cavalier|Cryokineticist|Engineer|Kineticist|Mentalist|Spearman|Psy Healer|Pyrokineticist|Swordsman|Skiakineticist</Action>
+		<Action>SetList/Lissit Classes,Barudit|Gasul</Action>
+		<Action>SetList/Shadowling Classes,Cryokineticist|Kineticist|Mentalist|Psy Healer|Pyrokineticist|Skiakineticist</Action>
+		<Action>SetList/Spirit Classes,Spirit</Action>
+		<Action>SetList/Golem Classes,Stone Golem|Bronze Golem</Action>
+		<Action>SetString/Selected Class,PICKFROMLIST{-STR:Selected Race- Classes}</Action>
+		<Action>Log/LOGMESSAGE: Pick Random Class and Race Results: Class (-STR:Selected Class-) Race (-STR:Selected Race-)</Action>
+	</Script>
+
+</PersistentDialogue>
