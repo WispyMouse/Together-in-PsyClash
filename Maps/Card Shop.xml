@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="6/29/2026 2:39:57 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="6/29/2026 2:03:32 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -76,7 +76,7 @@
 	<Unit>0,99,BookcaseFull,1,13,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,1,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,2,0,None,None</Unit>
-	<Unit>0,99,Table,2,4,None,None</Unit>
+	<Unit trigger="Use,Player Table Talk Script,Table Index,1">0,99,Table,2,4,None,None</Unit>
 	<Unit>0,99,RugTurqHL,2,11,None,None</Unit>
 	<Unit>0,99,RugTurqHC,2,12,None,None</Unit>
 	<Unit>0,99,RugTurqHC,2,13,None,None</Unit>
@@ -84,14 +84,14 @@
 	<Unit>0,99,RugTurqHR,2,14,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,2,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,3,0,None,None</Unit>
-	<Unit>0,99,Table,3,6,None,None</Unit>
-	<Unit>0,99,Bartop_L,3,11,None,None</Unit>
-	<Unit>0,99,Bartop_C,3,12,None,None</Unit>
-	<Unit>0,99,Bartop_C,3,13,None,None</Unit>
-	<Unit>0,99,Bartop_R,3,14,None,None</Unit>
+	<Unit trigger="Use,Player Table Talk Script,Table Index,2">0,99,Table,3,6,None,None</Unit>
+	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_L,3,11,None,None</Unit>
+	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_C,3,12,None,None</Unit>
+	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_C,3,13,None,None</Unit>
+	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_R,3,14,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,3,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,4,0,None,None</Unit>
-	<Unit>0,99,Table,4,4,None,None</Unit>
+	<Unit trigger="Use,Player Table Talk Script,Table Index,3">0,99,Table,4,4,None,None</Unit>
 	<Unit>0,99,Rug9TL,4,11,None,None</Unit>
 	<Unit>0,99,Rug9T,4,12,None,None</Unit>
 	<Unit>0,99,Rug9T,4,13,None,None</Unit>
@@ -105,7 +105,7 @@
 	<Unit>0,99,Rug9BR,5,14,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,5,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,6,0,None,None</Unit>
-	<Unit>0,99,TablePapers,6,2,None,None</Unit>
+	<Unit trigger="Use,Player Table Talk Script,Table Index,4">0,99,TablePapers,6,2,None,None</Unit>
 	<Unit>0,99,RackSparse,6,7,None,None</Unit>
 	<Unit>0,99,TableDice,6,12,None,None</Unit>
 	<Unit>0,99,TableMap,6,13,None,None</Unit>
@@ -137,16 +137,16 @@
 	<Unit>0,99,FruitStand_S,9,11,None,None</Unit>
 	<Unit>0,99,FruitStand_S,9,12,None,None</Unit>
 	<Unit>0,99,LampLitAlt,13,8,None,None</Unit>
-	<Unit>0,0,Card Player/,6,8,Up,None</Unit>
+	<Unit>0,0,Card Player/,6,8,Right,None</Unit>
 
 	<Script>Place People
 		<Action>RosterToList/NPC Roster,1</Action>
 		<Action>Log/NPC Roster contains LASTINLIST[NPC Roster] items</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,0},2,12,Down</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,1},2,6,Left</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,2},2,3,Right</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,3},4,3,Right</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,4},6,1,Right</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,0},2,12,Down,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,1},2,6,Left,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,2},2,3,Right,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,3},4,3,Right,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,4},6,1,Right,Use:Talk to Person Script</Action>
 	</Script>
 
 	<Script>Place Person
@@ -154,10 +154,61 @@
 		<Action>SetVal/Roster Index,+:1</Action>
 	</Script>
 
+	<Script>Talk to Person Script
+		<Action>Log/LOGMESSAGE: Loading conversation for -FNAME2-</Action>
+		<Action>ChangeTriggerCharacter/Card Player</Action>
+		<Action>ChangeSecondaryCharacter/-FNAME2-</Action>
+		<Action>Log/LOGMESSAGE: The entity we are talking to is at -CHAR2X- and -CHAR2Y-.</Action>
+		<Action>LoadConv/Talk to Person Conv,Card Player,-FNAME2-</Action>
+	</Script>
+
+	<Script>Player Table Talk Script
+		<Action>Log/LOGMESSAGE: Find the closest character to -CHAR2X- and -CHAR2Y-</Action>
+		<Action>SetVal/Closest Distance,=:99</Action>
+		<Action>ForLoop/-ii-,0-LASTINLIST[NPC Roster],1,Run,Note If Closest,Character Index,-ii-</Action>
+		<Action>Log/LOGMESSAGE: Closest character is -STR:Closest Character-</Action>
+		<Action>ChangeTriggerCharacter/Card Player</Action>
+		<Action>ChangeSecondaryCharacter/-STR:Closest Character-</Action>
+		<Action>LoadConv/Talk to Person Conv,Card Player,-STR:Closest Character-</Action>
+	</Script>
+
+	<Script>Counter Talk Script
+		<Action>LoadConv/Counter Talk Conv</Action>
+	</Script>
+
+	<Script>Note If Closest
+		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{NPC Roster,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-</Action>
+		<Action>GetDistToSpace/LIST{NPC Roster,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
+		<Action>IfValRun/_Dist,l,-VAL:Closest Distance-,Set Current Character as Closest</Action>
+	</Script>
+
+	<Script>Set Current Character as Closest
+		<Action>Log/LOGMESSAGE: Index -VAL:Character Index- Name LIST{NPC Roster,-VAL:Character Index-} is -VAL:_Dist- away, which is closer than previous best -VAL:Closest Distance-</Action>
+		<Action>SetVal/Closest Distance,=:-VAL:_Dist-</Action>
+		<Action>SetString/Closest Character,LIST{NPC Roster,-VAL:Character Index-}</Action>
+	</Script>
+
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
 			<Action>Run/Place People</Action>
 			<Action>EndConvImmediately/</Action>
+		</Branch>
+	</Dialogue>
+
+	<Dialogue trigger="None/" convID="Talk to Person Conv" r="true">
+		<Branch num="0" name="">-FNAME2-/You're talking to me?
+			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
+			<Action>AddPortrait/-FNAME2-,-FNAME2-,left</Action>
+			<Action>AssignSpeaker/-FNAME2-</Action>
+			<Action>AddPortrait/Card Player,Card Player,right</Action>
+			<Reply>Continue./NextBranch</Reply>
+		</Branch>
+	</Dialogue>
+
+	<Dialogue trigger="None/" convID="Counter Talk Conv" r="true">
+		<Branch num="0" name="">/You're talking to the counter.
+			<Reply>Continue./NextBranch</Reply>
 		</Branch>
 	</Dialogue>
 
