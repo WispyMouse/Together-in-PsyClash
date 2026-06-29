@@ -1,38 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="6/28/2026 6:47:02 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="6/28/2026 9:08:11 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
 	
 	<Condition>Free Movement,1,Card Player</Condition>
+	<Condition>Global Lighting,Overcast</Condition>
 	
-	<Tileset>01,Grass</Tileset>
+	<Tileset>01,Cave</Tileset>
+	<Tileset>02,Wood</Tileset>
+	<Tileset>03,Grass</Tileset>
+	<Tileset>04,Dirt</Tileset>
+	<Tileset>05,Street</Tileset>
+	<Tileset>06,Water</Tileset>
 	
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
-	<Row>01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01,01.01</Row>
+	<Row>01.01,01.01,01.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>01.01,01.01,01.01,02.01,02.01,01.3D,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>01.01,01.01,01.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01,02.01</Row>
+	<Row>02.0e,02.0e,02.0e,02.01,02.0e,02.02,02.02,02.0e,02.0e,02.02,02.02,02.0e,02.0e,02.0e,02.0e,02.0e</Row>
+	<Row>03.2O,03.2O,03.2O,03.08,03.01,04.0b,04.0c,03.01,03.01,04.0b,04.0c,03.01,03.01,03.01,03.01,03.01</Row>
+	<Row>03.01,03.01,03.01,03.01,05.0s,04.01,04.01,04.0d,04.0d,04.0k,04.0c,03.01,03.01,03.0T,03.0K,03.0K</Row>
+	<Row>05.0p,05.0p,05.0p,05.0p,05.0w,05.0h,04.01,04.01,04.01,04.01,04.01,05.0b,05.0p,05.1b,06.01,06.01</Row>
+	<Row>05.01,05.01,05.01,05.01,05.01,05.0l,05.0d,05.0d,05.0d,05.0d,05.0d,05.0k,05.01,05.1b,06.01,06.01</Row>
+	<Row>05.19,05.19,05.19,05.19,05.19,05.19,05.19,05.19,05.1h,05.01,05.01,05.1i,05.19,05.1e,06.01,06.01</Row>
+	<Row>06.01,06.01,06.01,06.01,06.01,06.01,06.01,06.01,05.1d,05.1h,05.1i,05.1e,06.01,06.01,06.01,06.01</Row>
+	<Row>06.01,06.01,06.01,06.01,06.01,06.01,06.01,06.01,06.01,05.1a,05.1b,06.01,06.01,06.01,06.01,06.01</Row>
 	
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
-	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<Light type="Point Light" size="1" intensity="0.2" y="1" x="1" A="1" R="1" G="0.2" B="0" animType="Static" direction="Up"></Light>
+	<Light type="Point Light" size="2" intensity="2.5" y="1" x="5" A="1" R="1" G="0.8" B="0.3" animType="Pulse" direction="Up"></Light>
 	
-	<Unit>0,0,Card Player/,5,6,Up,None</Unit>
+	<RowElev>0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>0,0,0,1,1,2,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</RowElev>
+	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0</RowElev>
+	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0</RowElev>
+	<RowElev>1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0</RowElev>
+	<RowElev>0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0</RowElev>
+	<RowElev>0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0</RowElev>
+	
+	<Unit>0,99,HouseWallNW,0,0,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,1,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,2,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,3,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,4,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,5,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,6,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,7,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,8,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,9,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,10,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,11,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,12,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,13,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,0,14,None,None</Unit>
+	<Unit>0,99,HouseWallNE,0,15,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,1,0,None,None</Unit>
+	<Unit>0,99,SteamEngine,1,1,None,None</Unit>
+	<Unit>0,99,Statue,1,5,None,None</Unit>
+	<Unit>0,99,TrainingDummy,1,8,None,None</Unit>
+	<Unit>0,99,ChinaCabinet,1,9,None,None</Unit>
+	<Unit>0,99,Rug,1,9,None,None</Unit>
+	<Unit>0,99,SignAlt,1,10,None,None</Unit>
+	<Unit>0,99,BookcaseSparse,1,12,None,None</Unit>
+	<Unit>0,99,BookcaseFull,1,13,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,1,15,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,2,0,None,None</Unit>
+	<Unit>0,99,Table,2,4,None,None</Unit>
+	<Unit>0,99,RugTurqHL,2,11,None,None</Unit>
+	<Unit>0,99,RugTurqHC,2,12,None,None</Unit>
+	<Unit>0,99,RugTurqHC,2,13,None,None</Unit>
+	<Unit>0,99,Chest,2,14,None,None</Unit>
+	<Unit>0,99,RugTurqHR,2,14,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,2,15,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,3,0,None,None</Unit>
+	<Unit>0,99,Table,3,6,None,None</Unit>
+	<Unit>0,99,Bartop_L,3,11,None,None</Unit>
+	<Unit>0,99,Bartop_C,3,12,None,None</Unit>
+	<Unit>0,99,Bartop_C,3,13,None,None</Unit>
+	<Unit>0,99,Bartop_R,3,14,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,3,15,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,4,0,None,None</Unit>
+	<Unit>0,99,Table,4,4,None,None</Unit>
+	<Unit>0,99,Rug9TL,4,11,None,None</Unit>
+	<Unit>0,99,Rug9T,4,12,None,None</Unit>
+	<Unit>0,99,Rug9T,4,13,None,None</Unit>
+	<Unit>0,99,Sign,4,14,None,None</Unit>
+	<Unit>0,99,Rug9TR,4,14,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,4,15,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,5,0,None,None</Unit>
+	<Unit>0,99,Rug9BL,5,11,None,None</Unit>
+	<Unit>0,99,Rug9B,5,12,None,None</Unit>
+	<Unit>0,99,Rug9B,5,13,None,None</Unit>
+	<Unit>0,99,Rug9BR,5,14,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,5,15,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,6,0,None,None</Unit>
+	<Unit>0,99,TablePapers,6,2,None,None</Unit>
+	<Unit>0,99,RackSparse,6,7,None,None</Unit>
+	<Unit>0,99,TableDice,6,12,None,None</Unit>
+	<Unit>0,99,TableMap,6,13,None,None</Unit>
+	<Unit>0,99,TablePapers,6,14,None,None</Unit>
+	<Unit>0,99,HouseWallVertical,6,15,None,None</Unit>
+	<Unit>0,99,HouseWallSW,7,0,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,1,None,None</Unit>
+	<Unit>0,99,HouseWallWindowHorizontal,7,2,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,3,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,4,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,5,None,None</Unit>
+	<Unit>0,99,DoorWood,7,6,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,7,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,8,None,None</Unit>
+	<Unit>0,99,DoorWood,7,9,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,10,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,11,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,12,None,None</Unit>
+	<Unit>0,99,HouseWallWindowHorizontal,7,13,None,None</Unit>
+	<Unit>0,99,HouseWallHorizontal,7,14,None,None</Unit>
+	<Unit>0,99,HouseWallSE,7,15,None,None</Unit>
+	<Unit>0,99,Fern,8,0,None,None</Unit>
+	<Unit>0,99,TreeFruit,8,1,None,None</Unit>
+	<Unit>0,99,Sign,8,5,None,None</Unit>
+	<Unit>0,99,Bush,8,7,None,None</Unit>
+	<Unit>0,99,BushFlowerLavender,8,8,None,None</Unit>
+	<Unit>0,99,BushFlowerLavender,8,14,None,None</Unit>
+	<Unit>0,99,LampLitAlt,9,4,None,None</Unit>
+	<Unit>0,99,FruitStand_S,9,11,None,None</Unit>
+	<Unit>0,99,FruitStand_S,9,12,None,None</Unit>
+	<Unit>0,99,LampLitAlt,13,8,None,None</Unit>
+	<Unit>0,0,Card Player/,6,8,Up,None</Unit>
 
 	<Script>Place People
 		<Action>RosterToList/NPC Roster,1</Action>
 		<Action>Log/NPC Roster contains LASTINLIST[NPC Roster] items</Action>
-		<Action>SetVal/Roster Index,=:0</Action>
-		<Action>ForLoop/Place Person Iterator,0-4,1,Run,Place Person</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,0},2,12,Down</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,1},2,6,Left</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,2},2,3,Right</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,3},4,3,Right</Action>
+		<Action>SpawnUnit/1,LIST{NPC Roster,4},6,1,Right</Action>
 	</Script>
 
 	<Script>Place Person
