@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="6/29/2026 3:03:15 AM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="6/29/2026 9:12:18 PM">
+
+	<Script>Generate Roster
+		<Action>ForLoop/Generate Roster Iterator,0-4,1,Run,Generate Person</Action>
+		<Action>RosterToList/Generated Roster,1</Action>
+		<Action>Log/Roster generated, Army 1 now contains LASTINLIST[Generated Roster] characters</Action>
+	</Script>
+
+	<Script>Generate Person
+		<Action>Run/Pick Random Class and Race</Action>
+		<Action>GenerateUnique/1,-STR:Selected Class-,1,RANDOM,-STR:Selected Race-,,-1,-1,Down,,,,false,0,-1</Action>
+		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
+		<Action>Log/-STR:_GeneratedUnit- recruited</Action>
+		<Action>Run/Generate Person Deck,Person,-STR:_GeneratedUnit-</Action>
+	</Script>
 
 	<Script>Pick Random Class and Race
 		<Action>SetList/Race List,Human|Lissit|Shadowling|Spriggat|Spirit|Golem</Action>
@@ -11,6 +25,16 @@
 		<Action>SetList/Golem Classes,Stone Golem|Bronze Golem</Action>
 		<Action>SetString/Selected Class,PICKFROMLIST{-STR:Selected Race- Classes}</Action>
 		<Action>Log/LOGMESSAGE: Pick Random Class and Race Results: Class (-STR:Selected Class-) Race (-STR:Selected Race-)</Action>
+	</Script>
+	
+	<Script>Generate Player Starting Deck
+		<Action>Log/LOGMESSAGE: Generating player starting deck. This must be named exactly 'PlayerDeck'.</Action>
+		<Action>SetList/PlayerDeck,Bandit|Bandit|Bandit|Bandit|Swordsman|Swordsman|Swordsman|Swordsman|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
+	</Script>
+	
+	<Script>Generate Person Deck
+		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'.</Action>
+		<Action>SetList/-STR:Person- Deck,Bandit|Bandit|Bandit|Bandit|Swordsman|Swordsman|Swordsman|Swordsman|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
 	</Script>
 
 </PersistentDialogue>
