@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="6/29/2026 9:12:18 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="6/30/2026 1:50:27 PM">
 
 	<Script>Generate Roster
 		<Action>ForLoop/Generate Roster Iterator,0-4,1,Run,Generate Person</Action>
 		<Action>RosterToList/Generated Roster,1</Action>
 		<Action>Log/Roster generated, Army 1 now contains LASTINLIST[Generated Roster] characters</Action>
+		<Action>ListToString/Generated Roster,;;,Generated Roster String</Action>
+		<Action>Log/LOGMESSAGE: Generated roster names are -STR:Generated Roster String-</Action>
 	</Script>
 
 	<Script>Generate Person
@@ -26,15 +28,26 @@
 		<Action>SetString/Selected Class,PICKFROMLIST{-STR:Selected Race- Classes}</Action>
 		<Action>Log/LOGMESSAGE: Pick Random Class and Race Results: Class (-STR:Selected Class-) Race (-STR:Selected Race-)</Action>
 	</Script>
-	
+
 	<Script>Generate Player Starting Deck
 		<Action>Log/LOGMESSAGE: Generating player starting deck. This must be named exactly 'PlayerDeck'.</Action>
-		<Action>SetList/PlayerDeck,Bandit|Bandit|Bandit|Bandit|Swordsman|Swordsman|Swordsman|Swordsman|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
+		<Action>CombineLists/PlayerDeck,Deck Template</Action>
+		<Action>ListToString/PlayerDeck,;;,PlayerDeck String</Action>
+		<Action>Log/LOGMESSAGE: 'PlayerDeck' set to '-STR:PlayerDeck String-'</Action>
 	</Script>
-	
+
 	<Script>Generate Person Deck
 		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'.</Action>
-		<Action>SetList/-STR:Person- Deck,Bandit|Bandit|Bandit|Bandit|Swordsman|Swordsman|Swordsman|Swordsman|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
+		<Action>CombineLists/-STR:Person- Deck,Deck Template</Action>
+		<Action>ListToString/-STR:Person- Deck,;;,-STR:Person- Deck String</Action>
+		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Person Deck String-'</Action>
+	</Script>
+
+	<Script>Initialize Deck Template
+		<Action>Log/LOGGEDMESSAGE: Genearting the default starting deck for all characters.</Action>
+		<Action>SetList/Deck Template,Awareness|Bandit|Bandit|Bandit|Bandit|Barudit|Barudit|Gasul|Bowman|Frost Armor|Fury|Leap|Merchant|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Shadowling|Shadowling|Solid State Shield|Swordsman|Swordsman|Terror</Action>
+		<Action>ListToString/Deck Template,;;,Deck Template String</Action>
+		<Action>Log/LOGMESSAGE: 'Deck Template' set to '-STR:Deck Template String-'</Action>
 	</Script>
 
 </PersistentDialogue>
