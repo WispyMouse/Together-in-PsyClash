@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="6/30/2026 1:58:01 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/1/2026 5:17:19 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -117,7 +117,7 @@
 	<Unit>0,99,HouseWallHorizontal,7,3,None,None</Unit>
 	<Unit>0,99,HouseWallHorizontal,7,4,None,None</Unit>
 	<Unit>0,99,HouseWallHorizontal,7,5,None,None</Unit>
-	<Unit>0,99,DoorWood,7,6,None,None</Unit>
+	<Unit>0,99,InvisibleBarrier,7,6,None,None</Unit>
 	<Unit>0,99,HouseWallHorizontal,7,7,None,None</Unit>
 	<Unit>0,99,HouseWallHorizontal,7,8,None,None</Unit>
 	<Unit>0,99,DoorWood,7,9,None,None</Unit>
@@ -129,11 +129,11 @@
 	<Unit>0,99,HouseWallSE,7,15,None,None</Unit>
 	<Unit>0,99,Fern,8,0,None,None</Unit>
 	<Unit>0,99,TreeFruit,8,1,None,None</Unit>
-	<Unit>0,99,Sign,8,5,None,None</Unit>
 	<Unit>0,99,Bush,8,7,None,None</Unit>
 	<Unit>0,99,BushFlowerLavender,8,8,None,None</Unit>
 	<Unit>0,99,BushFlowerLavender,8,14,None,None</Unit>
-	<Unit>0,99,LampLitAlt,9,4,None,None</Unit>
+	<Unit trigger="Contact,Prompt Next Day Script">0,99,Sign,9,3,None,None</Unit>
+	<Unit trigger="Contact,Prompt Next Day Script">0,99,LampLitAlt,9,4,None,None</Unit>
 	<Unit>0,99,FruitStand_S,9,11,None,None</Unit>
 	<Unit>0,99,FruitStand_S,9,12,None,None</Unit>
 	<Unit>0,99,LampLitAlt,13,8,None,None</Unit>
@@ -190,6 +190,10 @@
 		<Action>SetString/Person,-STR:Closest Character-</Action>
 	</Script>
 
+	<Script>Prompt Next Day Script
+		<Action>LoadConv/Prompt Next Day Conv</Action>
+	</Script>
+
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
 			<Action>Run/Place People</Action>
@@ -241,6 +245,13 @@
 			<Action>ChangeTriggerCharacter/Card Player</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Reply>Continue./NextBranch</Reply>
+		</Branch>
+	</Dialogue>
+
+	<Dialogue trigger="None/" convID="Prompt Next Day Conv" r="true">
+		<Branch num="0" name="">/End the current day and go to the next one?
+			<Reply>No/EndConv</Reply>
+			<Reply>Yes/NewScene/Next Day</Reply>
 		</Branch>
 	</Dialogue>
 
