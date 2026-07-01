@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="" winAura="0" nextbattle="CardShop" saveable="false" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/1/2026 5:19:20 AM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="" winAura="0" nextbattle="CardShop" saveable="false" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/1/2026 4:50:57 PM">
 
 	<Narration>  -DIA:Introduction-</Narration>
 
 	<Script>Initialize Campaign
 		<Action>Run/Initialize Deck Template</Action>
 		<Action>Run/Generate Player Starting Deck</Action>
-		<Action>Run/Generate Roster,Count,5</Action>
+		<Action>Run/Generate Roster,Count,10</Action>
 	</Script>
 
 	<Dialogue trigger="None/" convID="Introduction" r="true">

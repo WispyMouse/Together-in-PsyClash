@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Next Day" maptype="Cut Scene: Static" maxplayers="1" musictrack="" winAura="0" nextbattle="" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/1/2026 5:19:05 AM">
+<Level mapname="Next Day" maptype="Cut Scene: Static" maxplayers="1" musictrack="" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/1/2026 4:49:13 PM">
 
 	<Narration> -DIA:Introduction-</Narration>
+	
+	<Condition>Calendar,+:1,true</Condition>
 
 	<Dialogue trigger="None/" convID="Introduction" r="true">
-		<Branch num="2" name="Advance Day">/Another day passes.
-			<Action>SetDaysPassed/+:1</Action>
-			<Reply>Continue./NewScene/Card Shop,9,6,Up</Reply>
+		<Branch num="0" name="Advance Day">/Another day passes.
+			<Reply>Next/NextBranch</Reply>
+		</Branch>
+		<Branch num="1" name="Advance Day">/Another day passes.
+			<Action>NewScene/Card Shop,9,6,Up</Action>
+			<Action>EndConvImmediately/</Action>
 		</Branch>
 	</Dialogue>
 
