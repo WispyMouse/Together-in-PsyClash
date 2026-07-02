@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/1/2026 4:51:54 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/2/2026 1:05:57 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -140,14 +140,15 @@
 	<Unit>0,0,Card Player/,10,7,Up,None</Unit>
 
 	<Script>Place People
-		<Action>RosterToList/NPC Roster,1</Action>
-		<Action>ShuffleList/NPC Roster</Action>
-		<Action>Log/NPC Roster contains LASTINLIST[NPC Roster] items</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,0},2,12,Down,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,1},2,6,Left,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,2},2,3,Right,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,3},4,3,Right,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{NPC Roster,4},6,1,Right,Use:Talk to Person Script</Action>
+		<Action>Log/'Card Players' contains LASTINLIST[Card Players] members, 'Shop Staff' contains LASTINLIST[Shop Staff] members</Action>
+		<Action>ShuffleList/Card Players</Action>
+		<Action>ShuffleList/Shop Staff</Action>
+		<Action>SpawnUnit/1,LIST{Shop Staff,0},2,12,Down,Use:Talk to Shop Staff Script</Action>
+		<Action>SpawnUnit/1,LIST{Card Players,0},2,6,Left,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{Card Players,1},2,3,Right,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{Card Players,2},4,3,Right,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,LIST{Card Players,3},6,1,Right,Use:Talk to Person Script</Action>
+		<Action>SetList/Today Card Players,LIST{Card Players,0}|LIST{Card Players,1}|LIST{Card Players,2}|LIST{Card Players,3}</Action>
 	</Script>
 
 	<Script>Place Person
@@ -167,7 +168,7 @@
 	<Script>Player Table Talk Script
 		<Action>Log/LOGMESSAGE: Find the closest character to -CHAR2X- and -CHAR2Y-</Action>
 		<Action>SetVal/Closest Distance,=:99</Action>
-		<Action>ForLoop/-ii-,0-LASTINLIST[NPC Roster],1,Run,Note If Closest,Character Index,-ii-</Action>
+		<Action>ForLoop/-ii-,0-LASTINLIST[Today Card Players],1,Run,Note If Closest,Character Index,-ii-</Action>
 		<Action>Log/LOGMESSAGE: Closest character is -STR:Closest Character-</Action>
 		<Action>ChangeTriggerCharacter/Card Player</Action>
 		<Action>ChangeSecondaryCharacter/-STR:Closest Character-</Action>
@@ -179,15 +180,15 @@
 	</Script>
 
 	<Script>Note If Closest
-		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{NPC Roster,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-</Action>
-		<Action>GetDistToSpace/LIST{NPC Roster,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
+		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{Today Card Players,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-</Action>
+		<Action>GetDistToSpace/LIST{Today Card Players,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
 		<Action>IfValRun/_Dist,l,-VAL:Closest Distance-,Set Current Character as Closest</Action>
 	</Script>
 
 	<Script>Set Current Character as Closest
-		<Action>Log/LOGMESSAGE: Index -VAL:Character Index- Name LIST{NPC Roster,-VAL:Character Index-} is -VAL:_Dist- away, which is closer than previous best -VAL:Closest Distance-</Action>
+		<Action>Log/LOGMESSAGE: Index -VAL:Character Index- Name LIST{Today Card Players,-VAL:Character Index-} is -VAL:_Dist- away, which is closer than previous best -VAL:Closest Distance-</Action>
 		<Action>SetVal/Closest Distance,=:-VAL:_Dist-</Action>
-		<Action>SetString/Closest Character,LIST{NPC Roster,-VAL:Character Index-}</Action>
+		<Action>SetString/Closest Character,LIST{Today Card Players,-VAL:Character Index-}</Action>
 		<Action>SetString/Person,-STR:Closest Character-</Action>
 	</Script>
 
@@ -215,15 +216,23 @@
 			<Reply>Play PsyClash/NamedBranch/Play PsyClash</Reply>
 			<Reply>Show Me Your Deck/NamedBranch/Show Me Your Deck</Reply>
 			<Reply>Continue./EndConv</Reply>
+			<Reply>Upgrade Me/NamedBranch/Upgrade Me</Reply>
 		</Branch>
 		<Branch num="1" name="Play PsyClash">/
 			<Action>CardGame/Psy Clash Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2- Deck,-FNAME2-,1,2</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
 		<Branch num="2" name="Show Me Your Deck">-FNAME2-/-STR:Deck String-
-			<Action>SortList/-FNAME2- Deck,false</Action>
-			<Action>ListToString/-FNAME2- Deck,;; ,Deck String</Action>
+			<Action>SetList/Alphabetized List</Action>
+			<Action>CombineLists/Alphabetized List,-FNAME2- Deck</Action>
+			<Action>SortList/Alphabetized List,false</Action>
+			<Action>ListToString/Alphabetized List,;; ,Deck String</Action>
 			<Reply>Return/NewBranch/0</Reply>
+			<Reply>Upgrade Me/NamedBranch/Upgrade Me</Reply>
+		</Branch>
+		<Branch num="3" name="Upgrade Me">/
+			<Action>Run/Upgrade Person,Person,-FNAME2-</Action>
+			<Action>GoTo/BRANCH[Show Me Your Deck]</Action>
 		</Branch>
 	</Dialogue>
 

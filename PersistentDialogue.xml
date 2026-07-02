@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="6/30/2026 1:50:27 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/2/2026 1:15:08 AM">
 
 	<Script>Generate Roster
-		<Action>ForLoop/Generate Roster Iterator,0-4,1,Run,Generate Person</Action>
+		<Action>SetList/Card Players</Action>
+		<Action>SetList/Shop Staff</Action>
+		<Action>CustomCharsToRoster/2</Action>
+		<Action>RosterToList/Custom Characters,2</Action>
+		<Action>ForLoop/Custom Character Iterator,0-LASTINLIST[Custom Characters],1,Run,Generate Custom Character,Cast List Name,Card Players</Action>
+		<Action>ForLoop/Generate Roster Iterator,0-10,1,Run,Generate Person,Cast List Name,Card Players</Action>
+		<Action>ForLoop/Generate Roster Iterator,0-2,1,Run,Generate Person,Cast List Name,Shop Staff</Action>
 		<Action>RosterToList/Generated Roster,1</Action>
 		<Action>Log/Roster generated, Army 1 now contains LASTINLIST[Generated Roster] characters</Action>
 		<Action>ListToString/Generated Roster,;;,Generated Roster String</Action>
@@ -10,11 +16,14 @@
 	</Script>
 
 	<Script>Generate Person
+		<Action>Log/LOGMESSAGE: Recruting new cast member to list '-STR:Cast List Name-'</Action>
 		<Action>Run/Pick Random Class and Race</Action>
 		<Action>GenerateUnique/1,-STR:Selected Class-,1,RANDOM,-STR:Selected Race-,,-1,-1,Down,,,,false,0,-1</Action>
 		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
 		<Action>Log/-STR:_GeneratedUnit- recruited</Action>
 		<Action>Run/Generate Person Deck,Person,-STR:_GeneratedUnit-</Action>
+		<Action>AddToList/-STR:Cast List Name-,-STR:_GeneratedUnit-</Action>
+		<Action>Run/Generate Upgrade Sets,Person,-STR:_GeneratedUnit-</Action>
 	</Script>
 
 	<Script>Pick Random Class and Race
@@ -39,8 +48,8 @@
 	<Script>Generate Person Deck
 		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'.</Action>
 		<Action>CombineLists/-STR:Person- Deck,Deck Template</Action>
-		<Action>ListToString/-STR:Person- Deck,;;,-STR:Person- Deck String</Action>
-		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Person Deck String-'</Action>
+		<Action>ListToString/-STR:Person- Deck,;;,Deck String</Action>
+		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Deck String-'</Action>
 	</Script>
 
 	<Script>Initialize Deck Template
@@ -48,6 +57,34 @@
 		<Action>SetList/Deck Template,Awareness|Bandit|Bandit|Bandit|Bandit|Barudit|Barudit|Gasul|Bowman|Frost Armor|Fury|Leap|Merchant|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Shadowling|Shadowling|Solid State Shield|Swordsman|Swordsman|Terror</Action>
 		<Action>ListToString/Deck Template,;;,Deck Template String</Action>
 		<Action>Log/LOGMESSAGE: 'Deck Template' set to '-STR:Deck Template String-'</Action>
+	</Script>
+
+	<Script>Generate Custom Character
+		<Action>SetString/Current Custom Character,LIST{Custom Characters,-VAL:Custom Character Iterator-}</Action>
+		<Action>Log/LOGMESSAGE: Recruting '-STR:Current Custom Character-' to list '-STR:Cast List Name-'</Action>
+		<Action>Recruit/-STR:Current Custom Character-,1</Action>
+		<Action>Log/-STR:Current Custom Character- recruited</Action>
+		<Action>Run/Generate Person Deck,Person,-STR:Current Custom Character-</Action>
+		<Action>AddToList/-STR:Cast List Name-,-STR:Current Custom Character-</Action>
+		<Action>Run/Generate Upgrade Sets,Person,-STR:Current Custom Character-</Action>
+	</Script>
+
+	<Script>Generate Upgrade Sets
+		<Action>SetList/-STR:Person- Upgrade Replace With,Spriggat|Spriggat|Spriggat|Spriggat</Action>
+		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
+		<Action>Log/LOGMESSAGE: '-STR:Person- Upgrade Replace With' is '-STR:Replace With String-'</Action>
+		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
+	</Script>
+
+	<Script>Upgrade Person
+		<Action>IfValRun/-STR:Person- Upgrade Index,l=,LASTINLIST[-STR:Person- Upgrade Replace With],Commit Upgrade,Person,-STR:Person-</Action>
+	</Script>
+
+	<Script>Commit Upgrade
+		<Action>SetValByVal/Upgrade Index,=,-STR:Person- Upgrade Index</Action>
+		<Action>Log/LOGMESSAGE: At index -VAL:Upgrade Index-, replacing 'LIST{-STR:Person- Deck,-VAL:Upgrade Index-}' with 'LIST{-STR:Person- Upgrade With,-VAL:Upgrade Index-}'</Action>
+		<Action>SetListEntry/-STR:Person- Deck,-VAL:Upgrade Index-,LIST{-STR:Person- Upgrade Replace With,-VAL:Upgrade Index-}</Action>
+		<Action>SetVal/-STR:Person- Upgrade Index,+:1</Action>
 	</Script>
 
 </PersistentDialogue>
