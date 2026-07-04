@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/4/2026 12:49:27 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/4/2026 1:05:22 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -76,7 +76,7 @@
 	<Unit>0,99,BookcaseFull,1,13,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,1,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,2,0,None,None</Unit>
-	<Unit trigger="Use,Player Table Talk Script">0,99,Table,2,4,None,None</Unit>
+	<Unit trigger="Use,Card Player Table Talk Script">0,99,Table,2,4,None,None</Unit>
 	<Unit>0,99,RugTurqHL,2,11,None,None</Unit>
 	<Unit>0,99,RugTurqHC,2,12,None,None</Unit>
 	<Unit>0,99,RugTurqHC,2,13,None,None</Unit>
@@ -84,14 +84,14 @@
 	<Unit>0,99,RugTurqHR,2,14,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,2,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,3,0,None,None</Unit>
-	<Unit trigger="Use,Player Table Talk Script">0,99,Table,3,6,None,None</Unit>
+	<Unit trigger="Use,Card Player Table Talk Script">0,99,Table,3,6,None,None</Unit>
 	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_L,3,11,None,None</Unit>
 	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_C,3,12,None,None</Unit>
 	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_C,3,13,None,None</Unit>
 	<Unit trigger="Use,Counter Talk Script">0,99,Bartop_R,3,14,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,3,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,4,0,None,None</Unit>
-	<Unit trigger="Use,Player Table Talk Script">0,99,Table,4,4,None,None</Unit>
+	<Unit trigger="Use,Card Player Table Talk Script">0,99,Table,4,4,None,None</Unit>
 	<Unit>0,99,Rug9TL,4,11,None,None</Unit>
 	<Unit>0,99,Rug9T,4,12,None,None</Unit>
 	<Unit>0,99,Rug9T,4,13,None,None</Unit>
@@ -105,7 +105,7 @@
 	<Unit>0,99,Rug9BR,5,14,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,5,15,None,None</Unit>
 	<Unit>0,99,HouseWallVertical,6,0,None,None</Unit>
-	<Unit trigger="Use,Player Table Talk Script">0,99,TablePapers,6,2,None,None</Unit>
+	<Unit trigger="Use,Card Player Table Talk Script">0,99,TablePapers,6,2,None,None</Unit>
 	<Unit trigger="Use,Show Player Deck Script">0,99,TablePapers,6,8,None,None</Unit>
 	<Unit>0,99,TableDice,6,12,None,None</Unit>
 	<Unit>0,99,TableMap,6,13,None,None</Unit>
@@ -161,23 +161,23 @@
 		<Action>SetVal/Roster Index,+:1</Action>
 	</Script>
 
-	<Script>Talk to Person Script
+	<Script>Talk to Card Player Script
 		<Action>Log/LOGMESSAGE: Loading conversation for -FNAME2-</Action>
 		<Action>ChangeTriggerCharacter/Card Player</Action>
 		<Action>ChangeSecondaryCharacter/-FNAME2-</Action>
 		<Action>SetString/Person,-FNAME2-</Action>
 		<Action>Log/LOGMESSAGE: The entity we are talking to is at -CHAR2X- and -CHAR2Y-.</Action>
-		<Action>LoadConv/Talk to Person Conv,Card Player,-FNAME2-</Action>
+		<Action>LoadConv/Talk to Card Player,Card Player,-FNAME2-</Action>
 	</Script>
 
-	<Script>Player Table Talk Script
+	<Script>Card Player Table Talk Script
 		<Action>Log/LOGMESSAGE: Find the closest character to -CHAR2X- and -CHAR2Y-</Action>
 		<Action>SetVal/Closest Distance,=:99</Action>
 		<Action>ForLoop/-ii-,0-LASTINLIST[Today Card Players],1,Run,Note If Closest,Character Index,-ii-</Action>
 		<Action>Log/LOGMESSAGE: Closest character is -STR:Closest Character-</Action>
 		<Action>ChangeTriggerCharacter/Card Player</Action>
 		<Action>ChangeSecondaryCharacter/-STR:Closest Character-</Action>
-		<Action>LoadConv/Talk to Person Conv,Card Player,-STR:Closest Character-</Action>
+		<Action>LoadConv/Talk to Card Player Conv,Card Player,-STR:Closest Character-</Action>
 	</Script>
 
 	<Script>Counter Talk Script
@@ -215,6 +215,24 @@
 		<Action>Run/Show Deck Script</Action>
 	</Script>
 
+	<Script>Get Card Player Conv For Familiarity
+		<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity Card Player</Action>
+		<Action>IfValRun/Familiarity,=,0,Set Conv Target,Card Player Conv Target,First Time Meeting</Action>
+		<Action>IfValRun/Familiarity,g,0,Set Conv Target,Card Player Conv Target,Already Familiar</Action>
+	</Script>
+
+	<Script>Set Conv Replies
+		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-</Action>
+		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,Play PsyClash|NamedBranch|Play PsyClash</Action>
+		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,Show Me Your Deck|NamedBranch|Show Me Your Deck</Action>
+		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,Upgrade Me|NamedBranch|Upgrade Me</Action>
+		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,End Conversation|EndConv</Action>
+	</Script>
+
+	<Script>Set Conv Target
+		<Action>SetString/Card Player Conv Target,-STR:Card Player Conv Target-</Action>
+	</Script>
+
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
 			<Action>SetSeed/-VAL:Random Seed-</Action>
@@ -226,17 +244,18 @@
 		</Branch>
 	</Dialogue>
 
-	<Dialogue trigger="None/" convID="Talk to Person Conv" r="true">
-		<Branch num="0" name="">-FNAME2-/You're talking to me?
+	<Dialogue trigger="None/" convID="Talk to Card Player Conv" r="true">
+		<Branch num="0" name="Start Point" showSingleReplies="true">/The player shouldn't see this dialogue
 			<Action>ChangeTriggerCharacter/Card Player</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>AddPortrait/-FNAME2-,-FNAME2-,left</Action>
 			<Action>AssignSpeaker/-FNAME2-</Action>
 			<Action>AddPortrait/Card Player,Card Player,right</Action>
-			<Reply>Play PsyClash/NamedBranch/Play PsyClash</Reply>
-			<Reply>Show Me Your Deck/NamedBranch/Show Me Your Deck</Reply>
-			<Reply>Continue./EndConv</Reply>
-			<Reply>Upgrade Me/NamedBranch/Upgrade Me</Reply>
+			<Action>SetStringByStat/Familiarity,-FNAME2-,Familiarity Card Player</Action>
+			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-STR:Familiarity-</Action>
+			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>
+			<Action>GoTo/BRANCH[-STR:Card Player Conv Target-]</Action>
+			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="1" name="Play PsyClash">/
 			<Action>CardGame/Psy Clash Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2- Deck,-FNAME2-,1,2</Action>
@@ -260,6 +279,13 @@
 		</Branch>
 		<Branch num="4" name="Upgrade Failed">-FNAME2-/I ran out of upgrades. I'm as good as I'm going to get!
 			<Reply>Continue./NewBranch/0</Reply>
+		</Branch>
+		<Branch num="5" name="First Time Meeting">-FNAME2-/Oh hello, I'm meeting you for the first time now.
+			<Action>SetStat/-FNAME2-,Familiarity Card Player,+:1</Action>
+			<Action>SetStat/Card Player,Familiarity -FNAME2-,+:1</Action>
+			<Action>SpawnFloatingText/+ Familiarity,-FNAME2-,white</Action>
+		</Branch>
+		<Branch num="6" name="Already Familiar">-FNAME2-/Oh! I recognize you!
 		</Branch>
 	</Dialogue>
 
