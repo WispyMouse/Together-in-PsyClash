@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/2/2026 1:15:08 AM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/3/2026 9:47:26 PM">
 
 	<Script>Generate Roster
 		<Action>SetList/Card Players</Action>
@@ -47,7 +47,7 @@
 
 	<Script>Generate Person Deck
 		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'.</Action>
-		<Action>CombineLists/-STR:Person- Deck,Deck Template</Action>
+		<Action>SetList/-STR:Person- Deck,Bandit|Mind Shield|Bandit|Bandit|Solid State Shield|Mind Shield|Bandit|Shadowling|Shadowling|Mind Blast|Mind Blast|Frost Armor|Fury|Stimulate|Gasul|Gasul|Shadow Blast|Stimulate|Leap|Merchant|Swordsman|Swordsman</Action>
 		<Action>ListToString/-STR:Person- Deck,;;,Deck String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Deck String-'</Action>
 	</Script>
@@ -70,21 +70,25 @@
 	</Script>
 
 	<Script>Generate Upgrade Sets
-		<Action>SetList/-STR:Person- Upgrade Replace With,Spriggat|Spriggat|Spriggat|Spriggat</Action>
+		<Action>SetList/-STR:Person- Upgrade Replace With,Swordsman|Merchant|Swordsman|Frost Armor|Shadow Blast|Fury|Gasul|Frost Armor|Merchant|Kinetic Gust|Kinetic Gust</Action>
 		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Upgrade Replace With' is '-STR:Replace With String-'</Action>
 		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
 	</Script>
 
 	<Script>Upgrade Person
+		<Action>SetVal/Upgrade Worked,=:0</Action>
 		<Action>IfValRun/-STR:Person- Upgrade Index,l=,LASTINLIST[-STR:Person- Upgrade Replace With],Commit Upgrade,Person,-STR:Person-</Action>
 	</Script>
 
 	<Script>Commit Upgrade
 		<Action>SetValByVal/Upgrade Index,=,-STR:Person- Upgrade Index</Action>
-		<Action>Log/LOGMESSAGE: At index -VAL:Upgrade Index-, replacing 'LIST{-STR:Person- Deck,-VAL:Upgrade Index-}' with 'LIST{-STR:Person- Upgrade With,-VAL:Upgrade Index-}'</Action>
-		<Action>SetListEntry/-STR:Person- Deck,-VAL:Upgrade Index-,LIST{-STR:Person- Upgrade Replace With,-VAL:Upgrade Index-}</Action>
+		<Action>SetString/Replacing Card,LIST{-STR:Person- Upgrade Replace With,-VAL:Upgrade Index-}</Action>
+		<Action>SetString/Replaced Card,LIST{-STR:Person- Deck,-VAL:Upgrade Index-}</Action>
+		<Action>SetListEntry/-STR:Person- Deck,-STR:Replaced Card- with -STR:Replacing Card-</Action>
 		<Action>SetVal/-STR:Person- Upgrade Index,+:1</Action>
+		<Action>Log/LOGMESSAGE: At index -VAL:Upgrade Index-, replacing '-STR:Replaced Card-' with '-STR:Replacing Card-'</Action>
+		<Action>SetVal/Upgrade Worked,=:1</Action>
 	</Script>
 
 </PersistentDialogue>
