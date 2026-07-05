@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/5/2026 3:41:27 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/5/2026 5:49:48 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -245,7 +245,9 @@
 	<Script>Initialize Counter Conv Replies
 		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
 		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
-		<Action>AddReply/Counter Talk Conv,Introduction,End Conversation|EndConv|</Action>
+		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
+		<Action>AddReply/Counter Talk Conv,Introduction,End Conversation|EndConv</Action>
+		<Action>IfValRun/Aura,g=,5,Add Buy Booster Pack Reply</Action>
 	</Script>
 
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
@@ -307,27 +309,29 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Counter Talk Conv" r="true">
-		<Branch num="0" name="Dispatch" showSingleReplies="true">/The player shouldn't see this dialogue
-			<Action>Run/Initialize Counter Conv Replies</Action>
-			<Action>IfValRun/Aura,g=,5,Add Buy Booster Pack Reply</Action>
+		<Branch num="0" name="Dispatch 1" showSingleReplies="true">/The player shouldn't see this dialogue
+			<Action>SetVal/Aura,=:-AURA-</Action>
 			<Action>ChangeTriggerCharacter/Card Player</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
-			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-,right</Action>
-			<Action>AddPortrait/Shop Player,Shop Player,left</Action>
+			<Action>AddPortrait/Card Player,Card Player,left</Action>
+			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-</Action>
+			<Action>GoTo/BRANCH[Dispatch 2]</Action>
+			<Reply>Oops/EndConv</Reply>
+		</Branch>
+		<Branch num="1" name="Dispatch 2" showSingleReplies="true">/The player shouldn't see this dialogue
+			<Action>Run/Initialize Counter Conv Replies</Action>
+			<Action>Log/LOGMESSAGE: We have '-AURA-', which is recorded as '-VAL:Aura-'</Action>
 			<Action>GoTo/BRANCH[Introduction]</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
-		<Branch num="1" name="Introduction">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
-			<Action>SetVal/Aura,=:-AURA-</Action>
-			<Action>AddPortrait/Card Player,Card Player,left</Action>
-			<Action>AddPortrait/</Action>
-			<Action>AssignSpeaker/-STR:Today Shop Staff-</Action>
+		<Branch num="2" name="Introduction" showSingleReplies="true">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
 		</Branch>
-		<Branch num="2" name="Open Pack">/[You opened -STR:Cards Gained String-]
+		<Branch num="3" name="Open Pack">/[You opened &lt;sprite name="Book"&gt;-STR:Gained Cards String-]
 			<Action>Run/Gain Cards,Count,3</Action>
-			<Action>ListToString/Gained Cards,;; ,Gained Cards String</Action>
+			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
+			<Action>SetVal/Aura,-:5</Action>
 			<Action>SetAura/-:5,true,true</Action>
-			<Reply>Continue./NewBranch/0</Reply>
+			<Reply>Nice!/NamedBranch/Dispatch 2</Reply>
 		</Branch>
 	</Dialogue>
 
