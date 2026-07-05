@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="false" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/5/2026 12:26:24 AM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/5/2026 1:55:51 AM">
 
 	<Narration>  -DIA:Introduction-</Narration>
 
 	<Script>Initialize Campaign
-		<Action>Run/Initialize Deck Template</Action>
 		<Action>Run/Generate Player Starting Deck</Action>
 		<Action>Run/Generate Roster,Count,10</Action>
 		<Action>SetVal/Random Seed,r:999999</Action>

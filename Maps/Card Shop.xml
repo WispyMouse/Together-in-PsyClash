@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/5/2026 12:41:48 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/5/2026 3:41:27 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -145,7 +145,7 @@
 		<Action>SetList/Shuffled Card Players</Action>
 		<Action>CombineLists/Shuffled Card Players,Card Players</Action>
 		<Action>ShuffleList/Shuffled Card Players</Action>
-		<Action>Set List/Shuffled Shop Staff</Action>
+		<Action>SetList/Shuffled Shop Staff</Action>
 		<Action>CombineLists/Shuffled Shop Staff,Card Players</Action>
 		<Action>ShuffleList/Shuffled Shop Staff</Action>
 		<Action>SetString/Today Shop Staff,LIST{Shuffled Shop Staff,0}</Action>
@@ -223,7 +223,11 @@
 	</Script>
 
 	<Script>Set Conv Replies
-		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-</Action>
+		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,0</Action>
+		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,0</Action>
+		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,0</Action>
+		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,0</Action>
+		<Action>RemoveReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,0</Action>
 		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,Play PsyClash|NamedBranch|Play PsyClash</Action>
 		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,Show Me Your Deck|NamedBranch|Show Me Your Deck</Action>
 		<Action>AddReply/Talk To Card Player Conv,-STR:Card Player Conv Target-,Upgrade Me|NamedBranch|Upgrade Me</Action>
@@ -234,9 +238,20 @@
 		<Action>SetString/Card Player Conv Target,-STR:Card Player Conv Target-</Action>
 	</Script>
 
+	<Script>Add Buy Booster Pack Reply
+		<Action>AddReply/Counter Talk Conv,Introduction,-STR:Buy Booster Pack String-|NamedBranch|Open Pack</Action>
+	</Script>
+
+	<Script>Initialize Counter Conv Replies
+		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
+		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
+		<Action>AddReply/Counter Talk Conv,Introduction,End Conversation|EndConv|</Action>
+	</Script>
+
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
 			<Action>SetSeed/-VAL:Random Seed-</Action>
+			<Action>SetString/Buy Booster Pack String,Pay &lt;sprite name="Aura"&gt;5 Aura to buy a &lt;sprite name="Items"&gt;Booster Pack</Action>
 			<Action>Run/Place People</Action>
 			<Action>ShowCalendarButton/</Action>
 			<Action>ShowInfoBar/</Action>
@@ -292,31 +307,50 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Counter Talk Conv" r="true">
-		<Branch num="0" name="">/You're talking to the counter.
-			<Reply>Continue./EndConv</Reply>
-			<Reply>Open Pack/NamedBranch/Open Pack</Reply>
+		<Branch num="0" name="Dispatch" showSingleReplies="true">/The player shouldn't see this dialogue
+			<Action>Run/Initialize Counter Conv Replies</Action>
+			<Action>IfValRun/Aura,g=,5,Add Buy Booster Pack Reply</Action>
+			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
+			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-,right</Action>
+			<Action>AddPortrait/Shop Player,Shop Player,left</Action>
+			<Action>GoTo/BRANCH[Introduction]</Action>
+			<Reply>Oops/EndConv</Reply>
 		</Branch>
-		<Branch num="1" name="Open Pack">/You opened -STR:Cards Gained String-
+		<Branch num="1" name="Introduction">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
+			<Action>SetVal/Aura,=:-AURA-</Action>
+			<Action>AddPortrait/Card Player,Card Player,left</Action>
+			<Action>AddPortrait/</Action>
+			<Action>AssignSpeaker/-STR:Today Shop Staff-</Action>
+		</Branch>
+		<Branch num="2" name="Open Pack">/[You opened -STR:Cards Gained String-]
 			<Action>Run/Gain Cards,Count,3</Action>
+			<Action>ListToString/Gained Cards,;; ,Gained Cards String</Action>
+			<Action>SetAura/-:5,true,true</Action>
 			<Reply>Continue./NewBranch/0</Reply>
 		</Branch>
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Win" r="true">
-		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="aura"&gt;10 Aura in Store Credit]
+		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit]
 			<Action>ChangeTriggerCharacter/Card Player</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
+			<Action>AssignSpeaker/-STR:Person-</Action>
+			<Action>AddPortrait/Card Player,Card Player,left</Action>
+			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
+			<Action>SetAura/+:10,true,true</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
 			<Action>PlaySound/Firework</Action>
 			<Action>Wait/1</Action>
 			<Action>PlaySound/FireworkAlt</Action>
-			<Action>SetAura/+:10,true,true</Action>
 			<Reply>Continue./NextBranch</Reply>
 		</Branch>
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Lose" r="true">
-		<Branch num="0" name="">-STR:Person-/Ahah, looks like I won this one. [You gained &lt;sprite name="aura"&gt;10 Aura in Store Credit]
+		<Branch num="0" name="">-STR:Person-/Ahah, looks like I won this one. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit]
+			<Action>AddPortrait/-STR:Person-,-STR:Person,right</Action>
+			<Action>AddPortrait/Card Player,Card Player,left</Action>
 			<Action>ChangeTriggerCharacter/Card Player</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>

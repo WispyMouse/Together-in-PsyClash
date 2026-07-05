@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/4/2026 10:48:54 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/5/2026 3:29:17 AM">
 
 	<Script>Generate Roster
 		<Action>SetList/Card Players</Action>
 		<Action>SetList/Shop Staff</Action>
 		<Action>CustomCharsToRoster/2</Action>
 		<Action>RosterToList/Custom Characters,2</Action>
-		<Action>ForLoop/Custom Character Iterator,0-LASTINLIST[Custom Characters],1,Run,Generate Custom Character,Cast List Name,Card Players</Action>
-		<Action>ForLoop/Generate Roster Iterator,0-10,1,Run,Generate Person,Cast List Name,Card Players</Action>
+		<Action>ForLoop/-A-,0-LASTINLIST[Custom Characters],1,Run,Generate Custom Character,Cast List Name,Card Players,Iterator,-A-</Action>
+		<Action>ForLoop/Generate Roster Iterator,0--VAL:Count-,1,Run,Generate Person,Cast List Name,Card Players</Action>
 		<Action>ForLoop/Generate Roster Iterator,0-2,1,Run,Generate Person,Cast List Name,Shop Staff</Action>
 		<Action>RosterToList/Generated Roster,1</Action>
 		<Action>Log/Roster generated, Army 1 now contains LASTINLIST[Generated Roster] characters</Action>
 		<Action>ListToString/Generated Roster,;;,Generated Roster String</Action>
 		<Action>Log/LOGMESSAGE: Generated roster names are -STR:Generated Roster String-</Action>
+		<Action>Log/LOGMESSAGE: 'Card Players' contains LASTINLIST[Card Players] members, 'Shop Staff' contains LASTINLIST[Shop Staff] members</Action>
 	</Script>
 
 	<Script>Generate Person
@@ -40,7 +41,7 @@
 
 	<Script>Generate Player Starting Deck
 		<Action>Log/LOGMESSAGE: Generating player starting deck. This must be named exactly 'PlayerDeck'.</Action>
-		<Action>CombineLists/PlayerDeck,Deck Template</Action>
+		<Action>SetList/PlayerDeck,Bandit|Mind Shield|Bandit|Bandit|Solid State Shield|Mind Shield|Bandit|Shadowling|Shadowling|Mind Blast|Mind Blast|Frost Armor|Fury|Stimulate|Gasul|Gasul|Shadow Blast|Stimulate|Leap|Merchant|Swordsman|Swordsman</Action>
 		<Action>ListToString/PlayerDeck,;;,PlayerDeck String</Action>
 		<Action>Log/LOGMESSAGE: 'PlayerDeck' set to '-STR:PlayerDeck String-'</Action>
 	</Script>
@@ -60,10 +61,10 @@
 	</Script>
 
 	<Script>Generate Custom Character
-		<Action>SetString/Current Custom Character,LIST{Custom Characters,-VAL:Custom Character Iterator-}</Action>
+		<Action>SetString/Current Custom Character,LIST{Custom Characters,-VAL:Iterator-}</Action>
 		<Action>Log/LOGMESSAGE: Recruting '-STR:Current Custom Character-' to list '-STR:Cast List Name-'</Action>
 		<Action>Recruit/-STR:Current Custom Character-,1</Action>
-		<Action>Log/-STR:Current Custom Character- recruited</Action>
+		<Action>Log/LOGMESSAGE: -STR:Current Custom Character- recruited</Action>
 		<Action>Run/Generate Person Deck,Person,-STR:Current Custom Character-</Action>
 		<Action>AddToList/-STR:Cast List Name-,-STR:Current Custom Character-</Action>
 		<Action>Run/Generate Upgrade Sets,Person,-STR:Current Custom Character-</Action>
@@ -89,6 +90,18 @@
 		<Action>SetVal/-STR:Person- Upgrade Index,+:1</Action>
 		<Action>Log/LOGMESSAGE: At index -VAL:Upgrade Index-, replacing '-STR:Replaced Card-' with '-STR:Replacing Card-' for -STR:Person-'</Action>
 		<Action>SetVal/Upgrade Worked,=:1</Action>
+	</Script>
+
+	<Script>Gain Cards
+		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
+		<Action>SetList/Gained Cards</Action>
+		<Action>ShuffleList/All Cards</Action>
+		<Action>ForLoop/-A-,0--VAL:Count-,1,Run,Gain Card,Card,LIST{All Cards,-A-}</Action>
+	</Script>
+
+	<Script>Gain Card
+		<Action>AddToList/PlayerDeck,-STR:Card-</Action>
+		<Action>AddToList/Gained Cards,-STR:Card-</Action>
 	</Script>
 
 </PersistentDialogue>
