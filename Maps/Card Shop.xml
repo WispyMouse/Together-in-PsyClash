@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/5/2026 5:49:48 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/6/2026 2:40:31 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -146,29 +146,15 @@
 		<Action>CombineLists/Shuffled Card Players,Card Players</Action>
 		<Action>ShuffleList/Shuffled Card Players</Action>
 		<Action>SetList/Shuffled Shop Staff</Action>
-		<Action>CombineLists/Shuffled Shop Staff,Card Players</Action>
+		<Action>CombineLists/Shuffled Shop Staff,Shop Staff</Action>
 		<Action>ShuffleList/Shuffled Shop Staff</Action>
 		<Action>SetString/Today Shop Staff,LIST{Shuffled Shop Staff,0}</Action>
-		<Action>SpawnUnit/1,-STR:Today Shop Staff-,2,12,Down,Use:Talk to Shop Staff Script</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,0},2,6,Left,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,1},2,3,Right,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,2},4,3,Right,Use:Talk to Person Script</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,3},6,1,Right,Use:Talk to Person Script</Action>
+		<Action>SpawnUnit/1,-STR:Today Shop Staff-,2,12,Down,Use:Counter Talk Script</Action>
+		<Action>SpawnUnit/1,LIST{Shuffled Card Players,0},2,6,Left,Use:Card Player Table Talk Script,Aggro Group:1</Action>
+		<Action>SpawnUnit/1,LIST{Shuffled Card Players,1},2,3,Right,Use:Card Player Table Talk Script,Aggro Group,1</Action>
+		<Action>SpawnUnit/1,LIST{Shuffled Card Players,2},4,3,Right,Use:Card Player Table Talk Script,Aggro Group:1</Action>
+		<Action>SpawnUnit/1,LIST{Shuffled Card Players,3},6,1,Right,Use:Card Player Table Talk Script,Aggro Group:1</Action>
 		<Action>SetList/Today Card Players,LIST{Shuffled Card Players,0}|LIST{Shuffled Card Players,1}|LIST{Shuffled Card Players,2}|LIST{Shuffled Card Players,3}</Action>
-	</Script>
-
-	<Script>Place Person
-		<Action>SpawnUnit/1,LIST{NPC Roster,-VAL:Roster Index-},0,-VAL:Roster Index-,Down</Action>
-		<Action>SetVal/Roster Index,+:1</Action>
-	</Script>
-
-	<Script>Talk to Card Player Script
-		<Action>Log/LOGMESSAGE: Loading conversation for -FNAME2-</Action>
-		<Action>ChangeTriggerCharacter/Card Player</Action>
-		<Action>ChangeSecondaryCharacter/-FNAME2-</Action>
-		<Action>SetString/Person,-FNAME2-</Action>
-		<Action>Log/LOGMESSAGE: The entity we are talking to is at -CHAR2X- and -CHAR2Y-.</Action>
-		<Action>LoadConv/Talk to Card Player,Card Player,-FNAME2-</Action>
 	</Script>
 
 	<Script>Card Player Table Talk Script
@@ -182,11 +168,16 @@
 	</Script>
 
 	<Script>Counter Talk Script
-		<Action>LoadConv/Counter Talk Conv</Action>
+		<Action>ChangeTriggerCharacter/Card Player</Action>
+		<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
+		<Action>SetString/Person,-STR:Today Shop Staff-</Action>
+		<Action>SetVal/Current Aura,=:-AURA-</Action>
+		<Action>Run/Initialize Counter Conv Replies</Action>
+		<Action>LoadConv/Counter Talk Conv,Card Player,-STR:Today Shop Staff-</Action>
 	</Script>
 
 	<Script>Note If Closest
-		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{Today Card Players,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-</Action>
+		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{Today Card Players,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-. Previous closest is -VAL:Closest Distance-</Action>
 		<Action>GetDistToSpace/LIST{Today Card Players,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
 		<Action>IfValRun/_Dist,l,-VAL:Closest Distance-,Set Current Character as Closest</Action>
 	</Script>
@@ -239,15 +230,17 @@
 	</Script>
 
 	<Script>Add Buy Booster Pack Reply
-		<Action>AddReply/Counter Talk Conv,Introduction,-STR:Buy Booster Pack String-|NamedBranch|Open Pack</Action>
+		<Action>Log/LOGMESSAGE: Adding the open pack conversation to the card shop</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,-STR:Buy Booster Pack String-|NamedBranch|Open Pack</Action>
 	</Script>
 
 	<Script>Initialize Counter Conv Replies
-		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
-		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
-		<Action>RemoveReply/Counter Talk Conv,Introduction,0</Action>
-		<Action>AddReply/Counter Talk Conv,Introduction,End Conversation|EndConv</Action>
-		<Action>IfValRun/Aura,g=,5,Add Buy Booster Pack Reply</Action>
+		<Action>SetString/Conversation Name,Counter Talk Conv</Action>
+		<Action>SetString/Conversation Target,Introduction</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,1</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,End Conversation|EndConv|</Action>
+		<Action>IfValRun/Current Aura,g=,5,Add Buy Booster Pack Reply</Action>
 	</Script>
 
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
@@ -272,6 +265,8 @@
 			<Action>SetStringByStat/Familiarity,-FNAME2-,Familiarity Card Player</Action>
 			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-STR:Familiarity-</Action>
 			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>
+			<Action>FaceUnitToward/-STR:Person-,Card Player</Action>
+			<Action>FaceUnitToward/Card Player,-STR:Person-</Action>
 			<Action>GoTo/BRANCH[-STR:Card Player Conv Target-]</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
@@ -309,29 +304,34 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Counter Talk Conv" r="true">
-		<Branch num="0" name="Dispatch 1" showSingleReplies="true">/The player shouldn't see this dialogue
-			<Action>SetVal/Aura,=:-AURA-</Action>
+		<Branch num="0" name="Set Aura">/The player shouldn't see this dialogue
+			<Action>SetVal/Current Aura,=:-AURA-</Action>
+			<Action>FaceUnitToward/-STR:Today Shop Staff-,Card Player</Action>
+			<Action>FaceUnitToward/Card Player,-STR:Today Shop Staff-</Action>
+			<Action>GoToNextBranch/</Action>
+			<Reply>Oops/NextBranch</Reply>
+		</Branch>
+		<Branch num="1" name="Dispatch" showSingleReplies="true">/The player shouldn't see this dialogue
+			<Action>ClearPortraits/</Action>
+			<Action>Log/LOGMESSAGE: We have '-AURA-', which is recorded as '-VAL:Aura-'</Action>
+			<Action>Run/Initialize Counter Conv Replies</Action>
 			<Action>ChangeTriggerCharacter/Card Player</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
 			<Action>AddPortrait/Card Player,Card Player,left</Action>
-			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-</Action>
-			<Action>GoTo/BRANCH[Dispatch 2]</Action>
-			<Reply>Oops/EndConv</Reply>
-		</Branch>
-		<Branch num="1" name="Dispatch 2" showSingleReplies="true">/The player shouldn't see this dialogue
-			<Action>Run/Initialize Counter Conv Replies</Action>
-			<Action>Log/LOGMESSAGE: We have '-AURA-', which is recorded as '-VAL:Aura-'</Action>
-			<Action>GoTo/BRANCH[Introduction]</Action>
+			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-,right</Action>
+			<Action>GoToNextBranch/</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="2" name="Introduction" showSingleReplies="true">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
+			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="3" name="Open Pack">/[You opened &lt;sprite name="Book"&gt;-STR:Gained Cards String-]
 			<Action>Run/Gain Cards,Count,3</Action>
 			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
-			<Action>SetVal/Aura,-:5</Action>
+			<Action>SetVal/Current Aura,-:5</Action>
 			<Action>SetAura/-:5,true,true</Action>
-			<Reply>Nice!/NamedBranch/Dispatch 2</Reply>
+			<Action>Run/Initialize Counter Conv Replies</Action>
+			<Reply>Nice!/NamedBranch/Dispatch</Reply>
 		</Branch>
 	</Dialogue>
 
