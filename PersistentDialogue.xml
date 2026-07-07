@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/5/2026 7:44:42 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/7/2026 3:19:29 PM">
 
 	<Script>Generate Roster
+		<Action>Recruit/Card Player/,0</Action>
+		<Action>SaveChar/Card Player</Action>
 		<Action>SetList/Card Players</Action>
 		<Action>SetList/Shop Staff</Action>
 		<Action>CustomCharsToRoster/2</Action>
@@ -19,12 +21,16 @@
 	<Script>Generate Person
 		<Action>Log/LOGMESSAGE: Recruting new cast member to list '-STR:Cast List Name-'</Action>
 		<Action>Run/Pick Random Class and Race</Action>
-		<Action>GenerateUnique/1,-STR:Selected Class-,1,RANDOM,-STR:Selected Race-,,-1,-1,Down,,,,false,0,-1</Action>
-		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
+		<Action>GenerateUnique/0,-STR:Selected Class-,1,RANDOM,-STR:Selected Race-,,-1,-1,Down,,,,false,0,-1</Action>
+		<Action>Recruit/-STR:_GeneratedUnit-,0</Action>
 		<Action>Log/-STR:_GeneratedUnit- recruited</Action>
 		<Action>Run/Generate Person Deck,Person,-STR:_GeneratedUnit-</Action>
 		<Action>AddToList/-STR:Cast List Name-,-STR:_GeneratedUnit-</Action>
 		<Action>Run/Generate Upgrade Sets,Person,-STR:_GeneratedUnit-</Action>
+		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
+		<Action>SetStat/-STR:_GeneratedUnit-,Familiarity Card Player,=:0</Action>
+		<Action>SetStat/Card Player,Familiarity -STR:_GeneratedUnit-,=:0</Action>
+		<Action>SaveChar/-STR:_GeneratedUnit-</Action>
 	</Script>
 
 	<Script>Pick Random Class and Race
@@ -63,7 +69,7 @@
 	<Script>Generate Custom Character
 		<Action>SetString/Current Custom Character,LIST{Custom Characters,-VAL:Iterator-}</Action>
 		<Action>Log/LOGMESSAGE: Recruting '-STR:Current Custom Character-' to list '-STR:Cast List Name-'</Action>
-		<Action>Recruit/-STR:Current Custom Character-,1</Action>
+		<Action>Recruit/-STR:Current Custom Character-,0</Action>
 		<Action>Log/LOGMESSAGE: -STR:Current Custom Character- recruited</Action>
 		<Action>Run/Generate Person Deck,Person,-STR:Current Custom Character-</Action>
 		<Action>AddToList/-STR:Cast List Name-,-STR:Current Custom Character-</Action>

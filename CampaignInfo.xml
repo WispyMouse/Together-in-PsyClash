@@ -3,7 +3,7 @@
 
 	<Name txt="Together in PsyClash"></Name>
 	
-	<Description txt="Campaign focusing entirely on PsyClash, the card game within Together in Battle. Play with procedurally rolled characters in a card shop!-NL-Currently features: Small exploration map with card players to play against. Buy booster packs with Aura after playing games. Progress the day to improve opponent decks.-NL-v 0.1 _ Initial Publish-NL- New days improve opponent deck strength. Shop staff gives cards. Don't save your game - future releases will not be compatible with this one. Many usability bugs."></Description>
+	<Description txt="Campaign focusing entirely on PsyClash, the card game within Together in Battle. Play with procedurally rolled characters in a card shop!-NL-Currently features: Small exploration map with card players to play against. Buy booster packs with Aura after playing games. Progress the day to improve opponent decks.-NL-v 0.1.1 _ Initial Publish-NL- New days improve opponent deck strength. Shop staff gives cards. Don't save your game - future releases will not be compatible with this one. Many usability bugs. .1 patch - Fixed relationships saving"></Description>
 	
 	<FirstScene txt="Introduction"></FirstScene>
 

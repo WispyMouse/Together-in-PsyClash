@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/6/2026 2:52:43 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/7/2026 3:23:35 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
 	
-	<Condition>Free Movement,1,Card Player</Condition>
+	<Condition>Free Movement,0,Card Player</Condition>
 	<Condition>Global Lighting,Overcast</Condition>
 	
 	<Tileset>01,Cave</Tileset>
@@ -149,15 +149,15 @@
 		<Action>CombineLists/Shuffled Shop Staff,Shop Staff</Action>
 		<Action>ShuffleList/Shuffled Shop Staff</Action>
 		<Action>SetString/Today Shop Staff,LIST{Shuffled Shop Staff,0}</Action>
-		<Action>SpawnUnit/1,-STR:Today Shop Staff-,2,12,Down,Use:Counter Talk Script</Action>
+		<Action>SpawnUnit/0,-STR:Today Shop Staff-,2,12,Down,Use:Counter Talk Script</Action>
 		<Action>FaceUnit/-STR:Today Shop Staff-,Down</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,0},2,6,Left,Use:Card Player Table Talk Script,Aggro Group:1</Action>
-		<Action>FaceUnit/{Shuffled Card Players,0},Left</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,1},2,3,Down,Use:Card Player Table Talk Script,Aggro Group,1</Action>
+		<Action>SpawnUnit/0,LIST{Shuffled Card Players,0},2,6,Left,Use:Card Player Table Talk Script</Action>
+		<Action>FaceUnit/LIST{Shuffled Card Players,0},Left</Action>
+		<Action>SpawnUnit/0,LIST{Shuffled Card Players,1},2,3,Down,Use:Card Player Table Talk Script</Action>
 		<Action>FaceUnit/{Shuffled Card Players,1},Down</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,2},4,3,Right,Use:Card Player Table Talk Script,Aggro Group:1</Action>
+		<Action>SpawnUnit/0,LIST{Shuffled Card Players,2},4,3,Right,Use:Card Player Table Talk Script</Action>
 		<Action>FaceUnit/{Shuffled Card Players,2},Right</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,3},6,1,Right,Use:Card Player Table Talk Script,Aggro Group:1</Action>
+		<Action>SpawnUnit/0,LIST{Shuffled Card Players,3},6,1,Right,Use:Card Player Table Talk Script</Action>
 		<Action>FaceUnit/{Shuffled Card Players,3},Right</Action>
 		<Action>SetList/Today Card Players,LIST{Shuffled Card Players,0}|LIST{Shuffled Card Players,1}|LIST{Shuffled Card Players,2}|LIST{Shuffled Card Players,3}</Action>
 	</Script>
@@ -206,7 +206,7 @@
 	<Script>Show Deck Script
 		<Action>SetVal/Roam Y,=:-Y-</Action>
 		<Action>SetVal/Roam X,=:-X-</Action>
-		<Action>SetStringByStat/Roam Facing,=,Card Player,Facing</Action>
+		<Action>SetStringByStat/Roam Facing,Card Player,Facing</Action>
 		<Action>SetString/Deck To Show,-STR:Deck To Show-</Action>
 		<Action>Log/LOGMESSAGE: Showing -STR:Deck To Show- with -VAL:Roam Y- -VAL:Roam X- -STR:Roam Facing-</Action>
 		<Action>NewScene/Show Deck</Action>
@@ -269,12 +269,13 @@
 	<Dialogue trigger="None/" convID="Talk to Card Player Conv" r="true">
 		<Branch num="0" name="Start Point" showSingleReplies="true">/The player shouldn't see this dialogue
 			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>PlayAnim/-FNAME2-,Rest</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>AddPortrait/-FNAME2-,-FNAME2-,left</Action>
 			<Action>AssignSpeaker/-FNAME2-</Action>
 			<Action>AddPortrait/Card Player,Card Player,right</Action>
-			<Action>SetStringByStat/Familiarity,-FNAME2-,Familiarity Card Player</Action>
-			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-STR:Familiarity-</Action>
+			<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity Card Player</Action>
+			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-VAL:Familiarity-</Action>
 			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>
 			<Action>GoTo/BRANCH[-STR:Card Player Conv Target-]</Action>
 			<Reply>Oops/EndConv</Reply>
@@ -292,6 +293,7 @@
 			<Action>ListToString/Alphabetized List,;; ,Deck String</Action>
 			<Action>ShowDeck/Alphabetized List</Action>
 			<Action>Run/Show Deck Script,Deck To Show,Alphabetized List</Action>
+			<Action>EndConvImmediately/</Action>
 			<Reply>Return/NewBranch/0</Reply>
 			<Reply>Upgrade Me/NamedBranch/Upgrade Me</Reply>
 		</Branch>
@@ -319,6 +321,7 @@
 	<Dialogue trigger="None/" convID="Counter Talk Conv" r="true">
 		<Branch num="0" name="Set Aura">/The player shouldn't see this dialogue
 			<Action>SetVal/Current Aura,=:-AURA-</Action>
+			<Action>PlayAnim/-FNAME2-,Rest</Action>
 			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
 			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
 			<Action>GoToNextBranch/</Action>
@@ -381,8 +384,13 @@
 
 	<Dialogue trigger="None/" convID="Prompt Next Day Conv" r="true">
 		<Branch num="0" name="">/End the current day and go to the next one?
+			<Reply>Yes/NamedBranch/End Day</Reply>
 			<Reply>No/EndConv</Reply>
-			<Reply>Yes/NewScene/Next Day</Reply>
+		</Branch>
+		<Branch num="1" name="End Day">/The player shouldn't see this
+			<Action>NewScene/Next Day</Action>
+			<Action>EndConvImmediately/</Action>
+			<Reply>Oops/NextBranch</Reply>
 		</Branch>
 	</Dialogue>
 
