@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/6/2026 2:40:31 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/6/2026 2:52:43 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -150,10 +150,15 @@
 		<Action>ShuffleList/Shuffled Shop Staff</Action>
 		<Action>SetString/Today Shop Staff,LIST{Shuffled Shop Staff,0}</Action>
 		<Action>SpawnUnit/1,-STR:Today Shop Staff-,2,12,Down,Use:Counter Talk Script</Action>
+		<Action>FaceUnit/-STR:Today Shop Staff-,Down</Action>
 		<Action>SpawnUnit/1,LIST{Shuffled Card Players,0},2,6,Left,Use:Card Player Table Talk Script,Aggro Group:1</Action>
-		<Action>SpawnUnit/1,LIST{Shuffled Card Players,1},2,3,Right,Use:Card Player Table Talk Script,Aggro Group,1</Action>
+		<Action>FaceUnit/{Shuffled Card Players,0},Left</Action>
+		<Action>SpawnUnit/1,LIST{Shuffled Card Players,1},2,3,Down,Use:Card Player Table Talk Script,Aggro Group,1</Action>
+		<Action>FaceUnit/{Shuffled Card Players,1},Down</Action>
 		<Action>SpawnUnit/1,LIST{Shuffled Card Players,2},4,3,Right,Use:Card Player Table Talk Script,Aggro Group:1</Action>
+		<Action>FaceUnit/{Shuffled Card Players,2},Right</Action>
 		<Action>SpawnUnit/1,LIST{Shuffled Card Players,3},6,1,Right,Use:Card Player Table Talk Script,Aggro Group:1</Action>
+		<Action>FaceUnit/{Shuffled Card Players,3},Right</Action>
 		<Action>SetList/Today Card Players,LIST{Shuffled Card Players,0}|LIST{Shuffled Card Players,1}|LIST{Shuffled Card Players,2}|LIST{Shuffled Card Players,3}</Action>
 	</Script>
 
@@ -162,17 +167,22 @@
 		<Action>SetVal/Closest Distance,=:99</Action>
 		<Action>ForLoop/-ii-,0-LASTINLIST[Today Card Players],1,Run,Note If Closest,Character Index,-ii-</Action>
 		<Action>Log/LOGMESSAGE: Closest character is -STR:Closest Character-</Action>
+		<Action>SetString/Talking To,-STR:Closest Character-</Action>
 		<Action>ChangeTriggerCharacter/Card Player</Action>
-		<Action>ChangeSecondaryCharacter/-STR:Closest Character-</Action>
-		<Action>LoadConv/Talk to Card Player Conv,Card Player,-STR:Closest Character-</Action>
+		<Action>ChangeSecondaryCharacter/-STR:Talking To-</Action>
+		<Action>FaceUnitToward/Card Player,-STR:Talking To-</Action>
+		<Action>FaceUnitToward/-STR:Talking To-,Card Player</Action>
+		<Action>LoadConv/Talk to Card Player Conv,Card Player,-STR:Talking To-</Action>
 	</Script>
 
 	<Script>Counter Talk Script
 		<Action>ChangeTriggerCharacter/Card Player</Action>
-		<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
-		<Action>SetString/Person,-STR:Today Shop Staff-</Action>
+		<Action>SetString/Talking To,-STR:Today Shop Staff-</Action>
+		<Action>ChangeSecondaryCharacter/-STR:Talking To-</Action>
 		<Action>SetVal/Current Aura,=:-AURA-</Action>
 		<Action>Run/Initialize Counter Conv Replies</Action>
+		<Action>FaceUnitToward/Card Player,-STR:Today Shop Staff-</Action>
+		<Action>FaceUnitToward/-STR:Talking To-,Card Player</Action>
 		<Action>LoadConv/Counter Talk Conv,Card Player,-STR:Today Shop Staff-</Action>
 	</Script>
 
@@ -237,7 +247,8 @@
 	<Script>Initialize Counter Conv Replies
 		<Action>SetString/Conversation Name,Counter Talk Conv</Action>
 		<Action>SetString/Conversation Target,Introduction</Action>
-		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,1</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,End Conversation|EndConv|</Action>
 		<Action>IfValRun/Current Aura,g=,5,Add Buy Booster Pack Reply</Action>
@@ -265,8 +276,6 @@
 			<Action>SetStringByStat/Familiarity,-FNAME2-,Familiarity Card Player</Action>
 			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-STR:Familiarity-</Action>
 			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>
-			<Action>FaceUnitToward/-STR:Person-,Card Player</Action>
-			<Action>FaceUnitToward/Card Player,-STR:Person-</Action>
 			<Action>GoTo/BRANCH[-STR:Card Player Conv Target-]</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
@@ -294,20 +303,24 @@
 		<Branch num="4" name="Upgrade Failed">-FNAME2-/I ran out of upgrades. I'm as good as I'm going to get!
 			<Reply>Continue./NewBranch/0</Reply>
 		</Branch>
-		<Branch num="5" name="First Time Meeting">-FNAME2-/Oh hello, I'm meeting you for the first time now. [&lt;sprite name="Regenerating"&gt;-FNAME2- is now more familiar with Card Player]
+		<Branch num="5" name="First Time Meeting">-FNAME2-/Oh hello, I'm meeting you for the first time now. [&lt;sprite name="Regenerating"&gt;-FNAME2- Friendship +]
 			<Action>SetStat/-FNAME2-,Familiarity Card Player,+:1</Action>
 			<Action>SetStat/Card Player,Familiarity -FNAME2-,+:1</Action>
 			<Action>SpawnFloatingText/+ Familiarity,-FNAME2-,white</Action>
+			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
+			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
 		</Branch>
 		<Branch num="6" name="Already Familiar">-FNAME2-/Oh! I recognize you! How's it going?
+			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
+			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
 		</Branch>
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Counter Talk Conv" r="true">
 		<Branch num="0" name="Set Aura">/The player shouldn't see this dialogue
 			<Action>SetVal/Current Aura,=:-AURA-</Action>
-			<Action>FaceUnitToward/-STR:Today Shop Staff-,Card Player</Action>
-			<Action>FaceUnitToward/Card Player,-STR:Today Shop Staff-</Action>
+			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
+			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
 			<Action>GoToNextBranch/</Action>
 			<Reply>Oops/NextBranch</Reply>
 		</Branch>
@@ -323,6 +336,8 @@
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="2" name="Introduction" showSingleReplies="true">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
+			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
+			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="3" name="Open Pack">/[You opened &lt;sprite name="Book"&gt;-STR:Gained Cards String-]
@@ -331,7 +346,7 @@
 			<Action>SetVal/Current Aura,-:5</Action>
 			<Action>SetAura/-:5,true,true</Action>
 			<Action>Run/Initialize Counter Conv Replies</Action>
-			<Reply>Nice!/NamedBranch/Dispatch</Reply>
+			<Reply>Nice!/Run/Counter Talk Script</Reply>
 		</Branch>
 	</Dialogue>
 
