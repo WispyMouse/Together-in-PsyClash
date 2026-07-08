@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/7/2026 3:19:29 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/8/2026 2:34:03 PM">
 
 	<Script>Generate Roster
+		<Action>Run/Set Class Deck Templates</Action>
 		<Action>Recruit/Card Player/,0</Action>
 		<Action>SaveChar/Card Player</Action>
 		<Action>SetList/Card Players</Action>
@@ -26,7 +27,6 @@
 		<Action>Log/-STR:_GeneratedUnit- recruited</Action>
 		<Action>Run/Generate Person Deck,Person,-STR:_GeneratedUnit-</Action>
 		<Action>AddToList/-STR:Cast List Name-,-STR:_GeneratedUnit-</Action>
-		<Action>Run/Generate Upgrade Sets,Person,-STR:_GeneratedUnit-</Action>
 		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
 		<Action>SetStat/-STR:_GeneratedUnit-,Familiarity Card Player,=:0</Action>
 		<Action>SetStat/Card Player,Familiarity -STR:_GeneratedUnit-,=:0</Action>
@@ -54,9 +54,26 @@
 
 	<Script>Generate Person Deck
 		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'.</Action>
-		<Action>SetList/-STR:Person- Deck,Bandit|Mind Shield|Bandit|Bandit|Solid State Shield|Mind Shield|Bandit|Shadowling|Shadowling|Mind Blast|Mind Blast|Frost Armor|Fury|Stimulate|Gasul|Gasul|Shadow Blast|Stimulate|Leap|Merchant|Swordsman|Swordsman</Action>
+		<Action>Log/LOGMESSAGE: First take ten cards from the "bloat" list. Shuffle the bloat list and deal the first ten. These will be replaced as the deck levels up. Being first makes it replace first.</Action>
+		<Action>SetList/-STR:Person- Deck</Action>
+		<Action>ShuffleList/Template_Swordsman_Bloat</Action>
+		<Action>ForLoop/-A-,0-9,1,AddToList,-STR:Person- Deck,LIST{Template_Swordsman_Bloat,-A-}</Action>
+		<Action>Log/LOGMESSAGE: Take the "growth" list, and grab the first five and add it to the deck.</Action>
+		<Action>ShuffleList/Template_Swordsman_Growth</Action>
+		<Action>ForLoop/-A-,0-4,1,AddToList,-STR:Person- Deck,LIST{Template_Swordsman_Growth,-A-}</Action>
+		<Action>Log/LOGMESSAGE: Take the next ten growth cards, and put it in the replace upgrade path.</Action>
+		<Action>SetList/-STR:Person- Upgrade Replace With</Action>
+		<Action>ForLoop/-A-,5-14,1,AddToList,-STR:Person- Upgrade Replace With,LIST{Template_Swordsman_Growth,-A-}</Action>
+		<Action>Log/LOGMESSAGE: Finally put the "core" cards on the bottom</Action>
+		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
+		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
+		<Action>Log/LOGMESSAGE: `-STR:Person- Replace With` is `-STR:Replace With String-`</Action>
+		<Action>CombineLists/-STR:Person- Deck,Template_Swordsman_Start</Action>
 		<Action>ListToString/-STR:Person- Deck,;;,Deck String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Deck String-'</Action>
+		<Action>SetList/-STR:Person- Ace,Template_Swordsman_Ace</Action>
+		<Action>ListToString/-STR:Person- Ace,;;,Ace String</Action>
+		<Action>Log/LOGMESSAGE: '-STR:Person- Ace' set to '-STR:Ace String-'</Action>
 	</Script>
 
 	<Script>Initialize Deck Template
@@ -74,13 +91,6 @@
 		<Action>Run/Generate Person Deck,Person,-STR:Current Custom Character-</Action>
 		<Action>AddToList/-STR:Cast List Name-,-STR:Current Custom Character-</Action>
 		<Action>Run/Generate Upgrade Sets,Person,-STR:Current Custom Character-</Action>
-	</Script>
-
-	<Script>Generate Upgrade Sets
-		<Action>SetList/-STR:Person- Upgrade Replace With,Swordsman|Merchant|Swordsman|Frost Armor|Shadow Blast|Fury|Gasul|Frost Armor|Merchant|Kinetic Gust|Kinetic Gust</Action>
-		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
-		<Action>Log/LOGMESSAGE: '-STR:Person- Upgrade Replace With' is '-STR:Replace With String-'</Action>
-		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
 	</Script>
 
 	<Script>Upgrade Person
@@ -108,6 +118,13 @@
 	<Script>Gain Card
 		<Action>AddToList/PlayerDeck,-STR:Card-</Action>
 		<Action>AddToList/Gained Cards,-STR:Card-</Action>
+	</Script>
+
+	<Script>Set Class Deck Templates
+		<Action>SetList/Template_Swordsman_Start,Swordsman|Swordsman|Swordsman|Swordsman|Frost Armor|Awareness|Merchant|Awareness</Action>
+		<Action>SetList/Template_Swordsman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Swordsman_Growth,Awareness|Awareness|Merchant|Merchant|Merchant|Cryokineticist|Cryokineticist|Cryokineticist|Shadow Blast|Shadow Blast|Frost Armor|Frost Armor|Bowman|Bowman|Spearman|Spearman|Barudit|Barudit</Action>
+		<Action>SetList/Template_Swordsman_Ace,Golem|Golem|Focus|Focus</Action>
 	</Script>
 
 </PersistentDialogue>
