@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/8/2026 2:34:03 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/8/2026 3:33:58 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -53,25 +53,26 @@
 	</Script>
 
 	<Script>Generate Person Deck
-		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'.</Action>
+		<Action>SetStringByStat/Person Class,-STR:Person-,Class</Action>
+		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person- Deck'. Class is '-STR:Person Class-'</Action>
 		<Action>Log/LOGMESSAGE: First take ten cards from the "bloat" list. Shuffle the bloat list and deal the first ten. These will be replaced as the deck levels up. Being first makes it replace first.</Action>
 		<Action>SetList/-STR:Person- Deck</Action>
-		<Action>ShuffleList/Template_Swordsman_Bloat</Action>
-		<Action>ForLoop/-A-,0-9,1,AddToList,-STR:Person- Deck,LIST{Template_Swordsman_Bloat,-A-}</Action>
+		<Action>ShuffleList/Template_-STR:Person Class-_Bloat</Action>
+		<Action>ForLoop/-A-,0-9,1,AddToList,-STR:Person- Deck,LIST{Template_-STR:Person Class-_Bloat,-A-}</Action>
 		<Action>Log/LOGMESSAGE: Take the "growth" list, and grab the first five and add it to the deck.</Action>
-		<Action>ShuffleList/Template_Swordsman_Growth</Action>
-		<Action>ForLoop/-A-,0-4,1,AddToList,-STR:Person- Deck,LIST{Template_Swordsman_Growth,-A-}</Action>
+		<Action>ShuffleList/Template_-STR:Person Class-_Growth</Action>
+		<Action>ForLoop/-A-,0-4,1,AddToList,-STR:Person- Deck,LIST{Template_-STR:Person Class-_Growth,-A-}</Action>
 		<Action>Log/LOGMESSAGE: Take the next ten growth cards, and put it in the replace upgrade path.</Action>
 		<Action>SetList/-STR:Person- Upgrade Replace With</Action>
-		<Action>ForLoop/-A-,5-14,1,AddToList,-STR:Person- Upgrade Replace With,LIST{Template_Swordsman_Growth,-A-}</Action>
+		<Action>ForLoop/-A-,5-14,1,AddToList,-STR:Person- Upgrade Replace With,LIST{Template_-STR:Person Class-_Growth,-A-}</Action>
 		<Action>Log/LOGMESSAGE: Finally put the "core" cards on the bottom</Action>
 		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
 		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
 		<Action>Log/LOGMESSAGE: `-STR:Person- Replace With` is `-STR:Replace With String-`</Action>
-		<Action>CombineLists/-STR:Person- Deck,Template_Swordsman_Start</Action>
+		<Action>CombineLists/-STR:Person- Deck,Template_-STR:Person Class-_Start</Action>
 		<Action>ListToString/-STR:Person- Deck,;;,Deck String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Deck String-'</Action>
-		<Action>SetList/-STR:Person- Ace,Template_Swordsman_Ace</Action>
+		<Action>SetList/-STR:Person- Ace,Template_-STR:Person Class-_Ace</Action>
 		<Action>ListToString/-STR:Person- Ace,;;,Ace String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Ace' set to '-STR:Ace String-'</Action>
 	</Script>
@@ -121,6 +122,123 @@
 	</Script>
 
 	<Script>Set Class Deck Templates
+		<Action>Log/LOGMESSAGE: Generating Assassin template</Action>
+		<Action>SetList/Template_Assassin_Start,Assassin|Assassin|Assassin|Assassin|Iron Jaw Trap|Light Blast|Fury|Fury</Action>
+		<Action>SetList/Template_Assassin_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Assassin_Growth,Fury|Fury|Iron Jaw Trap|Iron Jaw Trap|Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Light Blast|Light Blast|Light </Action>
+		<Action>SetList/Template_Assassin_Ace,Blast|Leap|Leap|Leap|Leap|Feedback|Feedback|Feedback|Feedback
+Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Axefighter template</Action>
+		<Action>SetList/Template_Axefighter_Start,Bandit|Bandit|Bandit|Bandit|Frost Armor|Awareness|Stimulate|Stimulate</Action>
+		<Action>SetList/Template_Axefighter_Bloat,Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Axefighter_Growth,Stimulate|Stimulate|Library|Library|Awareness|Awareness|Leap|Leap|Leap|Leap|Shadow Blast|Shadow Blast|Kinetic Gust|Kinetic Gust|Kinetic Gust|Smuggler|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit</Action>
+		<Action>SetList/Template_Axefighter_Ace,Mind Control|Mind Control|Smuggler|Smuggler</Action>
+		<Action>Log/LOGMESSAGE: Generating Barudit template</Action>
+		<Action>SetList/Template_Barudit_Start,Barudit|Barudit|Barudit|Barudit|Frost Armor|Fury|Fury|Stimulate</Action>
+		<Action>SetList/Template_Barudit_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Barudit_Growth,Stimulate|Stimulate|Stimulate|Library|Library|Frost Armor|Frost Armor|Fury|Fury|Leap|Leap|Leap|Leap|Shadow Blast|Shadow Blast|Kinetic Gust|Kinetic Gust|Drake</Action>
+		<Action>SetList/Template_Barudit_Ace,Drake|Drake|Drake|Mind Control</Action>
+		<Action>Log/LOGMESSAGE: Generating Bowman template</Action>
+		<Action>SetList/Template_Bowman_Start,Bowman|Bowman|Bowman|Bowman|Solid State Shield|Gasul|Fury|Fury</Action>
+		<Action>SetList/Template_Bowman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Bowman_Growth,Frost Armor|Frost Armor|Fury|Fury|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Awareness|Awareness|Gasul|Merchant|Merchant|Merchant</Action>
+		<Action>SetList/Template_Bowman_Ace,Mind Control|Mind Control|Mind Control|Mind Control</Action>
+		<Action>Log/LOGMESSAGE: Generating Bronze Golem template</Action>
+		<Action>Template_Bronze Golem_Start,Golem|Golem|Steam Engine|Steam Engine|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Template_Bronze Golem_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Swordsman_Growth,Template_Bronze Golem_Growth,Steam Engine|Steam Engine|Awareness|Awareness|Awareness|Merchant|Merchant|Leap|Leap|Leap|Leap|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
+		<Action>SetList/Template_Bronze Golem_Ace,Golem|Golem|Focus|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Cavalier template</Action>
+		<Action>SetList/Template_Cavalier_Start,Mantis Rider|Mantis Rider|Mantis Rider|Mantis Rider|Merchant|Fury|Awareness|Awareness</Action>
+		<Action>SetList/Template_Cavalier_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Cavalier_Growth,Shadow Blast|Shadow Blast|Fury|Fury|Fury|Frost Armor|Frost Armor|Light Blast|Light Blast|Feedback|Feedback|Pyrokineticist|Merchant|Merchant|Merchant</Action>
+		<Action>SetList/Template_Cavalier_Ace,Focus|Focus|Focus|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Crossbowman template</Action>
+		<Action>SetList/Template_Crossbowman_Start,Crossbowman|Crossbowman|Crossbowman|Crossbowman|Merchant|Gasul|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Template_Crossbowman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Crossbowman_Growth,Gasul|Gasul|Gasul|Merchant|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Awareness|Awareness</Action>
+		<Action>SetList/Template_Crossbowman_Ace,Mind Control|Mind Control|Mind Control|Mind Control</Action>
+		<Action>Log/LOGMESSAGE: Generating Cryokineticist template</Action>
+		<Action>SetList/Template_Cryokineticist_Start,Cryokineticist|Cryokineticist|Cryokineticist|Cryokineticist|Merchant|Merchant|Frost Armor|Frost Armor</Action>
+		<Action>SetList/Template_Cryokineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Cryokineticist_Growth,Merchant|Merchant|Frost Armor|Frost Armor|Iron Jaw Trap|Iron Jaw Trap|Awareness|Awareness|Awareness|Spearman|Spearman|Mentalist|Mentalist|Bowman|Bowman|Crossbowman|Crossbowman</Action>
+		<Action>SetList/Template_Cryokineticist_Ace,Drake|Drake|Golem|Golem</Action>
+		<Action>Log/LOGMESSAGE: Generating Dark Spriggat template</Action>
+		<Action>SetList/Template_Dark Spriggat_Start,Spriggat|Spriggat|Shadow Blast|Shadow Blast|Frost Armor|Fury|Merchant|Merchant</Action>
+		<Action>SetList/Template_Dark Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Dark Spriggat_Growth,Awareness|Awareness|Shadow Blast|Shadow Blast|Terror|Terror|Fury|Frost Armor|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant</Action>
+		<Action>SetList/Template_Dark Spriggat_Ace,Greater Spriggat|Greater Spriggat|Dark Vortex|Dark Vortex</Action>
+		<Action>Log/LOGMESSAGE: Generating Engineer template</Action>
+		<Action>SetList/Template_Engineer_Start,Steam Engine|Library|Bakery|Iron Jaw Trap|Merchant|Merchant|Frost Armor|Frost Armor</Action>
+		<Action>SetList/Template_Engineer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Engineer_Growth,Template_Engineer_Growth,Steam Engine|Steam Engine|Steam Engine|Library|Library|Library|Bakery|Bakery|Bakery|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Crossbowman|Crossbowman|Crossbowman</Action>
+		<Action>SetList/Template_Engineer_Ace,Golem|Golem|Focus|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Frost Spriggat template</Action>
+		<Action>SetList/Template_Frost Spriggat_Start,Spriggat|Spriggat|Frost Armor|Frost Armor|Merchant|Merchant|Cryokineticist|Cryokineticist</Action>
+		<Action>SetList/Template_Frost Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Frost Spriggat_Growth,Awareness|Awareness|Fury|Fury|Frost Armor|Frost Armor|Cryokineticist|Cryokineticist||Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant</Action>
+		<Action>SetList/Template_Frost Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
+		<Action>Log/LOGMESSAGE: Generating Gasul template</Action>
+		<Action>SetList/Template_Gasul_Start,Gasul|Gasul|Gasul|Gasul|Fury|Fury|Frost Armor|Frost Armor</Action>
+		<Action>SetList/Template_Gasul_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Gasul_Growth,Awareness|Awareness|Barudit|Barudit|Fury|Fury|Frost Armor|Frost Armor|Blinding Cloak|Drain|Drain|Drain|Drain|Spriggat|Spriggat</Action>
+		<Action>SetList/Template_Gasul_Ace,Drake|Drake|Focus|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Golden Spriggat template</Action>
+		<Action>SetList/Template_Golden Spriggat_Start,Spriggat|Spriggat|Light Blast|Light Blast|Frost Armor|Fury|Shadowling|Shadowling</Action>
+		<Action>SetList/Template_Golden Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Golden Spriggat_Growth,Photokineticist|Photokineticist|Photokineticist|Photokineticist|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Terror|Terror|Terror|Terror</Action>
+		<Action>SetList/Template_Golden Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
+		<Action>Log/LOGMESSAGE: Generating Kineticist template</Action>
+		<Action>SetList/Template_Kineticist_Start,Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Stimulate|Mentalist|Mentalist|Psy Healer</Action>
+		<Action>SetList/Template_Kineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Kineticist_Growth,Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Spriggat|Spriggat|Shadow Blast|Shadow Blast|Feedback|Feedback|Mind Control</Action>
+		<Action>SetList/Template_Kineticist_Ace,Mind Control|Mind Control|Mind Control|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Mentalist template</Action>
+		<Action>SetList/Template_Mentalist_Start,Mentalist|Mentalist|Mentalist|Mentalist|Frost Armor|Fury|Awareness|Awareness</Action>
+		<Action>SetList/Template_Mentalist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Mentalist_Growth,Awareness|Awareness|Frost Armor|Fury|Fury|Cryokineticist|Cryokineticist|Cryokineticist|Cryokineticist|Stimulate|Stimulate|Terror|Terror|Leap|Leap|Drain|Drain|Drain|Drain|Feedback|Feedback|Feedback|Feedback|Spearman|Spearman|Spearman|Mind Control</Action>
+		<Action>SetList/Template_Mentalist_Ace,Mind Control|Mind Control|Mind Control|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Photokineticist template</Action>
+		<Action>SetList/Template_Photokineticist_Start,Photokineticist|Photokineticist|Photokineticist|Photokineticist|Blinding Cloak|Frost Shield|Fury|Awareness</Action>
+		<Action>SetList/Template_Photokineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Photokineticist_Growth,Blinding Cloak|Blinding Cloak|Blinding Cloak|Frost Shield|Frost Shield|Frost Shield|Fury|Fury|Fury|Awareness|Awareness|Awareness|Gasul|Gasul|Gasul|Gasul|Merchant|Merchant|merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Leap|Leap|Leap|Leap</Action>
+		<Action>SetList/Template_Photokineticist_Ace,Dark Vortex|Dark Vortex|Dark Vortex|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Psy Healer template</Action>
+		<Action>SetList/Template_Psy Healer_Start,Psy Healer|Psy Healer|Psy Healer|Psy Healer|Mind Shield|Mind Shield|Merchant|Shadowling</Action>
+		<Action>SetList/Template_Psy Healer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Psy Healer_Growth,Library|Library|Library|Library|Bakery|Bakery|Bakery|Bakery|Golem|Drake|Merchant|Merchant|Feedback|Feedback|Feedback|Feedback|Drain|Drain|Cryokineticist|Cryokineticist|Cryokineticist</Action>
+		<Action>SetList/Template_Psy Healer_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
+		<Action>Log/LOGMESSAGE: Generating Pyrokineticist template</Action>
+		<Action>SetList/Template_Pyrokineticist_Start,Pyrokineticist|Pyrokineticist|Pyrokineticist|Pyrokineticist|Kinetic Gust|Leap|Merchant|Merchant</Action>
+		<Action>SetList/Template_Pyrokineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Pyrokineticist_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Merchant|Merchant|Leap|Leap|Leap|Photokineticist|Photokineticist|Photokineticist|Blinding Cloak|Blinding Cloak|Blinding Cloak|Frost Armor|Awareness|Awareness|Awareness</Action>
+		<Action>SetList/Template_Pyrokineticist_Ace,Dark Vortex|Dark Vortex|Dark Vortex|Dark Vortex</Action>
+		<Action>Log/LOGMESSAGE: Generating Red Spriggat template</Action>
+		<Action>SetList/Template_Red Spriggat_Start,Spriggat|Spriggat|Pyrokineticist|Pyrokineticist|Frost Armor|Fury|Merchant|Merchant</Action>
+		<Action>SetList/Template_Red Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Red Spriggat_Growth,Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback</Action>
+		<Action>SetList/Template_Red Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
+		<Action>Log/LOGMESSAGE: Generating Skiakineticist template</Action>
+		<Action>SetList/Template_Skiakineticist_Start,Terror|Terror|Terror|Terror|Shadowling|Shadowling|Library|Shadow Blast</Action>
+		<Action>SetList/Template_Skiakineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Skiakineticist_Growth,Spriggat|Spriggat|Spriggat|Spriggat|Light Blast|Light Blast|Library|Steam Engine|Shadow Blast|Shadow Blast|Shadow Blast|Crossbowman|Crossbowman|Dark Vortex</Action>
+		<Action>SetList/Template_Skiakineticist_Ace,Dark Vortex|Dark Vortex|Dark Vortex|Focus</Action>
+		<Action>Log/LOGMESSAGE: Generating Spearman template</Action>
+		<Action>SetList/Template_Spearman_Start,Spearman|Spearman|Spearman|Spearman|Frost Armor|Fury|Awareness|Awareness</Action>
+		<Action>SetList/Template_Spearman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Spearman_Growth,Frost Armor|Frost Armor|Fury|Fury|Awareness|Awareness|Blinding Cloak|Blinding Cloak|Shadow Blast|Shadow Blast|Merchant|Merchant|Merchant</Action>
+		<Action>SetList/Template_Spearman_Ace,Focus|Focus|Focus|Golem</Action>
+		<Action>Log/LOGMESSAGE: Generating Spirit template</Action>
+		<Action>SetList/Template_Spirit_Start,Spirit|Spirit|Spirit|Drain|Merchant|Blinding Cloak|Blinding Cloak|Kinetic Gust</Action>
+		<Action>SetList/Template_Spirit_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Spirit_Growth,Merchant|Merchant|Merchant|Blinding Cloak|Blinding Cloak|Kinetic Gust|Kinetic Gust|Kinetic Gust|Leap|Leap|Leap|Stimulate|Stimulate|Stimulate|Stimulate|Cryokineticist|Cryokineticist|Bowman|Bowman|Spriggat|Spriggat|Drain|Drain|Drain|Feedback|Feedback</Action>
+		<Action>SetList/Template_Spirit_Ace,Spirit|Spirit|Spirit|Smuggler</Action>
+		<Action>Log/LOGMESSAGE: Generating Stone Golem template</Action>
+		<Action>SetList/Template_Stone Golem_Start,Golem|Golem|Kinetic Gust|Kinetic Gust|Merchant|Merchant|Steam Engine|Iron Jaw Trap</Action>
+		<Action>SetList/Template_Stone Golem_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Stone Golem_Growth,Golem|Merchant|Merchant|Steam Engine|Steam Engine|Steam Engine|Smuggler|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Leap|Leap|Leap|Leap|Drake|Sprigat|Spriggat</Action>
+		<Action>SetList/Template_Stone Golem_Ace,Golem|Focus|Focus|Spirit</Action>
+		<Action>Log/LOGMESSAGE: Generating Swordsman template</Action>
 		<Action>SetList/Template_Swordsman_Start,Swordsman|Swordsman|Swordsman|Swordsman|Frost Armor|Awareness|Merchant|Awareness</Action>
 		<Action>SetList/Template_Swordsman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
 		<Action>SetList/Template_Swordsman_Growth,Awareness|Awareness|Merchant|Merchant|Merchant|Cryokineticist|Cryokineticist|Cryokineticist|Shadow Blast|Shadow Blast|Frost Armor|Frost Armor|Bowman|Bowman|Spearman|Spearman|Barudit|Barudit</Action>
