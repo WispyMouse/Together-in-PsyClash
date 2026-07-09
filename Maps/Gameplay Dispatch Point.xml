@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Level mapname="Gameplay Dispatch Point" maptype="Cut Scene: Static" maxplayers="1" musictrack="Dance of the Isles" winAura="0" nextbattle="" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/9/2026 4:57:05 PM">
+
+	<Narration>  -PIC:Card_Tournament_Dese_Alt-  -DIA:Landing-</Narration>
+
+	<Script>Return To Landing
+		<Action>LoadConv/Landing</Action>
+	</Script>
+
+	<Script>Go To Configure Avatar
+		<Action>GoTo/BRANCH[Configure Avatar]</Action>
+	</Script>
+
+	<Script>End Conversation
+		<Action>EndConvImmediately/</Action>
+	</Script>
+
+	<Dialogue trigger="None/" convID="Landing" r="true">
+		<Branch num="0" name="Landing" showSingleReplies="true">LANDING PAGE/This is the Landing page. It is the only safe place to save the game.
+			<Action>CustomCharsToRoster/0,false,false</Action>
+			<Action>RosterToList/Custom Characters,0,true</Action>
+			<Action>SetVal/Custom Characters Count,=:LASTINLIST[Custom Characters]</Action>
+			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,right</Action>
+			<Reply>Save/NamedBranch/Save Game</Reply>
+			<Reply>Configure Avatar/NamedBranch/Configure Avatar Check</Reply>
+			<Reply>Continue/NewScene/Card Shop,10,10,Up</Reply>
+		</Branch>
+		<Branch num="1" name="Save Game">/
+			<Action>Log/LOGMESSAGE: The player should not see this branch, because it should move them back to the landing when ShowSaveMenu completes.</Action>
+			<Action>ShowSaveMenu/Return To Landing,true</Action>
+			<Reply>Continue/NewBranch/0</Reply>
+		</Branch>
+		<Branch num="2" name="Configure Avatar Check" showSingleReplies="true">/The player shouldn't see this.
+			<Action>IfValGoTo/Custom Characters Count,g=,0,Configure Avatar</Action>
+			<Action>GoTo/BRANCH[Select Avatar No Custom Characters]</Action>
+			<Action>EndConvImmediately/</Action>
+			<Reply>Oops/NextScene</Reply>
+		</Branch>
+		<Branch num="3" name="Select Avatar No Custom Characters" showSingleReplies="true">/You have no custom characters in your custom characters list. If you create one, you can set it here as an avatar.
+			<Reply>Okay/NewBranch/0</Reply>
+		</Branch>
+		<Branch num="4" name="Configure Avatar">/What character will you set as your avatar?
+			<Reply>-ShowUnits:Custom Characters-/NamedBranch/Avatar Chosen</Reply>
+		</Branch>
+		<Branch num="5" name="Avatar Chosen" showSingleReplies="true">LANDING PAGE/-STR:Avatar Character- is now your avatar character.
+			<Action>SetString/Avatar Character,-FNAME-</Action>
+			<Action>ClearPortraits/</Action>
+			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,right</Action>
+			<Reply>Great!/Run/Return To Landing</Reply>
+		</Branch>
+	</Dialogue>
+
+</Level>

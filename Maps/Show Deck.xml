@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Show Deck" maptype="Cut Scene: Static" maxplayers="1" musictrack="Getting To Know You" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/6/2026 2:52:55 PM">
+<Level mapname="Show Deck" maptype="Cut Scene: Static" maxplayers="1" musictrack="Getting To Know You" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/8/2026 8:46:33 PM">
 
 	<Narration> -DIA:Introduction-</Narration>
 
-	<Script>Leave Before ShowDeck
-		<Action>NewScene/Card Shop,-VAL:Roam Y-,-VAL:Roam X-,-STR:Roam Facing-</Action>
+	<Script>Show Deck
+		<Action>ShowDeck/-STR:Deck To Show-</Action>
 	</Script>
 
 	<Dialogue trigger="None/" convID="Introduction" r="true">
 		<Branch num="0" name="" showSingleReplies="true">/Look at this deck!
-			<Action>IfValRun/LASTINLIST[-STR:Deck To Show-],=,-1,Leave Before ShowDec</Action>
-			<Action>ShowDeck/-STR:Deck To Show-</Action>
+			<Action>SetVal/Deck To Show Length,=:LASTINLIST[-STR:Deck To Show</Action>
+			<Action>IfValRun/Deck To Show Length,g,-1,Show Deck</Action>
 			<Reply>Continue./NewScene/Card Shop,-VAL:Roam Y-,-VAL:Roam X-,-STR:Roam Facing-</Reply>
 			<Reply>Look Again/NewBranch/0</Reply>
 		</Branch>

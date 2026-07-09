@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/7/2026 3:23:35 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/9/2026 4:04:37 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
 	
-	<Condition>Free Movement,0,Card Player</Condition>
+	<Condition>Free Movement,0,-STR:Avatar Character-</Condition>
 	<Condition>Global Lighting,Overcast</Condition>
 	
 	<Tileset>01,Cave</Tileset>
@@ -137,16 +137,18 @@
 	<Unit>0,99,FruitStand_S,9,11,None,None</Unit>
 	<Unit>0,99,FruitStand_S,9,12,None,None</Unit>
 	<Unit>0,99,LampLitAlt,13,8,None,None</Unit>
-	<Unit>0,0,Card Player/,10,7,Up,None</Unit>
+	<Unit>0,0,Card Player/,10,8,Up,None</Unit>
 
 	<Script>Place People
 		<Action>Log/'Card Players' contains LASTINLIST[Card Players] members, 'Shop Staff' contains LASTINLIST[Shop Staff] members</Action>
 		<Action>SetSeed/-VAL:Random Seed-</Action>
 		<Action>SetList/Shuffled Card Players</Action>
 		<Action>CombineLists/Shuffled Card Players,Card Players</Action>
+		<Action>RemoveFromList/Shuffled Card Players,-STR:Avatar Character-</Action>
 		<Action>ShuffleList/Shuffled Card Players</Action>
 		<Action>SetList/Shuffled Shop Staff</Action>
 		<Action>CombineLists/Shuffled Shop Staff,Shop Staff</Action>
+		<Action>RemoveFromList/Shuffled Shop Staff,-STR:Avatar Character-</Action>
 		<Action>ShuffleList/Shuffled Shop Staff</Action>
 		<Action>SetString/Today Shop Staff,LIST{Shuffled Shop Staff,0}</Action>
 		<Action>SpawnUnit/0,-STR:Today Shop Staff-,2,12,Down,Use:Counter Talk Script</Action>
@@ -168,21 +170,21 @@
 		<Action>ForLoop/-ii-,0-LASTINLIST[Today Card Players],1,Run,Note If Closest,Character Index,-ii-</Action>
 		<Action>Log/LOGMESSAGE: Closest character is -STR:Closest Character-</Action>
 		<Action>SetString/Talking To,-STR:Closest Character-</Action>
-		<Action>ChangeTriggerCharacter/Card Player</Action>
+		<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 		<Action>ChangeSecondaryCharacter/-STR:Talking To-</Action>
-		<Action>FaceUnitToward/Card Player,-STR:Talking To-</Action>
-		<Action>FaceUnitToward/-STR:Talking To-,Card Player</Action>
+		<Action>FaceUnitToward/-STR:Avatar Character-,-STR:Talking To-</Action>
+		<Action>FaceUnitToward/-STR:Talking To-,-STR:Avatar Character-</Action>
 		<Action>LoadConv/Talk to Card Player Conv,Card Player,-STR:Talking To-</Action>
 	</Script>
 
 	<Script>Counter Talk Script
-		<Action>ChangeTriggerCharacter/Card Player</Action>
+		<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 		<Action>SetString/Talking To,-STR:Today Shop Staff-</Action>
 		<Action>ChangeSecondaryCharacter/-STR:Talking To-</Action>
 		<Action>SetVal/Current Aura,=:-AURA-</Action>
 		<Action>Run/Initialize Counter Conv Replies</Action>
-		<Action>FaceUnitToward/Card Player,-STR:Today Shop Staff-</Action>
-		<Action>FaceUnitToward/-STR:Talking To-,Card Player</Action>
+		<Action>FaceUnitToward/-STR:Avatar Character-,-STR:Today Shop Staff-</Action>
+		<Action>FaceUnitToward/-STR:Talking To-,-STR:Avatar Character-</Action>
 		<Action>LoadConv/Counter Talk Conv,Card Player,-STR:Today Shop Staff-</Action>
 	</Script>
 
@@ -206,7 +208,7 @@
 	<Script>Show Deck Script
 		<Action>SetVal/Roam Y,=:-Y-</Action>
 		<Action>SetVal/Roam X,=:-X-</Action>
-		<Action>SetStringByStat/Roam Facing,Card Player,Facing</Action>
+		<Action>SetStringByStat/Roam Facing,-STR:Avatar Character-,Facing</Action>
 		<Action>SetString/Deck To Show,-STR:Deck To Show-</Action>
 		<Action>Log/LOGMESSAGE: Showing -STR:Deck To Show- with -VAL:Roam Y- -VAL:Roam X- -STR:Roam Facing-</Action>
 		<Action>NewScene/Show Deck</Action>
@@ -218,7 +220,7 @@
 	</Script>
 
 	<Script>Get Card Player Conv For Familiarity
-		<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity Card Player</Action>
+		<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity -STR:Avatar Character-</Action>
 		<Action>IfValRun/Familiarity,=,0,Set Conv Target,Card Player Conv Target,First Time Meeting</Action>
 		<Action>IfValRun/Familiarity,g,0,Set Conv Target,Card Player Conv Target,Already Familiar</Action>
 	</Script>
@@ -256,24 +258,23 @@
 
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
+			<Action>RemoveUnit/Card Player,false</Action>
+			<Action>SpawnUnit/0,-STR:Avatar Character-,10,6,Up</Action>
 			<Action>SetSeed/-VAL:Random Seed-</Action>
 			<Action>SetString/Buy Booster Pack String,Pay &lt;sprite name="Aura"&gt;5 Aura to buy a &lt;sprite name="Items"&gt;Booster Pack</Action>
 			<Action>Run/Place People</Action>
-			<Action>ShowCalendarButton/</Action>
-			<Action>ShowInfoBar/</Action>
-			<Action>ShowDeckButton/</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Talk to Card Player Conv" r="true">
 		<Branch num="0" name="Start Point" showSingleReplies="true">/The player shouldn't see this dialogue
-			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>PlayAnim/-FNAME2-,Rest</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>AddPortrait/-FNAME2-,-FNAME2-,left</Action>
 			<Action>AssignSpeaker/-FNAME2-</Action>
-			<Action>AddPortrait/Card Player,Card Player,right</Action>
+			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,right</Action>
 			<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity Card Player</Action>
 			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-VAL:Familiarity-</Action>
 			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>
@@ -306,15 +307,15 @@
 			<Reply>Continue./NewBranch/0</Reply>
 		</Branch>
 		<Branch num="5" name="First Time Meeting">-FNAME2-/Oh hello, I'm meeting you for the first time now. [&lt;sprite name="Regenerating"&gt;-FNAME2- Friendship +]
-			<Action>SetStat/-FNAME2-,Familiarity Card Player,+:1</Action>
-			<Action>SetStat/Card Player,Familiarity -FNAME2-,+:1</Action>
+			<Action>SetStat/-FNAME2-,Familiarity -STR:Avatar Character-,+:1</Action>
+			<Action>SetStat/-STR:Avatar Character-,Familiarity -FNAME2-,+:1</Action>
 			<Action>SpawnFloatingText/+ Familiarity,-FNAME2-,white</Action>
-			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
-			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
+			<Action>FaceUnitToward/-FNAME2-,-STR:Avatar Character-</Action>
+			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
 		</Branch>
 		<Branch num="6" name="Already Familiar">-FNAME2-/Oh! I recognize you! How's it going?
-			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
-			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
+			<Action>FaceUnitToward/-FNAME2-,-STR:Avatar Character-</Action>
+			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
 		</Branch>
 	</Dialogue>
 
@@ -322,8 +323,8 @@
 		<Branch num="0" name="Set Aura">/The player shouldn't see this dialogue
 			<Action>SetVal/Current Aura,=:-AURA-</Action>
 			<Action>PlayAnim/-FNAME2-,Rest</Action>
-			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
-			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
+			<Action>FaceUnitToward/-FNAME2-,-STR:Avatar Character-</Action>
+			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
 			<Action>GoToNextBranch/</Action>
 			<Reply>Oops/NextBranch</Reply>
 		</Branch>
@@ -331,16 +332,16 @@
 			<Action>ClearPortraits/</Action>
 			<Action>Log/LOGMESSAGE: We have '-AURA-', which is recorded as '-VAL:Aura-'</Action>
 			<Action>Run/Initialize Counter Conv Replies</Action>
-			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
-			<Action>AddPortrait/Card Player,Card Player,left</Action>
+			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-,right</Action>
 			<Action>GoToNextBranch/</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="2" name="Introduction" showSingleReplies="true">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
-			<Action>FaceUnitToward/-FNAME2-,Card Player</Action>
-			<Action>FaceUnitToward/Card Player,-FNAME2-</Action>
+			<Action>FaceUnitToward/-FNAME2-,-STR:Avatar Character-</Action>
+			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
 		<Branch num="3" name="Open Pack">/[You opened &lt;sprite name="Book"&gt;-STR:Gained Cards String-]
@@ -355,10 +356,10 @@
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Win" r="true">
 		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit]
-			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>AssignSpeaker/-STR:Person-</Action>
-			<Action>AddPortrait/Card Player,Card Player,left</Action>
+			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
 			<Action>SetAura/+:10,true,true</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
@@ -372,8 +373,8 @@
 	<Dialogue trigger="None/" convID="Psy Clash Game Lose" r="true">
 		<Branch num="0" name="">-STR:Person-/Ahah, looks like I won this one. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit]
 			<Action>AddPortrait/-STR:Person-,-STR:Person,right</Action>
-			<Action>AddPortrait/Card Player,Card Player,left</Action>
-			<Action>ChangeTriggerCharacter/Card Player</Action>
+			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
+			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
 			<Action>PlaySound/WhistleDown</Action>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/8/2026 3:33:58 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/9/2026 4:44:40 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -22,14 +22,12 @@
 	<Script>Generate Person
 		<Action>Log/LOGMESSAGE: Recruting new cast member to list '-STR:Cast List Name-'</Action>
 		<Action>Run/Pick Random Class and Race</Action>
-		<Action>GenerateUnique/0,-STR:Selected Class-,1,RANDOM,-STR:Selected Race-,,-1,-1,Down,,,,false,0,-1</Action>
-		<Action>Recruit/-STR:_GeneratedUnit-,0</Action>
+		<Action>GenerateUnique/1,-STR:Selected Class-,1,RANDOM,-STR:Selected Race-,,-1,-1,Down,,,,false,0,-1</Action>
+		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
 		<Action>Log/-STR:_GeneratedUnit- recruited</Action>
 		<Action>Run/Generate Person Deck,Person,-STR:_GeneratedUnit-</Action>
 		<Action>AddToList/-STR:Cast List Name-,-STR:_GeneratedUnit-</Action>
 		<Action>Recruit/-STR:_GeneratedUnit-,1</Action>
-		<Action>SetStat/-STR:_GeneratedUnit-,Familiarity Card Player,=:0</Action>
-		<Action>SetStat/Card Player,Familiarity -STR:_GeneratedUnit-,=:0</Action>
 		<Action>SaveChar/-STR:_GeneratedUnit-</Action>
 	</Script>
 
@@ -144,9 +142,9 @@ Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
 		<Action>SetList/Template_Bowman_Growth,Frost Armor|Frost Armor|Fury|Fury|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Awareness|Awareness|Gasul|Merchant|Merchant|Merchant</Action>
 		<Action>SetList/Template_Bowman_Ace,Mind Control|Mind Control|Mind Control|Mind Control</Action>
 		<Action>Log/LOGMESSAGE: Generating Bronze Golem template</Action>
-		<Action>Template_Bronze Golem_Start,Golem|Golem|Steam Engine|Steam Engine|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Template_Bronze Golem_Start,Golem|Golem|Steam Engine|Steam Engine|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap</Action>
 		<Action>SetList/Template_Bronze Golem_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Swordsman_Growth,Template_Bronze Golem_Growth,Steam Engine|Steam Engine|Awareness|Awareness|Awareness|Merchant|Merchant|Leap|Leap|Leap|Leap|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
+		<Action>SetList/Template_Bronze Golem_Growth,Template_Bronze Golem_Growth,Steam Engine|Steam Engine|Awareness|Awareness|Awareness|Merchant|Merchant|Leap|Leap|Leap|Leap|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
 		<Action>SetList/Template_Bronze Golem_Ace,Golem|Golem|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Cavalier template</Action>
 		<Action>SetList/Template_Cavalier_Start,Mantis Rider|Mantis Rider|Mantis Rider|Mantis Rider|Merchant|Fury|Awareness|Awareness</Action>
