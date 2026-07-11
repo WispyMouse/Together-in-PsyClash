@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Gameplay Dispatch Point" maptype="Cut Scene: Static" maxplayers="1" musictrack="Dance of the Isles" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/10/2026 3:24:49 AM">
+<Level mapname="Gameplay Dispatch Point" maptype="Cut Scene: Static" maxplayers="1" musictrack="Dance of the Isles" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/10/2026 4:27:11 PM">
 
 	<Narration>  -PIC:Card_Tournament_Dese_Alt-  -DIA:Landing-</Narration>
 
@@ -18,6 +18,7 @@
 	<Dialogue trigger="None/" convID="Landing" r="true">
 		<Branch num="0" name="Landing" showSingleReplies="true">LANDING PAGE/This is the Landing page. It is the only safe place to save the game.
 			<Action>CustomCharsToRoster/0,false,false</Action>
+			<Action>Run/Generate Booster Data</Action>
 			<Action>RosterToList/Custom Characters,0,true</Action>
 			<Action>SetVal/Custom Characters Count,=:LASTINLIST[Custom Characters]</Action>
 			<Action>ClearPortraits/</Action>

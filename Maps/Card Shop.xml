@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/10/2026 1:25:01 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/10/2026 5:27:21 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -255,19 +255,20 @@
 		<Action>SetString/Card Player Conv Target,-STR:Card Player Conv Target-</Action>
 	</Script>
 
-	<Script>Add Buy Booster Pack Reply
-		<Action>Log/LOGMESSAGE: Adding the open pack conversation to the card shop</Action>
-		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,-STR:Buy Booster Pack String-|NamedBranch|Open Pack</Action>
-	</Script>
-
 	<Script>Initialize Counter Conv Replies
 		<Action>SetString/Conversation Name,Counter Talk Conv</Action>
 		<Action>SetString/Conversation Target,Introduction</Action>
 		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
+		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,End Conversation|EndConv|</Action>
-		<Action>IfValRun/Current Aura,g=,5,Add Buy Booster Pack Reply</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Variety Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Variety Pack with -VAL:Variety Pack Count- Cards|NamedBranch|Open Variety Pack</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Unit Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Unit Pack with  -VAL:Unit Pack Count- Cards|NamedBranch|Open Unit Pack</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Technique Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Technique Pack with  -VAL:Variety Pack Count- Cards|NamedBranch|Open Technique Pack</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Engineer Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Engineer Pack with  -VAL:Engineer Pack Count- Cards|NamedBranch|Open Engineer Pack</Action>
 	</Script>
 
 	<Script>Set Current Challenger
@@ -293,12 +294,16 @@
 		<Action>Log/LOGMESSAGE: Upgrading '-STR:Current Challenger-' because they are the current challenger</Action>
 	</Script>
 
+	<Script>Insufficient Aura
+		<Action>GoTo/BRANCH[Insufficient Aura]</Action>
+	</Script>
+
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
 			<Action>RemoveUnit/Card Player,false</Action>
 			<Action>SpawnUnit/0,-STR:Avatar Character-,10,6,Up</Action>
 			<Action>SetSeed/-VAL:Random Seed-</Action>
-			<Action>SetString/Buy Booster Pack String,Pay &lt;sprite name="Aura"&gt;5 Aura to buy a &lt;sprite name="Items"&gt;Booster Pack</Action>
+			<Action>ShowInfoBar/</Action>
 			<Action>Run/Place People</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
@@ -373,21 +378,55 @@
 			<Action>ChangeSecondaryCharacter/-STR:Today Shop Staff-</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>AddPortrait/-STR:Today Shop Staff-,-STR:Today Shop Staff-,right</Action>
+			<Action>ChangeExpression/-STR:Today Shop Staff-,Happy</Action>
 			<Action>GoToNextBranch/</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
-		<Branch num="2" name="Introduction" showSingleReplies="true">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you? &lt;sprite name="Aura"&gt;5 Aura for a &lt;sprite name="Items"&gt;Booster Pack. It has three random cards in it.
+		<Branch num="2" name="Introduction" showSingleReplies="true">-STR:Today Shop Staff-/Hello! Welcome to unnameds'! What can we do for you?-NL-[View the pause menu's Glossary to see which packs cards are in]
 			<Action>FaceUnitToward/-FNAME2-,-STR:Avatar Character-</Action>
 			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
-		<Branch num="3" name="Open Pack">/[You opened &lt;sprite name="Book"&gt;-STR:Gained Cards String-]
-			<Action>Run/Gain Cards,Count,3</Action>
+		<Branch num="3" name="Open Variety Pack">/The player shouldn't see this
+			<Action>SetVal/Price Point,=:-VAL:Variety Pack Cost-</Action>
+			<Action>SetVal/Count,=:-VAL:Variety Pack Count-</Action>
+			<Action>SetString/Pack,Variety Pack</Action>
+			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
+			<Reply>Oops/EndConv</Reply>
+		</Branch>
+		<Branch num="4" name="Open Unit Pack">/The player shouldn't see this
+			<Action>SetVal/Price Point,=:-VAL:Unit Pack Cost-</Action>
+			<Action>SetVal/Count,=:-VAL:Unit Pack Count-</Action>
+			<Action>SetString/Pack,Unit Pack</Action>
+			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
+			<Reply>Oops/EndConv</Reply>
+		</Branch>
+		<Branch num="5" name="Open Technique Pack">/The player shouldn't see this
+			<Action>SetVal/Price Point,=:-VAL:Technique Pack Cost-</Action>
+			<Action>SetVal/Count,=:-VAL:Technique Booster Count-</Action>
+			<Action>SetString/Pack,Technique Pack</Action>
+			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
+			<Reply>Oops/EndConv</Reply>
+		</Branch>
+		<Branch num="6" name="Open Engineer Pack">/The player shouldn't see this
+			<Action>SetVal/Price Point,=:-VAL:Engineer Pack Cost-</Action>
+			<Action>SetVal/Count,=:-VAL:Engineer Pack Count-</Action>
+			<Action>SetString/Pack,Engineer Pack</Action>
+			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
+			<Reply>Oops/EndConv</Reply>
+		</Branch>
+		<Branch num="7" name="Insufficient Aura">-STR:Today Shop Staff-/Seems that you're short on Aura for that. You need &lt;sprite name="Aura"&gt;-VAL:Price Point-, you have &lt;sprite name="Aura"&gt;-VAL:Current Aura-.
+			<Action>ChangeExpression/-STR:Today Shop Staff-,Sad</Action>
+			<Reply>I'll have to get more &lt;sprite name="Aura"&gt;Aura first/NewBranch/0</Reply>
+		</Branch>
+		<Branch num="8" name="Open Booster Pack">/[You spent &lt;sprite name="Aura"&gt;-VAL:Price Point- Aura and opened &lt;sprite name="Book"&gt;-STR:Gained Cards String-]
+			<Action>IfValRun/Current Aura,l,-VAL:Price Point-,Insufficient Aura</Action>
+			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-STR:Pack-</Action>
 			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
-			<Action>SetVal/Current Aura,-:5</Action>
-			<Action>SetAura/-:5,true,true</Action>
+			<Action>SetVal/Current Aura,-:-VAL:Price Point-</Action>
+			<Action>SetAura/-:-VAL:Price Point-,true,true</Action>
 			<Action>Run/Initialize Counter Conv Replies</Action>
-			<Reply>Nice!/Run/Counter Talk Script</Reply>
+			<Reply>Great!/NewBranch/0</Reply>
 		</Branch>
 	</Dialogue>
 
@@ -436,10 +475,11 @@
 		<Branch num="0" name="Start Point" showSingleReplies="true">/The player shouldn't see this dialogue
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>PlayAnim/-FNAME2-,Rest</Action>
-			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
+			<Action>ChangeSecondaryCharacter/-STR:Current Challenger-</Action>
 			<Action>AddPortrait/-FNAME2-,-FNAME2-,left</Action>
 			<Action>AssignSpeaker/-FNAME2-</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,right</Action>
+			<Action>IfValGoTo/Current Challenger Status,=:2,BRANCH[Victory Already]</Action>
 			<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity Card Player</Action>
 			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-VAL:Familiarity-</Action>
 			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>
@@ -481,6 +521,9 @@
 		<Branch num="6" name="Already Familiar">-FNAME2-/Oh! I recognize you! How's it going? I'm the current challenger to beat.
 			<Action>FaceUnitToward/-FNAME2-,-STR:Avatar Character-</Action>
 			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
+		</Branch>
+		<Branch num="7" name="Victory Already">-FNAME2-/Hello -FNAME-! You have already defeated me today. Tomorrow, perhaps a new challenger will be selected? You can pass time using the lamp post outside.
+			<Reply>Okay/EndConv</Reply>
 		</Branch>
 	</Dialogue>
 
