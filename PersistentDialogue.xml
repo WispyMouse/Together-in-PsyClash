@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/12/2026 2:59:42 AM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/12/2026 3:06:20 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -101,8 +101,8 @@
 	<Script>Commit Upgrade
 		<Action>SetValByVal/Upgrade Index,=,-STR:Person- Upgrade Index</Action>
 		<Action>SetString/Replacing Card,LIST{-STR:Person- Upgrade Replace With,-VAL:Upgrade Index-}</Action>
-		<Action>SetString/Replaced Card,LIST{-STR:Person- Deck,-VAL:Upgrade Index-}</Action>
-		<Action>SetListEntry/-STR:Person- Deck,-VAL:Upgrade Index-,-STR:Replacing Card-</Action>
+		<Action>SetString/Replaced Card,LIST{-STR:Person-Deck,-VAL:Upgrade Index-}</Action>
+		<Action>SetListEntry/-STR:Person-Deck,-VAL:Upgrade Index-,-STR:Replacing Card-</Action>
 		<Action>SetVal/-STR:Person- Upgrade Index,+:1</Action>
 		<Action>Log/LOGMESSAGE: At index -VAL:Upgrade Index-, replacing '-STR:Replaced Card-' with '-STR:Replacing Card-' for -STR:Person-'</Action>
 		<Action>SetVal/Upgrade Worked,=:1</Action>
@@ -270,9 +270,102 @@
 		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
 		<Action>SetVal/Technique Pack Cost,=:7</Action>
 		<Action>SetVal/Technique Pack Count,=:3</Action>
-		<Action>SetList/Engineer Pack,Bakery|Crossbowman|Golem|Iron Jaw Trap|Library|Merchant|Steam Engine</Action>
-		<Action>SetVal/Engineer Pack Cost,=:6</Action>
+		<Action>SetList/Assassin Pack</Action>
+		<Action>CombineLists/Assassin Pack,Template_Assassin_Growth|Template_Assassin_Start</Action>
+		<Action>SetVal/Assassin Pack Count,=:2</Action>
+		<Action>SetVal/Assassin Pack Cost,=:6</Action>
+		<Action>SetList/Axefighter Pack</Action>
+		<Action>CombineLists/Axefighter Pack,Template_Axefighter_Growth|Template_Axefighter_Start</Action>
+		<Action>SetVal/Axefighter Pack Count,=:3</Action>
+		<Action>SetVal/Axefighter Pack Cost,=:5</Action>
+		<Action>SetList/Barudit Pack</Action>
+		<Action>CombineLists/Barudit Pack,Template_Barudit_Growth|Template_Barudit_Start</Action>
+		<Action>SetVal/Barudit Pack Count,=:2</Action>
+		<Action>SetVal/Barudit Pack Cost,=:6</Action>
+		<Action>SetList/Bowman Pack</Action>
+		<Action>CombineLists/Bowman Pack,Template_Bowman_Growth|Template_Bowman_Start</Action>
+		<Action>SetVal/Bowman Pack Count,=:2</Action>
+		<Action>SetVal/Bowman Pack Cost,=:6</Action>
+		<Action>SetList/Bronze Golem Pack</Action>
+		<Action>CombineLists/Bronze Golem Pack,Template_Bronze Golem_Growth|Template_Bronze Golem_Start</Action>
+		<Action>SetVal/Bronze Golem Pack Count,=:2</Action>
+		<Action>SetVal/Bronze Golem Pack Cost,=:8</Action>
+		<Action>SetList/Cavalier Pack</Action>
+		<Action>CombineLists/Cavalier Pack,Template_Cavalier_Growth|Template_Cavalier_Start</Action>
+		<Action>SetVal/Cavalier Pack Count,=:2</Action>
+		<Action>SetVal/Cavalier Pack Cost,=:6</Action>
+		<Action>SetList/Crossbowman Pack</Action>
+		<Action>CombineLists/Crossbowman Pack,Template_Crossbowman_Growth|Template_Crossbowman_Start</Action>
+		<Action>SetVal/Crossbowman Pack Count,=:2</Action>
+		<Action>SetVal/Crossbowman Pack Cost,=:7</Action>
+		<Action>SetList/Cryokineticist Pack</Action>
+		<Action>CombineLists/Cryokineticist Pack,Template_Cryokineticist_Growth|Template_Cryokineticist_Start</Action>
+		<Action>SetVal/Cryokineticist Pack Count,=:2</Action>
+		<Action>SetVal/Cryokineticist Pack Cost,=:6</Action>
+		<Action>SetList/Dark Spriggat Pack</Action>
+		<Action>CombineLists/Dark Spriggat Pack,Template_Dark Spriggat_Growth|Template_Dark Spriggat_Start</Action>
+		<Action>SetVal/Dark Spriggat Pack Count,=:2</Action>
+		<Action>SetVal/Dark Spriggat Pack Cost,=:8</Action>
+		<Action>SetList/Engineer Pack</Action>
+		<Action>CombineLists/Engineer Pack,Template_Engineer_Growth|Template_Engineer_Start</Action>
 		<Action>SetVal/Engineer Pack Count,=:2</Action>
+		<Action>SetVal/Engineer Pack Cost,=:6</Action>
+		<Action>SetList/Frost Spriggat Pack</Action>
+		<Action>CombineLists/Frost Spriggat Pack,Template_Frost Spriggat_Growth|Template_Frost Spriggat_Start</Action>
+		<Action>SetVal/Frost Spriggat Pack Count,=:2</Action>
+		<Action>SetVal/Frost Spriggat Pack Cost,=:8</Action>
+		<Action>SetList/Gasul Pack</Action>
+		<Action>CombineLists/Gasul Pack,Template_Gasul_Growth|Template_Gasul_Start</Action>
+		<Action>SetVal/Gasul Pack Count,=:2</Action>
+		<Action>SetVal/Gasul Pack Cost,=:5</Action>
+		<Action>SetList/Golden Spriggat Pack</Action>
+		<Action>CombineLists/Golden Spriggat Pack,Template_Golden Spriggat_Growth|Template_Golden Spriggat_Start</Action>
+		<Action>SetVal/Golden Spriggat Pack Count,=:2</Action>
+		<Action>SetVal/Golden Spriggat Pack Cost,=:8</Action>
+		<Action>SetList/Kineticist Pack</Action>
+		<Action>CombineLists/Kineticist Pack,Template_Kineticist_Growth|Template_Kineticist_Start</Action>
+		<Action>SetVal/Kineticist Pack Count,=:2</Action>
+		<Action>SetVal/Kineticist Pack Cost,=:6</Action>
+		<Action>SetList/Mentalist Pack</Action>
+		<Action>CombineLists/Mentalist Pack,Template_Mentalist_Growth|Template_Mentalist_Start</Action>
+		<Action>SetVal/Mentalist Pack Count,=:2</Action>
+		<Action>SetVal/Mentalist Pack Cost,=:6</Action>
+		<Action>SetList/Photokineticist Pack</Action>
+		<Action>CombineLists/Photokineticist Pack,Template_Photokineticist_Growth|Template_Photokineticist_Start</Action>
+		<Action>SetVal/Photokineticist Pack Count,=:2</Action>
+		<Action>SetVal/Photokineticist Pack Cost,=:6</Action>
+		<Action>SetList/Psy Healer Pack</Action>
+		<Action>CombineLists/Psy Healer Pack,Template_Psy Healer_Growth|Template_Psy Healer_Start</Action>
+		<Action>SetVal/Psy Healer Pack Count,=:2</Action>
+		<Action>SetVal/Psy Healer Pack Cost,=:6</Action>
+		<Action>SetList/Pyrokineticist Pack</Action>
+		<Action>CombineLists/Pyrokineticist Pack,Template_Pyrokineticist_Growth|Template_Pyrokineticist_Start</Action>
+		<Action>SetVal/Pyrokineticist Pack Count,=:2</Action>
+		<Action>SetVal/Pyrokineticist Pack Cost,=:6</Action>
+		<Action>SetList/Pyrokineticist Pack</Action>
+		<Action>CombineLists/Red Spriggat Pack,Template_Red Spriggat_Growth|Template_Red Spriggat_Start</Action>
+		<Action>SetVal/Red Spriggat Pack Count,=:2</Action>
+		<Action>SetVal/Red Spriggat Pack Cost,=:8</Action>
+		<Action>SetList/Skiakineticist Pack</Action>
+		<Action>CombineLists/Skiakineticist Pack,Template_Skiakineticist_Growth|Template_Skiakineticist_Start</Action>
+		<Action>SetVal/Skiakineticist Pack Count,=:2</Action>
+		<Action>SetVal/Skiakineticist Pack Cost,=:6</Action>
+		<Action>SetList/Spearman Pack</Action>
+		<Action>CombineLists/Spearman Pack,Template_Spearman_Growth|Template_Spearman_Start</Action>
+		<Action>SetVal/Spearman Pack Count,=:2</Action>
+		<Action>SetVal/Spearman Pack Cost,=:6</Action>
+		<Action>SetList/Spirit Pack</Action>
+		<Action>CombineLists/Spirit Pack,Template_Spirit_Growth|Template_Spirit_Start</Action>
+		<Action>SetVal/Spirit Pack Count,=:2</Action>
+		<Action>SetVal/Spirit Pack Cost,=:9</Action>
+		<Action>SetList/Stone Golem Pack</Action>
+		<Action>CombineLists/Stone Golem Pack,Template_Stone Golem_Growth|Template_Stone Golem_Start</Action>
+		<Action>SetVal/Stone Golem Pack Count,=:2</Action>
+		<Action>SetVal/Stone Golem Pack Cost,=:9</Action>
+		<Action>SetList/Swordsman Pack</Action>
+		<Action>CombineLists/Swordsman Pack,Template_Swordsman_Growth|Template_Swordsman_Start</Action>
+		<Action>SetVal/Swordsman Pack Count,=:3</Action>
+		<Action>SetVal/Swordsman Pack Cost,=:5</Action>
 	</Script>
 
 	<Script>Open Booster Pack

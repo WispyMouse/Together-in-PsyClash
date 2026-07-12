@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/12/2026 2:53:45 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/12/2026 3:22:15 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -204,8 +204,8 @@
 
 	<Script>Note If Closest
 		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{Today Card Players,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-. Previous closest is -VAL:Closest Distance-</Action>
-		<Action>GetDistToSpace/LIST{Today Card Players,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
 		<Action>IfValRun/_Dist,l,-VAL:Closest Distance-,Set Current Character as Closest</Action>
+		<Action>GetDistToSpace/LIST{Today Card Players,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
 	</Script>
 
 	<Script>Set Current Character as Closest
@@ -267,10 +267,7 @@
 		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>RemoveReply/-STR:Conversation Name-,-STR:Conversation Target-,0</Action>
 		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,End Conversation|EndConv|</Action>
-		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Variety Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Variety Pack with -VAL:Variety Pack Count- Cards|NamedBranch|Open Variety Pack</Action>
-		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Unit Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Unit Pack with  -VAL:Unit Pack Count- Cards|NamedBranch|Open Unit Pack</Action>
-		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Technique Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Technique Pack with  -VAL:Variety Pack Count- Cards|NamedBranch|Open Technique Pack</Action>
-		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Engineer Pack Cost- Aura: Purchase &lt;sprite name="Book"&gt;Engineer Pack with  -VAL:Engineer Pack Count- Cards|NamedBranch|Open Engineer Pack</Action>
+		<Action>ForLoop/-PACKINDEX-,0-LASTINLIST[Today Packs],1,Run,Add Buy Pack Reply,Pack,LIST{Today Packs,-PACKINDEX-}</Action>
 	</Script>
 
 	<Script>Set Current Challenger
@@ -300,6 +297,23 @@
 		<Action>GoTo/BRANCH[Insufficient Aura]</Action>
 	</Script>
 
+	<Script>Set Pack Script
+		<Action>SetString/Pack,-STR:Pack-</Action>
+		<Action>SetVal/Price Point,=:-VAL:Price Point-</Action>
+		<Action>SetVal/Count,=:-VAL:Count-</Action>
+		<Action>GoTo/BRANCH[Open Booster Pack]</Action>
+	</Script>
+
+	<Script>Set Today Packs
+		<Action>SetList/Today Packs,Variety Pack|Unit Pack|Technique Pack|PICK{Assassin Pack|Axefighter Pack|Barudit Pack|Bowman Pack|Bronze Golem Pack|Cavalier Pack|Crossbowman Pack|Cryokineticist Pack|Dark Spriggat Pack|Engineer Pack|Frost Spriggat Pack|Gasul Pack|Golden Spriggat Pack|Kineticist Pack|Menalist Pack|Photokineticist Pack|Red Sprigat Pack|Skiakineticist Pack|Spearman Pack|Spirit Pack|Stone Golem Pack|Swordsman Pack}</Action>
+	</Script>
+
+	<Script>Add Buy Pack Reply
+		<Action>SetValByVal/Pack Price Point,=,-STR:Pack- Cost</Action>
+		<Action>SetValByVal/Pack Count,=,-STR:Pack- Count</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Pack Price Point- Aura: Purchase &lt;sprite name="Book"&gt;-STR:Pack- with -VAL:Pack Count- Cards|Run|Set Pack Script;;Pack;;-STR:Pack-;;Count;;-VAL:Pack Count-;;Price Point;;-VAL:Pack Price Point-</Action>
+	</Script>
+
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">
 		<Branch num="0" name="">/Players should not see this
 			<Action>RemoveUnit/Card Player,false</Action>
@@ -307,6 +321,7 @@
 			<Action>SetSeed/-VAL:Random Seed-</Action>
 			<Action>ShowInfoBar/</Action>
 			<Action>Run/Place People</Action>
+			<Action>Run/Set Today Packs</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
 	</Dialogue>
@@ -384,34 +399,6 @@
 			<Action>FaceUnitToward/-STR:Avatar Character-,-FNAME2-</Action>
 			<Reply>Oops/EndConv</Reply>
 		</Branch>
-		<Branch num="3" name="Open Variety Pack">/The player shouldn't see this
-			<Action>SetVal/Price Point,=:-VAL:Variety Pack Cost-</Action>
-			<Action>SetVal/Count,=:-VAL:Variety Pack Count-</Action>
-			<Action>SetString/Pack,Variety Pack</Action>
-			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
-			<Reply>Oops/EndConv</Reply>
-		</Branch>
-		<Branch num="4" name="Open Unit Pack">/The player shouldn't see this
-			<Action>SetVal/Price Point,=:-VAL:Unit Pack Cost-</Action>
-			<Action>SetVal/Count,=:-VAL:Unit Pack Count-</Action>
-			<Action>SetString/Pack,Unit Pack</Action>
-			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
-			<Reply>Oops/EndConv</Reply>
-		</Branch>
-		<Branch num="5" name="Open Technique Pack">/The player shouldn't see this
-			<Action>SetVal/Price Point,=:-VAL:Technique Pack Cost-</Action>
-			<Action>SetVal/Count,=:-VAL:Technique Booster Count-</Action>
-			<Action>SetString/Pack,Technique Pack</Action>
-			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
-			<Reply>Oops/EndConv</Reply>
-		</Branch>
-		<Branch num="6" name="Open Engineer Pack">/The player shouldn't see this
-			<Action>SetVal/Price Point,=:-VAL:Engineer Pack Cost-</Action>
-			<Action>SetVal/Count,=:-VAL:Engineer Pack Count-</Action>
-			<Action>SetString/Pack,Engineer Pack</Action>
-			<Action>GoTo/BRANCH[Open Booster Pack]</Action>
-			<Reply>Oops/EndConv</Reply>
-		</Branch>
 		<Branch num="7" name="Insufficient Aura">-STR:Today Shop Staff-/Seems that you're short on Aura for that. You need &lt;sprite name="Aura"&gt;-VAL:Price Point-, you have &lt;sprite name="Aura"&gt;-VAL:Current Aura-.
 			<Action>ChangeExpression/-STR:Today Shop Staff-,Sad</Action>
 			<Reply>I'll have to get more &lt;sprite name="Aura"&gt;Aura first/NewBranch/0</Reply>
@@ -428,14 +415,17 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Win" r="true">
-		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit]
+		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit and a -STR:Pack- booster, containing  &lt;sprite name="Book"&gt;-STR:Gained Cards String-!]
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>AssignSpeaker/-STR:Person-</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
-			<Action>SetAura/+:10,true,true</Action>
+			<Action>SetAura/+:6,true,true</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
+			<Action>SetValByVal/Count,=,-CHAR2CLASS- Pack Count</Action>
+			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2CLASS- Pack</Action>
+			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
 			<Action>PlaySound/Firework</Action>
 			<Action>Wait/1</Action>
 			<Action>PlaySound/FireworkAlt</Action>
@@ -444,14 +434,14 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Lose" r="true">
-		<Branch num="0" name="">-STR:Person-/Ahah, looks like I won this one. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit]
+		<Branch num="0" name="">-STR:Person-/Ahah, looks like I won this one. [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit]
 			<Action>AddPortrait/-STR:Person-,-STR:Person,right</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
 			<Action>PlaySound/WhistleDown</Action>
-			<Action>SetAura/+:10,true,true</Action>
+			<Action>SetAura/+:6,true,true</Action>
 			<Reply>Continue./NextBranch</Reply>
 		</Branch>
 	</Dialogue>
@@ -521,7 +511,7 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Challenger Game Win" r="true">
-		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;10 Aura in Store Credit] I'm the challenger for this week, and now that you've won, everyone's decks gets better. Go rest at the lamp post outside and come back tomorrow for a new challenger.
+		<Branch num="0" name="">-STR:Person-/Good game, you win.  [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit and a -STR:Pack- booster, containing  &lt;sprite name="Book"&gt;-STR:Gained Cards String-!]-NL-I'm the challenger for this week, and now that you've won, everyone's decks gets better. Go rest at the lamp post outside and come back tomorrow for a new challenger.
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>SetVal/Current Challenger Status,=:2</Action>
@@ -529,6 +519,9 @@
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
 			<Action>SetAura/+:10,true,true</Action>
+			<Action>SetValByVal/Count,=,-CHAR2CLASS- Pack Count</Action>
+			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2CLASS- Pack</Action>
+			<Action>ListToString/Count,=,-CHAR2CLASS- Pack Count</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
 			<Action>PlaySound/Firework</Action>
 			<Action>Wait/1</Action>
