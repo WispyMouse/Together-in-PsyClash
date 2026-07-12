@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Gameplay Dispatch Point" maptype="Cut Scene: Static" maxplayers="1" musictrack="Dance of the Isles" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/11/2026 2:36:00 AM">
+<Level mapname="Gameplay Dispatch Point" maptype="Cut Scene: Static" maxplayers="1" musictrack="Dance of the Isles" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="true" campaign="Together in PsyClash" lastEdited="7/12/2026 2:33:03 AM">
 
 	<Narration>  -PIC:Card_Tournament_Dese_Alt-  -DIA:Landing-</Narration>
 
@@ -26,7 +26,7 @@
 			<Action>ClearQueue/</Action>
 			<Reply>Save/NamedBranch/Save Game</Reply>
 			<Reply>Configure Avatar/NamedBranch/Configure Avatar Check</Reply>
-			<Reply>Continue/NewScene/Transition To Card Shop</Reply>
+			<Reply>Continue/NewScene/Card Shop</Reply>
 		</Branch>
 		<Branch num="1" name="Save Game">/
 			<Action>Log/LOGMESSAGE: The player should not see this branch, because it should move them back to the landing when ShowSaveMenu completes.</Action>

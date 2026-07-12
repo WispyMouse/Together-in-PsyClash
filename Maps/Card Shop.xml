@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/12/2026 12:12:17 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/12/2026 2:53:45 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -216,6 +216,9 @@
 	</Script>
 
 	<Script>Prompt Next Day Script
+		<Action>SetVal/Raom Y,=:-Y-</Action>
+		<Action>SetVal/Raom X,=:-X-</Action>
+		<Action>SetStringByStat/Roam Facing,-STR:Avatar Character-,Facing</Action>
 		<Action>LoadConv/Prompt Next Day Conv</Action>
 	</Script>
 
@@ -459,6 +462,7 @@
 			<Reply>No/EndConv</Reply>
 		</Branch>
 		<Branch num="1" name="End Day">/The player shouldn't see this
+			<Action>IfValRun/Current Challenger Status,=,2,Commit Post Challenger Update</Action>
 			<Action>NewScene/Next Day</Action>
 			<Action>EndConvImmediately/</Action>
 			<Reply>Oops/NextBranch</Reply>
@@ -470,10 +474,11 @@
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>PlayAnim/-FNAME2-,Rest</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Current Challenger-</Action>
+			<Action>SetString/Person,-FNAME2-</Action>
 			<Action>AddPortrait/-FNAME2-,-FNAME2-,left</Action>
 			<Action>AssignSpeaker/-FNAME2-</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,right</Action>
-			<Action>IfValGoTo/Current Challenger Status,=:2,BRANCH[Victory Already]</Action>
+			<Action>IfValGoTo/Current Challenger Status,=,2,BRANCH[Victory Already]</Action>
 			<Action>SetValByStat/Familiarity,=,-FNAME2-,Familiarity Card Player</Action>
 			<Action>Run/Get Card Player Conv For Familiarity,Familiarity,-VAL:Familiarity-</Action>
 			<Action>Run/Set Conv Replies,Branch,-STR:Card Player Conv Target-</Action>

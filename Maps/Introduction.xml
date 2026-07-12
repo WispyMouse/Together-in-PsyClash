@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/11/2026 11:50:21 PM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/12/2026 12:27:42 AM">
 
 	<Narration>  -DIA:Introduction- -PIC:Card_Tournament_Dese_Alt-</Narration>
 
@@ -30,7 +30,7 @@
 		<Branch num="1" name="" showSingleReplies="true">INTRODUCTION/Every opponent's deck will start with a set of cards, and gradually grow stronger. Every time you defeat the current "challenger", and afterwards end the day, the opponents will all progress.-NL-Play against opponents to get store credit, and buy new booster packs at the counter.
 			<Reply>Patch Notes.../NextBranch</Reply>
 		</Branch>
-		<Branch num="2" name="" showSingleReplies="true">INTRODUCTION/v.1_1 - July 10th 2026-NL-Custom and generated characters are cast in Shop Staff and Card Player roles. Winning or losing a PsyClash game awards Aura. Use Aura to buy packs. Defeat the current Challenger to advance in difficulty. Avatar can be configured.
+		<Branch num="2" name="" showSingleReplies="true">v.0.1.2/v.01.2 - July 12th 2026-NL-Custom and generated characters are cast in Shop Staff and Card Player roles. Winning or losing a PsyClash game awards Aura. Use Aura to buy packs. Defeat the current Challenger to advance in difficulty. Avatar can be configured. Decks can be viewed and edited.
 			<Reply>Start/NewScene/Gameplay Dispatch Point</Reply>
 		</Branch>
 	</Dialogue>
