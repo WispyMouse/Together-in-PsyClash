@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/10/2026 5:27:21 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/11/2026 6:26:44 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -230,6 +230,9 @@
 
 	<Script>Show Player Deck Script
 		<Action>SetString/Deck To Show,PlayerDeck</Action>
+		<Action>SetVal/Reset Deck After Showing,=:0</Action>
+		<Action>SetList/Player Deck</Action>
+		<Action>CombineLists/Player Deck,PlayerDeck</Action>
 		<Action>Run/Show Deck Script</Action>
 	</Script>
 
@@ -335,6 +338,7 @@
 			<Action>SortList/Alphabetized List,false</Action>
 			<Action>ListToString/Alphabetized List,;; ,Deck String</Action>
 			<Action>ShowDeck/Alphabetized List</Action>
+			<Action>SetVal/Reset Deck After Showing,=:1</Action>
 			<Action>Run/Show Deck Script,Deck To Show,Alphabetized List</Action>
 			<Action>EndConvImmediately/</Action>
 			<Reply>Return/NewBranch/0</Reply>
@@ -498,6 +502,7 @@
 			<Action>SortList/Alphabetized List,false</Action>
 			<Action>ListToString/Alphabetized List,;; ,Deck String</Action>
 			<Action>ShowDeck/Alphabetized List</Action>
+			<Action>SetVal/Reset Deck After Showing,=:1</Action>
 			<Action>Run/Show Deck Script,Deck To Show,Alphabetized List</Action>
 			<Action>EndConvImmediately/</Action>
 			<Reply>Return/NewBranch/0</Reply>

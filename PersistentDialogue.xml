@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/10/2026 5:19:43 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/11/2026 6:04:22 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -44,10 +44,11 @@
 	</Script>
 
 	<Script>Generate Player Starting Deck
-		<Action>Log/LOGMESSAGE: Generating player starting deck. This must be named exactly 'PlayerDeck'.</Action>
+		<Action>Log/LOGMESSAGE: Generating player starting deck. This must be named exactly 'PlayerDeck'. The inactive component must be 'Player DeckInactive'.</Action>
 		<Action>SetList/PlayerDeck,Bandit|Mind Shield|Bandit|Bandit|Solid State Shield|Mind Shield|Bandit|Shadowling|Shadowling|Mind Blast|Mind Blast|Frost Armor|Fury|Stimulate|Gasul|Gasul|Shadow Blast|Stimulate|Leap|Merchant|Swordsman|Swordsman</Action>
-		<Action>ListToString/PlayerDeck,;;,PlayerDeck String</Action>
-		<Action>Log/LOGMESSAGE: 'PlayerDeck' set to '-STR:PlayerDeck String-'</Action>
+		<Action>SetList/PlayerDeckInactive</Action>
+		<Action>ListToString/PlayerDeck,;;,Player Deck String</Action>
+		<Action>Log/LOGMESSAGE: 'PlayerDeck' set to '-STR:Player Deck String-'</Action>
 	</Script>
 
 	<Script>Generate Person Deck
@@ -67,12 +68,13 @@
 		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
 		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
 		<Action>Log/LOGMESSAGE: `-STR:Person- Replace With` is `-STR:Replace With String-`</Action>
-		<Action>CombineLists/-STR:Person- Deck,Template_-STR:Person Class-_Start</Action>
+		<Action>CombineLists/-STR:Person-Deck,Template_-STR:Person Class-_Start</Action>
 		<Action>ListToString/-STR:Person- Deck,;;,Deck String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Deck' set to '-STR:Deck String-'</Action>
 		<Action>SetList/-STR:Person- Ace,Template_-STR:Person Class-_Ace</Action>
 		<Action>ListToString/-STR:Person- Ace,;;,Ace String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Ace' set to '-STR:Ace String-'</Action>
+		<Action>SetList/-STR:Person- DeckInactive</Action>
 	</Script>
 
 	<Script>Initialize Deck Template
@@ -80,7 +82,6 @@
 		<Action>SetList/Deck Template,Awareness|Bandit|Bandit|Bandit|Bandit|Barudit|Barudit|Gasul|Bowman|Frost Armor|Fury|Leap|Merchant|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Shadowling|Shadowling|Solid State Shield|Swordsman|Swordsman|Terror</Action>
 		<Action>ListToString/Deck Template,;;,Deck Template String</Action>
 		<Action>Log/LOGMESSAGE: 'Deck Template' set to '-STR:Deck Template String-'</Action>
-		<Action></Action>
 	</Script>
 
 	<Script>Generate Custom Character
@@ -137,7 +138,7 @@ Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Bronze Golem template</Action>
 		<Action>SetList/Template_Bronze Golem_Start,Golem|Golem|Steam Engine|Steam Engine|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap</Action>
 		<Action>SetList/Template_Bronze Golem_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Bronze Golem_Growth,Template_Bronze Golem_Growth,Steam Engine|Steam Engine|Awareness|Awareness|Awareness|Merchant|Merchant|Leap|Leap|Leap|Leap|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
+		<Action>SetList/Template_Bronze Golem_Growth,Steam Engine|Steam Engine|Awareness|Awareness|Awareness|Merchant|Merchant|Leap|Leap|Leap|Leap|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
 		<Action>SetList/Template_Bronze Golem_Ace,Golem|Golem|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Cavalier template</Action>
 		<Action>SetList/Template_Cavalier_Start,Mantis Rider|Mantis Rider|Mantis Rider|Mantis Rider|Merchant|Fury|Awareness|Awareness</Action>
@@ -162,7 +163,7 @@ Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Engineer template</Action>
 		<Action>SetList/Template_Engineer_Start,Steam Engine|Library|Bakery|Iron Jaw Trap|Merchant|Merchant|Frost Armor|Frost Armor</Action>
 		<Action>SetList/Template_Engineer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Engineer_Growth,Template_Engineer_Growth,Steam Engine|Steam Engine|Steam Engine|Library|Library|Library|Bakery|Bakery|Bakery|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Crossbowman|Crossbowman|Crossbowman</Action>
+		<Action>SetList/Template_Engineer_Growth,Steam Engine|Steam Engine|Steam Engine|Library|Library|Library|Bakery|Bakery|Bakery|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Crossbowman|Crossbowman|Crossbowman</Action>
 		<Action>SetList/Template_Engineer_Ace,Golem|Golem|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Frost Spriggat template</Action>
 		<Action>SetList/Template_Frost Spriggat_Start,Spriggat|Spriggat|Frost Armor|Frost Armor|Merchant|Merchant|Cryokineticist|Cryokineticist</Action>
@@ -263,10 +264,10 @@ Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
 		<Action>SetVal/Variety Pack Cost,=:10</Action>
 		<Action>SetVal/Variety Pack Count,=:4</Action>
 		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman</Action>
-		<Action>SetVal/Unit Pack Cost,=:5</Action>
+		<Action>SetVal/Unit Pack Cost,=:7</Action>
 		<Action>SetVal/Unit Pack Count,=:3</Action>
 		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
-		<Action>SetVal/Technique Pack Cost,=:6</Action>
+		<Action>SetVal/Technique Pack Cost,=:7</Action>
 		<Action>SetVal/Technique Pack Count,=:3</Action>
 		<Action>SetList/Engineer Pack,Bakery|Crossbowman|Golem|Iron Jaw Trap|Library|Merchant|Steam Engine</Action>
 		<Action>SetVal/Engineer Pack Cost,=:6</Action>

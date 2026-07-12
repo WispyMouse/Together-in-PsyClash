@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/10/2026 5:25:15 PM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/11/2026 2:37:52 AM">
 
 	<Narration>  -DIA:Introduction- -PIC:Card_Tournament_Dese_Alt-</Narration>
 
@@ -15,6 +15,7 @@
 	</Script>
 
 	<Script>Proceed
+		<Action>ClearQueue/</Action>
 		<Action>NewScene/Gameplay Dispatch Point</Action>
 	</Script>
 
@@ -22,6 +23,7 @@
 		<Branch num="0" name="" showSingleReplies="true">INTRODUCTION/Welcome to Together in PsyClash!-NL-This campaign is about playing PsyClash with procedural generated and custom characters. It's in early development, and saves usually will likely break between versions! Please only save on the "Landing" screen.
 			<Action>Run/Initialize Campaign</Action>
 			<Action>IfValRun/Skip Intro,=,1,Proceed</Action>
+			<Action>ClearQueue/</Action>
 			<Reply>Tell Me More/NextBranch</Reply>
 			<Reply>Quick Start/NewScene/Gameplay Dispatch Point</Reply>
 		</Branch>
