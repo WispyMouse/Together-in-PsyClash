@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/11/2026 6:26:44 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="false" procgen="false" campaign="Together in PsyClash" lastEdited="7/12/2026 12:12:17 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -173,7 +173,7 @@
 		<Action>FaceUnit/LIST{Shuffled Card Players,0},Up</Action>
 		<Action>SpawnUnit/0,LIST{Shuffled Card Players,1},4,3,Down,Use:Card Player Table Talk Script</Action>
 		<Action>FaceUnit/{Shuffled Card Players,1},Down</Action>
-		<Action>SpawnUnit/0,LIST{Shuffled Card Players,2},6,5,Up,Use:Player Table Talk Script</Action>
+		<Action>SpawnUnit/0,LIST{Shuffled Card Players,2},6,5,Up,Use:Card Player Table Talk Script</Action>
 		<Action>FaceUnit/{Shuffled Card Players,2},Up</Action>
 		<Action>SetList/Today Card Players,LIST{Shuffled Card Players,0}|LIST{Shuffled Card Players,1}|LIST{Shuffled Card Players,2}</Action>
 	</Script>
@@ -229,11 +229,7 @@
 	</Script>
 
 	<Script>Show Player Deck Script
-		<Action>SetString/Deck To Show,PlayerDeck</Action>
-		<Action>SetVal/Reset Deck After Showing,=:0</Action>
-		<Action>SetList/Player Deck</Action>
-		<Action>CombineLists/Player Deck,PlayerDeck</Action>
-		<Action>Run/Show Deck Script</Action>
+		<Action>Run/Show Deck Script,Deck To Show,PlayerDeck</Action>
 	</Script>
 
 	<Script>Get Card Player Conv For Familiarity
@@ -328,18 +324,12 @@
 		</Branch>
 		<Branch num="1" name="Play PsyClash">/
 			<Action>PlayMusic/There Will Be Blood</Action>
-			<Action>CardGame/Psy Clash Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2- Deck,-FNAME2-,1,2</Action>
+			<Action>CardGame/Psy Clash Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2-Deck,-FNAME2-,1,2</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
-		<Branch num="2" name="Show Me Your Deck">-FNAME2-/-STR:Deck String-
-			<Action>SetList/Alphabetized List</Action>
-			<Action>SetList/Alphabetized ListInactive</Action>
-			<Action>CombineLists/Alphabetized List,-FNAME2- Deck</Action>
-			<Action>SortList/Alphabetized List,false</Action>
-			<Action>ListToString/Alphabetized List,;; ,Deck String</Action>
-			<Action>ShowDeck/Alphabetized List</Action>
+		<Branch num="2" name="Show Me Your Deck">-FNAME2-/The player should not see this
 			<Action>SetVal/Reset Deck After Showing,=:1</Action>
-			<Action>Run/Show Deck Script,Deck To Show,Alphabetized List</Action>
+			<Action>Run/Show Deck Script,Deck To Show,-FNAME2-Deck</Action>
 			<Action>EndConvImmediately/</Action>
 			<Reply>Return/NewBranch/0</Reply>
 			<Reply>Upgrade Me/NamedBranch/Upgrade Me</Reply>
@@ -492,21 +482,14 @@
 		</Branch>
 		<Branch num="1" name="Play PsyClash">/
 			<Action>PlayMusic/There Will Be Blood</Action>
-			<Action>CardGame/Psy Clash Challenger Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2- Deck,-FNAME2-,1,2</Action>
+			<Action>CardGame/Psy Clash Challenger Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2-Deck,-FNAME2-,1,2</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
-		<Branch num="2" name="Show Me Your Deck">-FNAME2-/-STR:Deck String-
-			<Action>SetList/Alphabetized List</Action>
-			<Action>SetList/Alphabetized ListInactive</Action>
-			<Action>CombineLists/Alphabetized List,-FNAME2- Deck</Action>
-			<Action>SortList/Alphabetized List,false</Action>
-			<Action>ListToString/Alphabetized List,;; ,Deck String</Action>
-			<Action>ShowDeck/Alphabetized List</Action>
+		<Branch num="2" name="Show Me Your Deck">-FNAME2-/The player should not see this
 			<Action>SetVal/Reset Deck After Showing,=:1</Action>
-			<Action>Run/Show Deck Script,Deck To Show,Alphabetized List</Action>
+			<Action>Run/Show Deck Script,Deck To Show,-FNAME2-Deck</Action>
 			<Action>EndConvImmediately/</Action>
-			<Reply>Return/NewBranch/0</Reply>
-			<Reply>Upgrade Me/NamedBranch/Upgrade Me</Reply>
+			<Reply>Oops/NewBranch/0</Reply>
 		</Branch>
 		<Branch num="3" name="Upgrade Me">-FNAME2-/I replace -STR:Replaced Card- with -STR:Replacing Card-
 			<Action>Run/Upgrade Person,Person,-FNAME2-</Action>

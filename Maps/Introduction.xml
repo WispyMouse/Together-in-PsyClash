@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/11/2026 2:37:52 AM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/11/2026 11:50:21 PM">
 
 	<Narration>  -DIA:Introduction- -PIC:Card_Tournament_Dese_Alt-</Narration>
 
 	<Script>Initialize Campaign
-		<Action>SetAura/=:20,true,false</Action>
 		<Action>ClearCustomVariables/</Action>
+		<Action>SetAura/=:20,true,false</Action>
 		<Action>SetString/Avatar Character,Card Player</Action>
 		<Action>Run/Generate Player Starting Deck</Action>
 		<Action>Run/Generate Roster,Count,10</Action>

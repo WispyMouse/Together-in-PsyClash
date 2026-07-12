@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Show Deck" maptype="Cut Scene: Static" maxplayers="1" musictrack="Getting To Know You" winAura="0" nextbattle="Transition To Card Shop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/11/2026 6:20:30 PM">
+<Level mapname="Show Deck" maptype="Cut Scene: Static" maxplayers="1" musictrack="Getting To Know You" winAura="0" nextbattle="Transition To Card Shop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/12/2026 12:15:48 AM">
 
 	<Narration> -DIA:Introduction-</Narration>
 
 	<Script>Show Deck
-		<Action>ShowDeck/-STR:Deck To Show-</Action>
+		<Action>SetList/Player DeckInactive</Action>
+		<Action>CombineLists/Player DeckInactive,-STR:Viewed Deck-Inactive</Action>
+		<Action>ShowDeck/-STR:Viewed Deck-</Action>
+		<Action>Log/LOGMESSAGE: The "inactive" cards are always at 'Player DeckInactive'. We need to clear that list, and then put the cards that are actually inactive for that character. In most cases, this is to help the player remove cards from their deck, but also to prevent the player from removing cards from others.</Action>
 	</Script>
 
 	<Script>Leave
-		<Action>IfValRun/Reset Deck After Showing,=,1,Reset Deck Changes</Action>
-		<Action>NewScene/Transition To Card Shop</Action>
-		<Action>IfValRun/Reset Deck After Showing,=,0,Save Player Changes</Action>
+		<Action>IfStringRun/Viewed Deck,PlayerDeck,Save Player Changes,false</Action>
+		<Action>IfStringRun/Viewed Deck,PlayerDeck,Reset Deck Changes,true</Action>
+		<Action>RemoveString/Viewed Deck</Action>
+		<Action>NewScene/Transition To Card Shop,-VAL:Roam Y-,-VAL:Roam X-,-STR:Roam Facing-</Action>
 	</Script>
 
 	<Script>Reset Deck Changes
-		<Action>Log/LOGMESSAGE: The deck to display '-STR:Deck To Show-' does not belong to the player. Re-combining their inactive and active lists.</Action>
-		<Action>CombineLists/-STR:Deck To Show-,-STR:Deck To Show-Inactive</Action>
+		<Action>Log/LOGMESSAGE: The deck to display '-STR:Viewed Deck-' does not belong to the player. Re-combining their inactive and active lists.</Action>
+		<Action>CombineLists/-STR:Viewed Deck-,-STR:Viewed Deck-Inactive</Action>
 		<Action>Log/LOGMESSAGE: Now that the inactive deck is added back in, clearing the inactive deck.</Action>
-		<Action>RemoveList/-STR:Deck To Show-Inactive</Action>
+		<Action>RemoveList/-STR:Viewed Deck-Inactive</Action>
 		<Action>SetVal/Reset Deck After Showing,=:0</Action>
 	</Script>
 
@@ -25,20 +29,33 @@
 		<Action>Log/LOGMESSAGE: PlayerDeck is being set to Player Deck, to reflect UI changes</Action>
 		<Action>SetList/PlayerDeck</Action>
 		<Action>CombineLists/PlayerDeck,Player Deck</Action>
+		<Action>SetList/PlayerDeckInactive</Action>
+		<Action>CombineLists/PlayerDeckInactive,Player DeckInactive</Action>
+		<Action>RemoveList/Player DeckInactive</Action>
 	</Script>
 
 	<Dialogue trigger="None/" convID="Introduction" r="true">
-		<Branch num="0" name="" showSingleReplies="true">/Look at this deck!
-			<Action>SetVal/Deck To Show Length,=:STRLENGTH[Deck To Show]</Action>
-			<Action>IfValRun/Deck To Show Length,g,0,Show Deck</Action>
+		<Branch num="0" name="">/The player shouldn't see this
+			<Action>SetString/Viewed Deck,-STR:Deck To Show-</Action>
+			<Action>RemoveString/Deck To Show</Action>
+			<Action>GoToNextBranch/</Action>
+			<Reply>Ooops/NextBranch</Reply>
+		</Branch>
+		<Branch num="1" name="" showSingleReplies="true">/Look at this deck!
+			<Action>SetVal/Viewed Deck Length,=:STRLENGTH[Viewed Deck]</Action>
+			<Action>IfValRun/Viewed Deck Length,g,0,Show Deck</Action>
+			<Action>RemoveVal/Viewed Deck Length</Action>
+			<Action>SortList/-STR:Viewed Deck-</Action>
+			<Action>SortList/-STR:Viewed Deck-Inactive</Action>
 			<Action>ClearQueue/</Action>
 			<Reply>Continue./Run/Leave</Reply>
-			<Reply>Look Again/NewBranch/1</Reply>
+			<Reply>Look Again/NewBranch/2</Reply>
 		</Branch>
-		<Branch num="1" name="Update Deck">/The player shouldn't see this dialogue.
-			<Action>IfStringRun/Deck To Show,PlayerDeck,Save Player Changes</Action>
-			<Action>GoTo/0</Action>
-			<Reply>Oops/NewBranch/0</Reply>
+		<Branch num="2" name="Update Deck">/The player shouldn't see this dialogue.
+			<Action>IfStringRun/Viewed Deck,PlayerDeck,Save Player Changes,false</Action>
+			<Action>IfStringRun/Viewed Deck,PlayerDeck,Reset Deck Changes,true</Action>
+			<Action>GoTo/1</Action>
+			<Reply>Oops/NewBranch/1</Reply>
 		</Branch>
 	</Dialogue>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Next Day" maptype="Cut Scene: Static" maxplayers="1" musictrack="" winAura="0" nextbattle="Card Shop" saveable="false" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/10/2026 1:25:25 PM">
+<Level mapname="Next Day" maptype="Cut Scene: Static" maxplayers="1" musictrack="" winAura="0" nextbattle="Card Shop" saveable="false" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/11/2026 9:40:46 PM">
 
 	<Narration> -DIA:Introduction-</Narration>
 	
@@ -8,6 +8,9 @@
 	<Dialogue trigger="None/" convID="Introduction" r="true">
 		<Branch num="0" name="Advance Day" showSingleReplies="true">/Another day passes. It is now day -DAY-.
 			<Action>SetVal/Random Seed,r:999999</Action>
+			<Action>RemoveVal/Roam Y</Action>
+			<Action>RemoveVal/Roam X</Action>
+			<Action>RemoveString/Roam Facing</Action>
 			<Action>IfValRun/Current Challenger Status,=2,Commit Post Challenger Update</Action>
 			<Action>PlaySound/Card Shuffle</Action>
 			<Reply>Continue.../NewScene/Gameplay Dispatch Point</Reply>
