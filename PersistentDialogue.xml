@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/13/2026 2:30:53 AM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/13/2026 2:15:21 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -121,9 +121,9 @@
 		<Action>SetList/Template_Assassin_Growth,Fury|Fury|Iron Jaw Trap|Iron Jaw Trap|Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Light Blast|Light Blast|Light Blast</Action>
 		<Action>SetList/Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Axefighter template</Action>
-		<Action>SetList/Template_Axefighter_Start,Bandit|Bandit|Bandit|Bandit|Frost Armor|Awareness|Stimulate|Stimulate</Action>
+		<Action>SetList/Template_Axefighter_Start,Bandit|Bandit|Bandit|Bandit|Sellsword|Sellsword|Stimulate|Stimulate</Action>
 		<Action>SetList/Template_Axefighter_Bloat,Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Axefighter_Growth,Stimulate|Stimulate|Library|Library|Awareness|Awareness|Leap|Leap|Leap|Leap|Shadow Blast|Shadow Blast|Kinetic Gust|Kinetic Gust|Kinetic Gust|Smuggler|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit</Action>
+		<Action>SetList/Template_Axefighter_Growth,Stimulate|Stimulate|Library|Library|Awareness|Awareness|Leap|Leap|Leap|Leap|Shadow Blast|Shadow Blast|Kinetic Gust|Kinetic Gust|Kinetic Gust|Smuggler|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit|Sellsword|Sellsword|Sellsword</Action>
 		<Action>SetList/Template_Axefighter_Ace,Mind Control|Mind Control|Smuggler|Smuggler</Action>
 		<Action>Log/LOGMESSAGE: Generating Barudit template</Action>
 		<Action>SetList/Template_Barudit_Start,Barudit|Barudit|Barudit|Barudit|Frost Armor|Fury|Fury|Stimulate</Action>
@@ -162,7 +162,7 @@
 		<Action>SetList/Template_Dark Spriggat_Ace,Greater Spriggat|Greater Spriggat|Dark Vortex|Dark Vortex</Action>
 		<Action>Log/LOGMESSAGE: Generating Engineer template</Action>
 		<Action>SetList/Template_Engineer_Start,Steam Engine|Library|Bakery|Iron Jaw Trap|Merchant|Merchant|Frost Armor|Frost Armor</Action>
-		<Action>SetList/Template_Engineer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
+		<Action>SetList/Template_Engineer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman|Sellsword</Action>
 		<Action>SetList/Template_Engineer_Growth,Steam Engine|Steam Engine|Steam Engine|Library|Library|Library|Bakery|Bakery|Bakery|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Crossbowman|Crossbowman|Crossbowman</Action>
 		<Action>SetList/Template_Engineer_Ace,Golem|Golem|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Frost Spriggat template</Action>
@@ -171,9 +171,9 @@
 		<Action>SetList/Template_Frost Spriggat_Growth,Awareness|Awareness|Fury|Fury|Frost Armor|Frost Armor|Cryokineticist|Cryokineticist||Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant</Action>
 		<Action>SetList/Template_Frost Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
 		<Action>Log/LOGMESSAGE: Generating Gasul template</Action>
-		<Action>SetList/Template_Gasul_Start,Gasul|Gasul|Gasul|Gasul|Fury|Fury|Frost Armor|Frost Armor</Action>
+		<Action>SetList/Template_Gasul_Start,Gasul|Gasul|Gasul|Gasul|Fury|Fury|Sellsword|Frost Armor</Action>
 		<Action>SetList/Template_Gasul_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Gasul_Growth,Awareness|Awareness|Barudit|Barudit|Fury|Fury|Frost Armor|Frost Armor|Blinding Cloak|Drain|Drain|Drain|Drain|Spriggat|Spriggat</Action>
+		<Action>SetList/Template_Gasul_Growth,Awareness|Awareness|Barudit|Barudit|Fury|Fury|Frost Armor|Frost Armor|Blinding Cloak|Drain|Drain|Drain|Drain|Spriggat|Spriggat|Sellsword|Sellsword|Sellsword</Action>
 		<Action>SetList/Template_Gasul_Ace,Drake|Drake|Focus|Focus</Action>
 		<Action>Log/LOGMESSAGE: Generating Golden Spriggat template</Action>
 		<Action>SetList/Template_Golden Spriggat_Start,Spriggat|Spriggat|Light Blast|Light Blast|Frost Armor|Fury|Shadowling|Shadowling</Action>
@@ -218,7 +218,7 @@
 		<Action>Log/LOGMESSAGE: Generating Spearman template</Action>
 		<Action>SetList/Template_Spearman_Start,Spearman|Spearman|Spearman|Spearman|Frost Armor|Fury|Awareness|Awareness</Action>
 		<Action>SetList/Template_Spearman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Spearman_Growth,Frost Armor|Frost Armor|Fury|Fury|Awareness|Awareness|Blinding Cloak|Blinding Cloak|Shadow Blast|Shadow Blast|Merchant|Merchant|Merchant</Action>
+		<Action>SetList/Template_Spearman_Growth,Frost Armor|Frost Armor|Fury|Fury|Awareness|Awareness|Blinding Cloak|Blinding Cloak|Shadow Blast|Shadow Blast|Merchant|Merchant|Merchant|Sellsword|Sellsword</Action>
 		<Action>SetList/Template_Spearman_Ace,Focus|Focus|Focus|Golem</Action>
 		<Action>Log/LOGMESSAGE: Generating Spirit template</Action>
 		<Action>SetList/Template_Spirit_Start,Spirit|Spirit|Spirit|Drain|Merchant|Blinding Cloak|Blinding Cloak|Kinetic Gust</Action>
@@ -231,9 +231,9 @@
 		<Action>SetList/Template_Stone Golem_Growth,Golem|Merchant|Merchant|Steam Engine|Steam Engine|Steam Engine|Smuggler|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Leap|Leap|Leap|Leap|Drake|Sprigat|Spriggat</Action>
 		<Action>SetList/Template_Stone Golem_Ace,Golem|Focus|Focus|Spirit</Action>
 		<Action>Log/LOGMESSAGE: Generating Swordsman template</Action>
-		<Action>SetList/Template_Swordsman_Start,Swordsman|Swordsman|Swordsman|Swordsman|Frost Armor|Awareness|Merchant|Awareness</Action>
-		<Action>SetList/Template_Swordsman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Swordsman_Growth,Awareness|Awareness|Merchant|Merchant|Merchant|Cryokineticist|Cryokineticist|Cryokineticist|Shadow Blast|Shadow Blast|Frost Armor|Frost Armor|Bowman|Bowman|Spearman|Spearman|Barudit|Barudit</Action>
+		<Action>SetList/Template_Swordsman_Start,Swordsman|Swordsman|Swordsman|Swordsman|Frost Armor|Awareness|Sellsword|Awareness</Action>
+		<Action>SetList/Template_Swordsman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling</Action>
+		<Action>SetList/Template_Swordsman_Growth,Awareness|Awareness|Merchant|Merchant|Sellsword|Sellsword|Sellsword|Cryokineticist|Cryokineticist|Cryokineticist|Shadow Blast|Shadow Blast|Frost Armor|Frost Armor|Bowman|Bowman|Spearman|Spearman|Barudit|Barudit</Action>
 		<Action>SetList/Template_Swordsman_Ace,Golem|Golem|Focus|Focus</Action>
 	</Script>
 
@@ -261,16 +261,19 @@
 	</Script>
 
 	<Script>Generate Booster Data
-		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
-		<Action>SetList/Variety Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
+		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword</Action>
+		<Action>SetList/Variety Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword</Action>
 		<Action>SetVal/Variety Pack Cost,=:10</Action>
 		<Action>SetVal/Variety Pack Count,=:4</Action>
-		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman</Action>
+		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Sellsword</Action>
 		<Action>SetVal/Unit Pack Cost,=:7</Action>
 		<Action>SetVal/Unit Pack Count,=:3</Action>
 		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
 		<Action>SetVal/Technique Pack Cost,=:7</Action>
 		<Action>SetVal/Technique Pack Count,=:3</Action>
+		<Action>SetList/Custom Pack,Sellsword</Action>
+		<Action>SetVal/Unit Pack Cost,=:6</Action>
+		<Action>SetVal/Unit Pack Count,=:1</Action>
 		<Action>SetList/Assassin Pack</Action>
 		<Action>CombineLists/Assassin Pack,Template_Assassin_Growth|Template_Assassin_Start</Action>
 		<Action>SetVal/Assassin Pack Count,=:2</Action>
@@ -378,7 +381,13 @@
 	</Script>
 
 	<Script>Set Special Decks
+		<Action>SetList/Special Decks</Action>
 		<Action>SetList/40 Bandit Blitz Deck,Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
+		<Action>AddToList/Special Decks,40 Bandit Blitz Deck</Action>
+		<Action>SetList/Custom Card Test,Dacoit Cutter|Dacoit Cutter|Poison Needles|Poison Needles|Shadowling Pyrokineticist|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Shadowling Psy Healer|Sellsword|Sellsword</Action>
+		<Action>AddToList/Special Decks,Custom Card Test</Action>
+		<Action>SetList/Spirit Test,Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit</Action>
+		<Action>AddToList/Special Decks,Spirit Test</Action>
 	</Script>
 
 </PersistentDialogue>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/13/2026 2:34:56 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/13/2026 2:15:41 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -177,6 +177,7 @@
 		<Action>FaceUnit/{Shuffled Card Players,2},Up</Action>
 		<Action>SetList/Today Card Players,LIST{Shuffled Card Players,0}|LIST{Shuffled Card Players,1}|LIST{Shuffled Card Players,2}</Action>
 		<Action>ForLoop/-Player Index-,0-LASTINLIST[Card Players],1,Run,Add Play Against Player,Player,LIST{Card Players,-Player Index-}</Action>
+		<Action>ForLoop/-Deck Index-,0-LASTINLIST[Special Decks],1,Run,Add Play Against Special Deck,Deck,LIST{Special Decks,-Deck Index-}</Action>
 	</Script>
 
 	<Script>Card Player Table Talk Script
@@ -306,7 +307,7 @@
 	</Script>
 
 	<Script>Set Today Packs
-		<Action>SetList/Today Packs,Variety Pack|Unit Pack|Technique Pack|PICK{Assassin Pack|Axefighter Pack|Barudit Pack|Bowman Pack|Bronze Golem Pack|Cavalier Pack|Crossbowman Pack|Cryokineticist Pack|Dark Spriggat Pack|Engineer Pack|Frost Spriggat Pack|Gasul Pack|Golden Spriggat Pack|Kineticist Pack|Menalist Pack|Photokineticist Pack|Red Sprigat Pack|Skiakineticist Pack|Spearman Pack|Spirit Pack|Stone Golem Pack|Swordsman Pack}</Action>
+		<Action>SetList/Today Packs,Variety Pack|Unit Pack|Technique Pack|Custom Pack|PICK{Assassin Pack|Axefighter Pack|Barudit Pack|Bowman Pack|Bronze Golem Pack|Cavalier Pack|Crossbowman Pack|Cryokineticist Pack|Dark Spriggat Pack|Engineer Pack|Frost Spriggat Pack|Gasul Pack|Golden Spriggat Pack|Kineticist Pack|Menalist Pack|Photokineticist Pack|Red Sprigat Pack|Skiakineticist Pack|Spearman Pack|Spirit Pack|Stone Golem Pack|Swordsman Pack}</Action>
 	</Script>
 
 	<Script>Add Buy Pack Reply
@@ -321,6 +322,10 @@
 
 	<Script>Play Against Deck
 		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,1,-STR:Deck To Play-,-STR:Opponent Name-,1,2</Action>
+	</Script>
+
+	<Script>Add Play Against Special Deck
+		<Action>AddReply/Debug Machine Conv,Play Against Special Deck,-STR:Deck-|Run|Play Against Deck;;Opponent Name;;Card Player;;Deck To Play;;-STR:Deck-</Action>
 	</Script>
 
 	<Script>Add Play Against Player
@@ -561,7 +566,6 @@
 		</Branch>
 		<Branch num="2" name="Play Against Special Deck">Debug Machine/What deck are you playing against?
 			<Reply>Return/NewBranch/0</Reply>
-			<Reply>Play Against 40 Bandit Blitz/Run/Play Against Deck,Deck To Play,40 Bandit Blitz Deck,Opponent Name,Card Player</Reply>
 		</Branch>
 		<Branch num="3" name="Play Against Someone">Debug Machine/Who are you playing against?
 			<Reply>Return/NewBranch/0</Reply>
