@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/12/2026 3:06:20 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/13/2026 2:30:53 AM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -75,6 +75,7 @@
 		<Action>ListToString/-STR:Person- Ace,;;,Ace String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person- Ace' set to '-STR:Ace String-'</Action>
 		<Action>SetList/-STR:Person-DeckInactive</Action>
+		<Action>SetString/-STR:Person- Class,-STR:Person Class-</Action>
 	</Script>
 
 	<Script>Initialize Deck Template
@@ -374,6 +375,10 @@
 		<Action>SetVal/Upper Limit,=:-VAL:Count-</Action>
 		<Action>SetVal/Upper Limit,-:1</Action>
 		<Action>ForLoop/-A-,0--VAL:Upper Limit-,1,Run,Gain Card,Card,LIST{-STR:Pack-,-A-}</Action>
+	</Script>
+
+	<Script>Set Special Decks
+		<Action>SetList/40 Bandit Blitz Deck,Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
 	</Script>
 
 </PersistentDialogue>

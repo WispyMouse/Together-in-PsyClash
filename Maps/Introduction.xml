@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/12/2026 2:48:45 PM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/12/2026 11:17:52 PM">
 
 	<Narration>  -DIA:Introduction- -PIC:Card_Tournament_Dese_Alt-</Narration>
 
@@ -12,6 +12,7 @@
 		<Action>SetVal/Random Seed,r:999999</Action>
 		<Action>SetVal/Introduction Visited,=:1</Action>
 		<Action>RecruitByName/Card Player,1</Action>
+		<Action>Run/Set Special Decks</Action>
 	</Script>
 
 	<Script>Proceed
