@@ -261,14 +261,14 @@
 	</Script>
 
 	<Script>Generate Booster Data
-		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword</Action>
-		<Action>SetList/Variety Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword</Action>
+		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Poison Needles|Feint</Action>
+		<Action>SetList/Variety Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Poison Needles|Feint</Action>
 		<Action>SetVal/Variety Pack Cost,=:10</Action>
 		<Action>SetVal/Variety Pack Count,=:4</Action>
-		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Sellsword</Action>
+		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios</Action>
 		<Action>SetVal/Unit Pack Cost,=:7</Action>
 		<Action>SetVal/Unit Pack Count,=:3</Action>
-		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate</Action>
+		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Poison Needles|Feint</Action>
 		<Action>SetVal/Technique Pack Cost,=:7</Action>
 		<Action>SetVal/Technique Pack Count,=:3</Action>
 		<Action>SetList/Custom Pack,Sellsword</Action>
@@ -384,7 +384,7 @@
 		<Action>SetList/Special Decks</Action>
 		<Action>SetList/40 Bandit Blitz Deck,Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
 		<Action>AddToList/Special Decks,40 Bandit Blitz Deck</Action>
-		<Action>SetList/Custom Card Test,Dacoit Cutter|Dacoit Cutter|Poison Needles|Poison Needles|Shadowling Pyrokineticist|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Shadowling Psy Healer|Sellsword|Sellsword</Action>
+		<Action>SetList/Custom Card Test,Dacoit Cutter|Dacoit Cutter|Poison Needles|Poison Needles|Shadowling Pyrokineticist|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Shadowling Psy Healer|Sellsword|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Poison Needles|Feint|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Feint</Action>
 		<Action>AddToList/Special Decks,Custom Card Test</Action>
 		<Action>SetList/Spirit Test,Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit</Action>
 		<Action>AddToList/Special Decks,Spirit Test</Action>
