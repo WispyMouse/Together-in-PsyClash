@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/13/2026 2:15:21 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/14/2026 5:50:43 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -382,12 +382,19 @@
 
 	<Script>Set Special Decks
 		<Action>SetList/Special Decks</Action>
-		<Action>SetList/40 Bandit Blitz Deck,Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit|Bandit</Action>
+		<Action>SetList/40 Bandit Blitz Deck,Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit</Action>
 		<Action>AddToList/Special Decks,40 Bandit Blitz Deck</Action>
-		<Action>SetList/Custom Card Test,Dacoit Cutter|Dacoit Cutter|Poison Needles|Poison Needles|Shadowling Pyrokineticist|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Shadowling Psy Healer|Sellsword|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Poison Needles|Feint|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Feint</Action>
-		<Action>AddToList/Special Decks,Custom Card Test</Action>
+		<Action>SetList/All Custom Cards Test Deck,Bronze Golem|Dark Spriggat|Dark Shade|Engineer|Frost Shade|Frost Spriggat|Golden Spriggat|Kineticist|Kineticist Shade|Light Shade|Mentalist Shade|Psy Healer Shade|Pyro Shade|Red Spriggat|Skiakineticist|Berserker|Blade Dancer|Bowmaster|Mant Lancer|Pyrokurios|Dacoit Cutter|Defective Golem|Sellsword|Grape Shot|Poison Needles|Twirl</Action>
+		<Action>AddToList/Special Decks,Custom Card WIP Test Deck</Action>
 		<Action>SetList/Spirit Test,Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit</Action>
 		<Action>AddToList/Special Decks,Spirit Test</Action>
+	</Script>
+
+	<Script>Start With Deck
+		<Action>Run/Set Special Decks</Action>
+		<Action>SetList/PlayerDeck</Action>
+		<Action>CombineLists/PlayerDeck,-STR:Deck To Start With-</Action>
+		<Action>SetVal/Started With Deck Completed,=:1</Action>
 	</Script>
 
 </PersistentDialogue>

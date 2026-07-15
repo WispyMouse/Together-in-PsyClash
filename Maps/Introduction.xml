@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/12/2026 11:17:52 PM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/14/2026 5:48:27 PM">
 
 	<Narration>  -DIA:Introduction- -PIC:Card_Tournament_Dese_Alt-</Narration>
 
 	<Script>Initialize Campaign
-		<Action>ClearCustomVariables/</Action>
+		<Action>RemoveVal/Quick Started</Action>
+		<Action>Run/Set Special Decks</Action>
+		<Action>IfValRun/Started With Deck Completed,!=,1,Generate Player Starting Deck</Action>
+		<Action>RemoveVal/Started With Deck Completed</Action>
 		<Action>SetAura/=:20,true,false</Action>
 		<Action>SetString/Avatar Character,Card Player</Action>
-		<Action>Run/Generate Player Starting Deck</Action>
 		<Action>Run/Generate Roster,Count,10</Action>
+		<Action>SetVal/Introduction Seen,=:1</Action>
 		<Action>SetVal/Random Seed,r:999999</Action>
 		<Action>SetVal/Introduction Visited,=:1</Action>
 		<Action>RecruitByName/Card Player,1</Action>
-		<Action>Run/Set Special Decks</Action>
 	</Script>
 
-	<Script>Proceed
-		<Action>ClearQueue/</Action>
+	<Script>Do Quick Start
+		<Action>SetVal/Quick Started,=:1</Action>
 		<Action>NewScene/Gameplay Dispatch Point</Action>
 	</Script>
 
 	<Dialogue trigger="None/" convID="Introduction" r="true">
 		<Branch num="0" name="" showSingleReplies="true">INTRODUCTION/Welcome to Together in PsyClash!-NL-This campaign is about playing PsyClash with procedural generated and custom characters. It's in early development, and saves usually will likely break between versions! Please only save on the "Landing" screen.
 			<Action>Run/Initialize Campaign</Action>
-			<Action>IfValRun/Skip Intro,=,1,Proceed</Action>
-			<Action>ClearQueue/</Action>
-			<Reply>Tell Me More/NextBranch</Reply>
-			<Reply>Quick Start/NewScene/Gameplay Dispatch Point</Reply>
+			<Action>IfValRun/Skip Intro,=,1,Do Quick Start</Action>
+			<Reply>Tell Me More And Then Configure/NextBranch</Reply>
+			<Reply>Quick Start/Run/Do Quick Start</Reply>
 		</Branch>
 		<Branch num="1" name="" showSingleReplies="true">INTRODUCTION/Every opponent's deck will start with a set of cards, and gradually grow stronger. Every time you defeat the current "challenger", and afterwards end the day, the opponents will all progress.-NL-Play against opponents to get store credit, and buy new booster packs at the counter.
 			<Reply>Patch Notes.../NextBranch</Reply>
 		</Branch>
-		<Branch num="2" name="" showSingleReplies="true">v.0.1.2/v.01.2 - July 12th 2026-NL-Custom and generated characters are cast in Shop Staff and Card Player roles. Winning or losing a PsyClash game awards Aura. Use Aura to buy packs. Defeat the current Challenger to advance in difficulty. Avatar can be configured. Decks can be viewed and edited.
+		<Branch num="2" name="" showSingleReplies="true">v.0.1.3/v.01.2 - July 14th 2026-NL-Custom and generated characters are cast in Shop Staff and Card Player roles. Winning or losing a PsyClash game awards Aura. Use Aura to buy packs. Defeat the current Challenger to advance in difficulty. Avatar can be configured. Decks can be viewed and edited. Deck debug tool allows for challenging any player. 25 total custom cards.
 			<Reply>Start/NewScene/Gameplay Dispatch Point</Reply>
 		</Branch>
 	</Dialogue>

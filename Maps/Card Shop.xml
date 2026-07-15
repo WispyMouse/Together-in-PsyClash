@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/13/2026 2:15:41 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/14/2026 3:10:48 AM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -321,7 +321,7 @@
 	</Script>
 
 	<Script>Play Against Deck
-		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,1,-STR:Deck To Play-,-STR:Opponent Name-,1,2</Action>
+		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,1,-STR:Deck-,-STR:Opponent Name-,1,2</Action>
 	</Script>
 
 	<Script>Add Play Against Special Deck
