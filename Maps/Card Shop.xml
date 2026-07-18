@@ -330,7 +330,8 @@
 
 	<Script>Add Play Against Player
 		<Action>SetStringByString/Class,-STR:Player- Class</Action>
-		<Action>AddReply/Debug Machine Conv,Play Against Someone, -STR:Class- -STR:Player-|Run|Play Against Deck;;Opponent Name;;-STR:Player-;;Deck To Play;;-STR:Player-Deck</Action>
+		<Action>SetStringByString/Race,-STR:Player- Race</Action>
+		<Action>AddReply/Debug Machine Conv,Play Against Someone,-STR:Race- -STR:Class- -STR:Player-|Run|Play Against Deck;;Opponent Name;;-STR:Player-;;Deck To Play;;-STR:Player-Deck</Action>
 	</Script>
 
 	<Dialogue trigger="OnLoaded/" convID="On Load" r="true">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/14/2026 5:50:43 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/18/2026 12:14:29 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -53,36 +53,29 @@
 
 	<Script>Generate Person Deck
 		<Action>SetStringByStat/Person Class,-STR:Person-,Class</Action>
-		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person-Deck'. Class is '-STR:Person Class-'</Action>
-		<Action>Log/LOGMESSAGE: First take ten cards from the "bloat" list. Shuffle the bloat list and deal the first ten. These will be replaced as the deck levels up. Being first makes it replace first.</Action>
+		<Action>SetStringByStat/Person Race,-STR:Person-,Race</Action>
+		<Action>Log/LOGMESSAGE: Generating a deck for -STR:Person-, using the variable name '-STR:Person-Deck'. Class is '-STR:Person Class-'. Race is '-STR:Person Race-'</Action>
+		<Action>Log/LOGMESSAGE: First take ten cards from the "bloat" list. Shuffle the bloat list and deal the first fourteen. These will be replaced as the deck levels up. Being first makes it replace first.</Action>
 		<Action>SetList/-STR:Person-Deck</Action>
-		<Action>ShuffleList/Template_-STR:Person Class-_Bloat</Action>
-		<Action>ForLoop/-A-,0-9,1,AddToList,-STR:Person-Deck,LIST{Template_-STR:Person Class-_Bloat,-A-}</Action>
-		<Action>Log/LOGMESSAGE: Take the "growth" list, and grab the first five and add it to the deck.</Action>
-		<Action>ShuffleList/Template_-STR:Person Class-_Growth</Action>
-		<Action>ForLoop/-A-,0-4,1,AddToList,-STR:Person-Deck,LIST{Template_-STR:Person Class-_Growth,-A-}</Action>
-		<Action>Log/LOGMESSAGE: Take the next ten growth cards, and put it in the replace upgrade path.</Action>
-		<Action>SetList/-STR:Person- Upgrade Replace With</Action>
-		<Action>ForLoop/-A-,5-14,1,AddToList,-STR:Person- Upgrade Replace With,LIST{Template_-STR:Person Class-_Growth,-A-}</Action>
+		<Action>SetList/-STR:Person- Replace With</Action>
+		<Action>ShuffleList/Deck_Template_-STR:Person Race-_-STR:Person Class-_Bloat</Action>
+		<Action>ForLoop/-A-,0-14,1,AddToList,-STR:Person-Deck,LIST{Deck_Template_-STR:Person Race-_-STR:Person Class-_Bloat,-A-}</Action>
+		<Action>Log/LOGMESSAGE: Take the "promise" list, and grab all of the cards, adding them to replace with.</Action>
+		<Action>ShuffleList/Deck_Template_-STR:Person Race-_-STR:Person Class-_Promise</Action>
+		<Action>ForLoop/-A-,0-LASTINLIST[Deck_Template_-STR:Person Race-_-STR:Person Class-_Promise],1,AddToList,-STR:Person- Upgrade Replace With,LIST{Deck_Template_-STR:Person Race-_-STR:Person Class-_Promise,-A-}</Action>
+		<Action>Log/LOGMESSAGE: Take the "growth" list, and grab the first ten and add it to the Replace With list</Action>
+		<Action>ShuffleList/Deck_Template_-STR:Person Race-_-STR:Person Class-_Growth</Action>
+		<Action>ForLoop/-A-,0-9,1,AddToList,-STR:Person- Upgrade Replace With,LIST{Deck_Template_-STR:Person Race-_-STR:Person Class-_Growth,-A-}</Action>
 		<Action>Log/LOGMESSAGE: Finally put the "core" cards on the bottom</Action>
+		<Action>CombineLists/-STR:Person-Deck,Deck_Template_-STR:Person Race-_-STR:Person Class-_Offensive|Deck_Template_-STR:Person Race-_-STR:Person Class-_Support_Utility|Deck_Template_-STR:Person Race-_-STR:Person Class-_Iconic</Action>
 		<Action>SetVal/-STR:Person- Upgrade Index,=:0</Action>
 		<Action>ListToString/-STR:Person- Upgrade Replace With,;;,Replace With String</Action>
 		<Action>Log/LOGMESSAGE: `-STR:Person- Replace With` is `-STR:Replace With String-`</Action>
-		<Action>CombineLists/-STR:Person-Deck,Template_-STR:Person Class-_Start</Action>
 		<Action>ListToString/-STR:Person-Deck,;;,Deck String</Action>
 		<Action>Log/LOGMESSAGE: '-STR:Person-Deck' set to '-STR:Deck String-'</Action>
-		<Action>SetList/-STR:Person- Ace,Template_-STR:Person Class-_Ace</Action>
-		<Action>ListToString/-STR:Person- Ace,;;,Ace String</Action>
-		<Action>Log/LOGMESSAGE: '-STR:Person- Ace' set to '-STR:Ace String-'</Action>
 		<Action>SetList/-STR:Person-DeckInactive</Action>
 		<Action>SetString/-STR:Person- Class,-STR:Person Class-</Action>
-	</Script>
-
-	<Script>Initialize Deck Template
-		<Action>Log/LOGGEDMESSAGE: Genearting the default starting deck for all characters.</Action>
-		<Action>SetList/Deck Template,Awareness|Bandit|Bandit|Bandit|Bandit|Barudit|Barudit|Gasul|Bowman|Frost Armor|Fury|Leap|Merchant|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Shadowling|Shadowling|Solid State Shield|Swordsman|Swordsman|Terror</Action>
-		<Action>ListToString/Deck Template,;;,Deck Template String</Action>
-		<Action>Log/LOGMESSAGE: 'Deck Template' set to '-STR:Deck Template String-'</Action>
+		<Action>SetString/-STR:Person- Race,-STR:Person Race-</Action>
 	</Script>
 
 	<Script>Generate Custom Character
@@ -115,126 +108,254 @@
 	</Script>
 
 	<Script>Set Class Deck Templates
-		<Action>Log/LOGMESSAGE: Generating Assassin template</Action>
-		<Action>SetList/Template_Assassin_Start,Assassin|Assassin|Assassin|Assassin|Iron Jaw Trap|Light Blast|Fury|Fury</Action>
-		<Action>SetList/Template_Assassin_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Assassin_Growth,Fury|Fury|Iron Jaw Trap|Iron Jaw Trap|Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Light Blast|Light Blast|Light Blast</Action>
-		<Action>SetList/Template_Assassin_Ace,Focus|Focus|Focus|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Axefighter template</Action>
-		<Action>SetList/Template_Axefighter_Start,Bandit|Bandit|Bandit|Bandit|Sellsword|Sellsword|Stimulate|Stimulate</Action>
-		<Action>SetList/Template_Axefighter_Bloat,Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Axefighter_Growth,Stimulate|Stimulate|Library|Library|Awareness|Awareness|Leap|Leap|Leap|Leap|Shadow Blast|Shadow Blast|Kinetic Gust|Kinetic Gust|Kinetic Gust|Smuggler|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit|Sellsword|Sellsword|Sellsword</Action>
-		<Action>SetList/Template_Axefighter_Ace,Mind Control|Mind Control|Smuggler|Smuggler</Action>
-		<Action>Log/LOGMESSAGE: Generating Barudit template</Action>
-		<Action>SetList/Template_Barudit_Start,Barudit|Barudit|Barudit|Barudit|Frost Armor|Fury|Fury|Stimulate</Action>
-		<Action>SetList/Template_Barudit_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Barudit_Growth,Stimulate|Stimulate|Stimulate|Library|Library|Frost Armor|Frost Armor|Fury|Fury|Leap|Leap|Leap|Leap|Shadow Blast|Shadow Blast|Kinetic Gust|Kinetic Gust|Drake</Action>
-		<Action>SetList/Template_Barudit_Ace,Drake|Drake|Drake|Mind Control</Action>
-		<Action>Log/LOGMESSAGE: Generating Bowman template</Action>
-		<Action>SetList/Template_Bowman_Start,Bowman|Bowman|Bowman|Bowman|Solid State Shield|Gasul|Fury|Fury</Action>
-		<Action>SetList/Template_Bowman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Bowman_Growth,Frost Armor|Frost Armor|Fury|Fury|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Awareness|Awareness|Gasul|Merchant|Merchant|Merchant</Action>
-		<Action>SetList/Template_Bowman_Ace,Mind Control|Mind Control|Mind Control|Mind Control</Action>
-		<Action>Log/LOGMESSAGE: Generating Bronze Golem template</Action>
-		<Action>SetList/Template_Bronze Golem_Start,Golem|Golem|Steam Engine|Steam Engine|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap</Action>
-		<Action>SetList/Template_Bronze Golem_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Bronze Golem_Growth,Steam Engine|Steam Engine|Awareness|Awareness|Awareness|Merchant|Merchant|Leap|Leap|Leap|Leap|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
-		<Action>SetList/Template_Bronze Golem_Ace,Golem|Golem|Focus|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Cavalier template</Action>
-		<Action>SetList/Template_Cavalier_Start,Mantis Rider|Mantis Rider|Mantis Rider|Mantis Rider|Merchant|Fury|Awareness|Awareness</Action>
-		<Action>SetList/Template_Cavalier_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Cavalier_Growth,Shadow Blast|Shadow Blast|Fury|Fury|Fury|Frost Armor|Frost Armor|Light Blast|Light Blast|Feedback|Feedback|Pyrokineticist|Merchant|Merchant|Merchant</Action>
-		<Action>SetList/Template_Cavalier_Ace,Focus|Focus|Focus|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Crossbowman template</Action>
-		<Action>SetList/Template_Crossbowman_Start,Crossbowman|Crossbowman|Crossbowman|Crossbowman|Merchant|Gasul|Iron Jaw Trap|Iron Jaw Trap</Action>
-		<Action>SetList/Template_Crossbowman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Crossbowman_Growth,Gasul|Gasul|Gasul|Merchant|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Awareness|Awareness</Action>
-		<Action>SetList/Template_Crossbowman_Ace,Mind Control|Mind Control|Mind Control|Mind Control</Action>
-		<Action>Log/LOGMESSAGE: Generating Cryokineticist template</Action>
-		<Action>SetList/Template_Cryokineticist_Start,Cryokineticist|Cryokineticist|Cryokineticist|Cryokineticist|Merchant|Merchant|Frost Armor|Frost Armor</Action>
-		<Action>SetList/Template_Cryokineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Cryokineticist_Growth,Merchant|Merchant|Frost Armor|Frost Armor|Iron Jaw Trap|Iron Jaw Trap|Awareness|Awareness|Awareness|Spearman|Spearman|Mentalist|Mentalist|Bowman|Bowman|Crossbowman|Crossbowman</Action>
-		<Action>SetList/Template_Cryokineticist_Ace,Drake|Drake|Golem|Golem</Action>
-		<Action>Log/LOGMESSAGE: Generating Dark Spriggat template</Action>
-		<Action>SetList/Template_Dark Spriggat_Start,Spriggat|Spriggat|Shadow Blast|Shadow Blast|Frost Armor|Fury|Merchant|Merchant</Action>
-		<Action>SetList/Template_Dark Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Dark Spriggat_Growth,Awareness|Awareness|Shadow Blast|Shadow Blast|Terror|Terror|Fury|Frost Armor|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant</Action>
-		<Action>SetList/Template_Dark Spriggat_Ace,Greater Spriggat|Greater Spriggat|Dark Vortex|Dark Vortex</Action>
-		<Action>Log/LOGMESSAGE: Generating Engineer template</Action>
-		<Action>SetList/Template_Engineer_Start,Steam Engine|Library|Bakery|Iron Jaw Trap|Merchant|Merchant|Frost Armor|Frost Armor</Action>
-		<Action>SetList/Template_Engineer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman|Sellsword</Action>
-		<Action>SetList/Template_Engineer_Growth,Steam Engine|Steam Engine|Steam Engine|Library|Library|Library|Bakery|Bakery|Bakery|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Crossbowman|Crossbowman|Crossbowman</Action>
-		<Action>SetList/Template_Engineer_Ace,Golem|Golem|Focus|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Frost Spriggat template</Action>
-		<Action>SetList/Template_Frost Spriggat_Start,Spriggat|Spriggat|Frost Armor|Frost Armor|Merchant|Merchant|Cryokineticist|Cryokineticist</Action>
-		<Action>SetList/Template_Frost Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Frost Spriggat_Growth,Awareness|Awareness|Fury|Fury|Frost Armor|Frost Armor|Cryokineticist|Cryokineticist||Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant</Action>
-		<Action>SetList/Template_Frost Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
-		<Action>Log/LOGMESSAGE: Generating Gasul template</Action>
-		<Action>SetList/Template_Gasul_Start,Gasul|Gasul|Gasul|Gasul|Fury|Fury|Sellsword|Frost Armor</Action>
-		<Action>SetList/Template_Gasul_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Gasul_Growth,Awareness|Awareness|Barudit|Barudit|Fury|Fury|Frost Armor|Frost Armor|Blinding Cloak|Drain|Drain|Drain|Drain|Spriggat|Spriggat|Sellsword|Sellsword|Sellsword</Action>
-		<Action>SetList/Template_Gasul_Ace,Drake|Drake|Focus|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Golden Spriggat template</Action>
-		<Action>SetList/Template_Golden Spriggat_Start,Spriggat|Spriggat|Light Blast|Light Blast|Frost Armor|Fury|Shadowling|Shadowling</Action>
-		<Action>SetList/Template_Golden Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Golden Spriggat_Growth,Photokineticist|Photokineticist|Photokineticist|Photokineticist|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback|Terror|Terror|Terror|Terror</Action>
-		<Action>SetList/Template_Golden Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
-		<Action>Log/LOGMESSAGE: Generating Kineticist template</Action>
-		<Action>SetList/Template_Kineticist_Start,Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Stimulate|Mentalist|Mentalist|Psy Healer</Action>
-		<Action>SetList/Template_Kineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Kineticist_Growth,Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Terror|Terror|Terror|Terror|Spriggat|Spriggat|Shadow Blast|Shadow Blast|Feedback|Feedback|Mind Control</Action>
-		<Action>SetList/Template_Kineticist_Ace,Mind Control|Mind Control|Mind Control|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Mentalist template</Action>
-		<Action>SetList/Template_Mentalist_Start,Mentalist|Mentalist|Mentalist|Mentalist|Frost Armor|Fury|Awareness|Awareness</Action>
-		<Action>SetList/Template_Mentalist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Mentalist_Growth,Awareness|Awareness|Frost Armor|Fury|Fury|Cryokineticist|Cryokineticist|Cryokineticist|Cryokineticist|Stimulate|Stimulate|Terror|Terror|Leap|Leap|Drain|Drain|Drain|Drain|Feedback|Feedback|Feedback|Feedback|Spearman|Spearman|Spearman|Mind Control</Action>
-		<Action>SetList/Template_Mentalist_Ace,Mind Control|Mind Control|Mind Control|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Photokineticist template</Action>
-		<Action>SetList/Template_Photokineticist_Start,Photokineticist|Photokineticist|Photokineticist|Photokineticist|Blinding Cloak|Frost Shield|Fury|Awareness</Action>
-		<Action>SetList/Template_Photokineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Photokineticist_Growth,Blinding Cloak|Blinding Cloak|Blinding Cloak|Frost Shield|Frost Shield|Frost Shield|Fury|Fury|Fury|Awareness|Awareness|Awareness|Gasul|Gasul|Gasul|Gasul|Merchant|Merchant|merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Leap|Leap|Leap|Leap</Action>
-		<Action>SetList/Template_Photokineticist_Ace,Dark Vortex|Dark Vortex|Dark Vortex|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Psy Healer template</Action>
-		<Action>SetList/Template_Psy Healer_Start,Psy Healer|Psy Healer|Psy Healer|Psy Healer|Mind Shield|Mind Shield|Merchant|Shadowling</Action>
-		<Action>SetList/Template_Psy Healer_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Psy Healer_Growth,Library|Library|Library|Library|Bakery|Bakery|Bakery|Bakery|Golem|Drake|Merchant|Merchant|Feedback|Feedback|Feedback|Feedback|Drain|Drain|Cryokineticist|Cryokineticist|Cryokineticist</Action>
-		<Action>SetList/Template_Psy Healer_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
-		<Action>Log/LOGMESSAGE: Generating Pyrokineticist template</Action>
-		<Action>SetList/Template_Pyrokineticist_Start,Pyrokineticist|Pyrokineticist|Pyrokineticist|Pyrokineticist|Kinetic Gust|Leap|Merchant|Merchant</Action>
-		<Action>SetList/Template_Pyrokineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Pyrokineticist_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Merchant|Merchant|Leap|Leap|Leap|Photokineticist|Photokineticist|Photokineticist|Blinding Cloak|Blinding Cloak|Blinding Cloak|Frost Armor|Awareness|Awareness|Awareness</Action>
-		<Action>SetList/Template_Pyrokineticist_Ace,Dark Vortex|Dark Vortex|Dark Vortex|Dark Vortex</Action>
-		<Action>Log/LOGMESSAGE: Generating Red Spriggat template</Action>
-		<Action>SetList/Template_Red Spriggat_Start,Spriggat|Spriggat|Pyrokineticist|Pyrokineticist|Frost Armor|Fury|Merchant|Merchant</Action>
-		<Action>SetList/Template_Red Spriggat_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Red Spriggat_Growth,Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Merchant|Merchant|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback</Action>
-		<Action>SetList/Template_Red Spriggat_Ace,Greater Spriggat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
-		<Action>Log/LOGMESSAGE: Generating Skiakineticist template</Action>
-		<Action>SetList/Template_Skiakineticist_Start,Terror|Terror|Terror|Terror|Shadowling|Shadowling|Library|Shadow Blast</Action>
-		<Action>SetList/Template_Skiakineticist_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Skiakineticist_Growth,Spriggat|Spriggat|Spriggat|Spriggat|Light Blast|Light Blast|Library|Steam Engine|Shadow Blast|Shadow Blast|Shadow Blast|Crossbowman|Crossbowman|Dark Vortex</Action>
-		<Action>SetList/Template_Skiakineticist_Ace,Dark Vortex|Dark Vortex|Dark Vortex|Focus</Action>
-		<Action>Log/LOGMESSAGE: Generating Spearman template</Action>
-		<Action>SetList/Template_Spearman_Start,Spearman|Spearman|Spearman|Spearman|Frost Armor|Fury|Awareness|Awareness</Action>
-		<Action>SetList/Template_Spearman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Spearman_Growth,Frost Armor|Frost Armor|Fury|Fury|Awareness|Awareness|Blinding Cloak|Blinding Cloak|Shadow Blast|Shadow Blast|Merchant|Merchant|Merchant|Sellsword|Sellsword</Action>
-		<Action>SetList/Template_Spearman_Ace,Focus|Focus|Focus|Golem</Action>
-		<Action>Log/LOGMESSAGE: Generating Spirit template</Action>
-		<Action>SetList/Template_Spirit_Start,Spirit|Spirit|Spirit|Drain|Merchant|Blinding Cloak|Blinding Cloak|Kinetic Gust</Action>
-		<Action>SetList/Template_Spirit_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Spirit_Growth,Merchant|Merchant|Merchant|Blinding Cloak|Blinding Cloak|Kinetic Gust|Kinetic Gust|Kinetic Gust|Leap|Leap|Leap|Stimulate|Stimulate|Stimulate|Stimulate|Cryokineticist|Cryokineticist|Bowman|Bowman|Spriggat|Spriggat|Drain|Drain|Drain|Feedback|Feedback</Action>
-		<Action>SetList/Template_Spirit_Ace,Spirit|Spirit|Spirit|Smuggler</Action>
-		<Action>Log/LOGMESSAGE: Generating Stone Golem template</Action>
-		<Action>SetList/Template_Stone Golem_Start,Golem|Golem|Kinetic Gust|Kinetic Gust|Merchant|Merchant|Steam Engine|Iron Jaw Trap</Action>
-		<Action>SetList/Template_Stone Golem_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling|Swordsman|Swordsman</Action>
-		<Action>SetList/Template_Stone Golem_Growth,Golem|Merchant|Merchant|Steam Engine|Steam Engine|Steam Engine|Smuggler|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Leap|Leap|Leap|Leap|Drake|Sprigat|Spriggat</Action>
-		<Action>SetList/Template_Stone Golem_Ace,Golem|Focus|Focus|Spirit</Action>
-		<Action>Log/LOGMESSAGE: Generating Swordsman template</Action>
-		<Action>SetList/Template_Swordsman_Start,Swordsman|Swordsman|Swordsman|Swordsman|Frost Armor|Awareness|Sellsword|Awareness</Action>
-		<Action>SetList/Template_Swordsman_Bloat,Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Shadowling|Shadowling</Action>
-		<Action>SetList/Template_Swordsman_Growth,Awareness|Awareness|Merchant|Merchant|Sellsword|Sellsword|Sellsword|Cryokineticist|Cryokineticist|Cryokineticist|Shadow Blast|Shadow Blast|Frost Armor|Frost Armor|Bowman|Bowman|Spearman|Spearman|Barudit|Barudit</Action>
-		<Action>SetList/Template_Swordsman_Ace,Golem|Golem|Focus|Focus</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Assassin</Action>
+		<Action>SetList/Deck_Template_Human_Assassin_Iconic,Assassin|Assassin|Assassin|Assassin</Action>
+		<Action>SetList/Deck_Template_Human_Assassin_Support_Offensive,Berserker|Berserker|Bowman|Poison Needles|Frost Shade|Cryokineticist|Skiakineticist|Dark Shade</Action>
+		<Action>SetList/Deck_Template_Human_Assassin_Support_Utility,Poison Needles|Merchant|Merchant|Shadow Blast|Twirl|Stimulate|Create Ice|Create Ice|Leap|Blinding Cloak|Blinding Cloak</Action>
+		<Action>SetList/Deck_Template_Human_Assassin_Bloat,Frost Armor|Frost Armor|Frost Armor|Frost Armor|Poison Needles|Poison Needles|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Create Ice|Create Ice|Leap|Leap|Leap|Blinding Cloak|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Shadowling|Shadowling|Shadowling|Swordsman|Swordsman|Gasul|Barudit</Action>
+		<Action>SetList/Deck_Template_Human_Assassin_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Grape Shot|Grape Shot|Grape Shot|Bronze Golem|Bronze Golem|Berserker|Berserker|Dark Vortex|Shadow Blast|Shadow Blast|Shadow Blast|Twirl|Drain|Smuggler|Bowman|Crossbowman|Pyrokurios|Bowmaster|Skiakineticist|Dark Shade|Frost Shade|Cryokineticist|Smuggler|Smuggler</Action>
+		<Action>SetList/Deck_Template_Human_Assassin_Promise,Grape Shot|Mind Control|Smuggler|Dark Vortex</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Assassin Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Assassin_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Assassin_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Assassin_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Assassin_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Assassin_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Assassin_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Axefighter</Action>
+		<Action>SetList/Deck_Template_Human_Axefighter_Iconic,Bandit|Bandit|Bandit|Bandit</Action>
+		<Action>SetList/Deck_Template_Human_Axefighter_Support_Offensive,Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Poison Needles|Berserker|Berserker|Red Spriggat|Sellsword|Sellsword</Action>
+		<Action>SetList/Deck_Template_Human_Axefighter_Support_Utility,Stimulate|Stimulate|Stimulate|Leap|Shadow Blast|Iron Jaw Trap|Create Ice|Poison Needles|Twirl</Action>
+		<Action>SetList/Deck_Template_Human_Axefighter_Bloat,Gasul|Gasul|Gasul|Gasul|Leap|Leap|Leap|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Iron Jaw Trap|Iron Jaw Trap|Awareness|Frost Armor|Frost Armor|Frost Armor|Swordsman|Swordsman|Swordsman|Swordsman|Gasul|Gasul|Mind Shield|Mind Shield|Mind Shield|Barudit|Barudit|Solid State Shield|Solid State Shield|Poison Needles|Poison Needles|Twirl|Shadowling|Shadowling|Shadowling</Action>
+		<Action>SetList/Deck_Template_Human_Axefighter_Growth,Dacoit Cutter|Library|Stimulate|Smuggler|Smuggler|Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Shadow Blast|Shadow Blast|Grape Shot|Grape Shot|Create Ice|Berserker|Berserker|Bowman|Crossbowman|Bowmaster|Pyrokurios|Bronze Golem|Mind Control|Mind Control|Red Spriggat|Red Spriggat|Frost Spriggat|Golden Spriggat|Sellsword|Sellsword</Action>
+		<Action>SetList/Deck_Template_Human_Axefighter_Promise,Smuggler|Red Spriggat|Mind Control|Grape Shot</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Axefighter Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Axefighter_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Axefighter_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Axefighter_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Axefighter_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Axefighter_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Axefighter_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Lissit Barudit</Action>
+		<Action>SetList/Deck_Template_Lissit_Barudit_Iconic,Barudit|Barudit|Barudit|Barudit</Action>
+		<Action>SetList/Deck_Template_Lissit_Barudit_Support_Offensive,Cryokineticist|Frost Shade|Gasul|Drake|Blade Dancer|Bowmaster</Action>
+		<Action>SetList/Deck_Template_Lissit_Barudit_Support_Utility,Frost Armor|Twirl|Fury|Fury|Gasul|Blinding Cloak|Blinding Cloak|Poison Needles|Poison Needles|Poison Needles|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Lissit_Barudit_Bloat,Frost Armor|Frost Armor|Frost Armor|Twirl|Twirl|Twirl|Gasul|Gasul|Swordsman|Swordsman|Swordsman|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Shadowling|Shadowling|Shadowling|Solid State Shield|Solid State Shield|Sellsword|Sellsword|Bakery</Action>
+		<Action>SetList/Deck_Template_Lissit_Barudit_Growth,Cryokineticist|Cryokineticist|Frost Shade|Frost Shade|Drake|Drake|Blinding Cloak|Blinding Cloak|Fury|Fury|Bronze Golem|Dark Vortex|Grape Shot|Grape Shot|Blade Dancer|Bowman|Crossbowman|Pyrokurios|Bowmaster|Library|Steam Engine|Kineticist|Kineticist|Kineticist|Kineticist|Kineticist Shade|Kineticist Shade|Kineticist Shade|Kineticist Shade</Action>
+		<Action>SetList/Deck_Template_Lissit_Barudit_Promise,Drake|Bowmaster|Blade Dancer|Bronze Golem</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Lissit Barudit Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Lissit_Barudit_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Lissit_Barudit_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Lissit_Barudit_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Lissit_Barudit_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Lissit_Barudit_Growth]') (Promise: 'LASTINLIST[Deck_Template_Lissit_Barudit_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Bowman</Action>
+		<Action>SetList/Deck_Template_Human_Bowman_Iconic,Bowman|Bowman|Bowman|Bowman</Action>
+		<Action>SetList/Deck_Template_Human_Bowman_Support_Offensive,Poison Needles|Poison Needles|Bowmaster|Gasul|Pyro Shade|Frost Shade</Action>
+		<Action>SetList/Deck_Template_Human_Bowman_Support_Utility,Twirl|Twirl|Fury|Create Ice|Create Ice|Iron Jaw Trap|Merchant|Merchant</Action>
+		<Action>SetList/Deck_Template_Human_Bowman_Bloat,Mind Blast|Mind Blast|Mind Blast|Mind Blast|Poison Needles|Poison Needles|Swordsman|Swordsman|Swordsman|Shadowling|Shadowling|Shadowling|Sellsword|Sellsword|Sellsword|Sellsword|Barudit|Barudit|Barudit|Gasul|Gasul|Mind Shield|Mind Shield|Mind Shield|Mined Shield|Solid State Shield|Solid State Shield|Merchant|Bakery</Action>
+		<Action>SetList/Deck_Template_Human_Bowman_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Shadow Blast|Shadow Blast|Dark Vortex|Bowmaster|Bowmaster|Fury|Fury|Fury|Create Ice|Create Ice|Iron Jaw Trap|Pyrokineticist|Pyrokineticist|Pyrokineticist|Pyrokurios|Pyrokurios|Defective Golem|Defective Golem|Defective Golem|Pyro Shade|Spirit|Smuggler|Steam Engine|Library|Cryokineticist|Skiakineticist|Dark Shade|Terror|Cryokineticist|Drain</Action>
+		<Action>SetList/Deck_Template_Human_Bowman_Promise,Bowmaster|Terror|Dark Vortex|Pyrokurios</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Bowman Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Bowman_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Bowman_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Bowman_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Bowman_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Bowman_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Bowman_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Golem Bronze Golem</Action>
+		<Action>SetList/Deck_Template_Golem_Bronze Golem_Iconic,Bronze Golem|Bronze Golem|Bronze Golem|Bronze Golem</Action>
+		<Action>SetList/Deck_Template_Golem_Bronze Golem_Support_Offensive,Poison Needles|Iron Jaw Trap|Defective Golem|Kinetic Gust|Leap</Action>
+		<Action>SetList/Deck_Template_Golem_Bronze Golem_Support_Utility,Create Ice|Create Ice|Merchant|Merchant|Steam Engine|Steam Engine|Engineer</Action>
+		<Action>SetList/Deck_Template_Golem_Bronze Golem_Bloat,Poison Needles|Poison Needles|Poison Needles|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Shadowling|Shadowling|Shadowling|Shadowling|Gasul|Gasul|Gasul|Gasul|Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Mind Blast|Mind Blast|Mind Blast|Mind Blast</Action>
+		<Action>SetList/Deck_Template_Golem_Bronze Golem_Growth,Dark Vortex|Grape Shot|Grape Shot|Grape Shot|Steam Engine|Steam Engine|Create Ice|Create Ice|Merchant|Merchant|Golem|Defective Golem|Defective Golem|Defective Golem|Blinding Cloak|Kinetic Gust|Kinetic Gust|Kinetic Gust|Leap|Awareness|Awareness|Spirit|Crossbowman|Crossbowman|Crossbowman</Action>
+		<Action>SetList/Deck_Template_Golem_Bronze Golem_Promise,Dark Vortex|Grape Shot|Golem|Engineer</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Golem Bronze Golem Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Golem_Bronze Golem_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Golem_Bronze Golem_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Golem_Bronze Golem_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Golem_Bronze Golem_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Golem_Bronze Golem_Growth]') (Promise: 'LASTINLIST[Deck_Template_Golem_Bronze Golem_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Cavalier Golem</Action>
+		<Action>SetList/Deck_Template_Human_Cavalier_Iconic,Mantis Rider|Mantis Rider|Mantis Rider|Mantis Rider</Action>
+		<Action>SetList/Deck_Template_Human_Cavalier_Support_Offensive,Berserker|Mant Lancer|Dacoit Cutter|Kinetic Gust|Skiakineticist</Action>
+		<Action>SetList/Deck_Template_Human_Cavalier_Support_Utility,Frost Armor|Frost Armor|Awareness|Fury|Create Ice|Iron Jaw Trap|Terror</Action>
+		<Action>SetList/Deck_Template_Human_Cavalier_Bloat,Frost Armor|Frost Armor|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Bandit|Bandit|Bandit|Bandit|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Mind Blast|Mind Blast|Mind Blast|Mind Blast</Action>
+		<Action>SetList/Deck_Template_Human_Cavalier_Growth,Fury|Fury|Fury|Awareness|Awareness|Awareness|Create Ice|Create Ice|Create Ice|Mant Lancer|Mant Lancer|Kinetic Gust|Kinetic Gust|Kinetic Gust|Kineticist|Kineticist|Kineticist|Kineticist|Kineticist Shade|Kineticist Shade|Kineticist Shade|Kineticist Shade|Terror|Terror|Terror|Skiakineticist|Skiakineticist|Skiakineticist|Dark Shade|Dark Shade|Dark Shade</Action>
+		<Action>SetList/Deck_Template_Human_Cavalier_Promise,Mant Lancer|Kineticist|Dark Shade</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Cavalier Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Cavalier_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Cavalier_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Cavalier_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Cavalier_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Cavalier_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Cavalier_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Crossbowman</Action>
+		<Action>SetList/Deck_Template_Human_Crossbowman_Iconic,Crossbowman|Crossbowman|Crossbowman|Crossbowman</Action>
+		<Action>SetList/Deck_Template_Human_Crossbowman_Support_Offensive,Grape Shot|Bronze Golem</Action>
+		<Action>SetList/Deck_Template_Human_Crossbowman_Support_Utility,Steam Engine|Create Ice|Iron Jaw Trap|Merchant|Merchant|Fury|Awareness</Action>
+		<Action>SetList/Deck_Template_Human_Crossbowman_Bloat,Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Solid State Shield|Solid State Shield|Solid State Shield|Solid State Shield|Bandit|Bandit|Bandit|Bandit|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit|Mind Blast|Mind Blast|Mind Blast|Mind Blast</Action>
+		<Action>SetList/Deck_Template_Human_Crossbowman_Growth,Steam Engine|Steam Engine|Create Ice|Create Ice|Create Ice|Grape Shot|Grape Shot|Merchant|Merchant|Fury|Fury|Awareness|Awareness|Awareness|Engineer|Engineer|Engineer|Engineer|Bronze Golem|Bronze Golem|Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust</Action>
+		<Action>SetList/Deck_Template_Human_Crossbowman_Promise,Steam Engine|Grape Shot|Fury|Bronze Golem </Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Crossbowman Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Crossbowman_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Crossbowman_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Crossbowman_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Crossbowman_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Crossbowman_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Crossbowman_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Cryokineticist</Action>
+		<Action>SetList/Deck_Template_Human_Cryokineticist_Iconic,Cryokineticist|Cryokineticist|Cryokineticist|Cryokineticist</Action>
+		<Action>SetList/Deck_Template_Human_Cryokineticist_Support_Offensive,Mant Lancer|Bowman|Crossbowman|Frost Shade|Shadowling|Dacoit Cutter</Action>
+		<Action>SetList/Deck_Template_Human_Cryokineticist_Support_Utility,Library|Bakery|Steam Engine|Frost Armor|Frost Armor|Twirl|Twirl|Psy Healer|Psy Healer Shade|Create Ice|Create Ice</Action>
+		<Action>SetList/Deck_Template_Human_Cryokineticist_Bloat,Frost Armor|Frost Armor|Twirl|Twirl|Gasul|Gasul|Gasul|Gasul|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Shadowling|Shadowling|Bandit|Bandit|Bandit</Action>
+		<Action>SetList/Deck_Template_Human_Cryokineticist_Growth,Library|Bakery|Steam Engine|Bowman|Crossbowman|Frost Shade|Drake|Spirit|Smuggler|Psy Healer Shade|Psy Healer Shade|Psy Healer|Psy Healer|Create Ice|Dacoit Cutter|Frost Spriggat|Spearman|Spearman</Action>
+		<Action>SetList/Deck_Template_Human_Cryokineticist_Promise,Mant Lancer|Frost Shade|Create Ice</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Cryokineticist Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Cryokineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Cryokineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Cryokineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Cryokineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Cryokineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Cryokineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Cryokineticist</Action>
+		<Action>SetList/Deck_Template_Shadowling_Cryokineticist_Iconic,Frost Shade|Frost Shade|Frost Shade|Frost Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Cryokineticist_Support_Offensive,Shadowling|Dark Shade|Bowman</Action>
+		<Action>SetList/Deck_Template_Shadowling_Cryokineticist_Support_Utility,Create Ice|Create Ice|Create Ice|Frost Armor|Frost Armor|Frost Armor|Merchant|Merchant</Action>
+		<Action>SetList/Deck_Template_Shadowling_Cryokineticist_Bloat,Frost Armor|Shadowling|Shadowling|Shadowling|Solid State Shield|Solid State Shield|Solid State Shield|Solid State Shield|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield</Action>
+		<Action>SetList/Deck_Template_Shadowling_Cryokineticist_Growth,Bowman|Bowman|Bowman|Crossbowman|Crossbowman|Crossbowman|Dark Shade|Dark Spriggat|Dark Spriggat|Dark Spriggat|Spriggat|Spriggat|Greater Spriggat</Action>
+		<Action>SetList/Deck_Template_Shadowling_Cryokineticist_Promise,Greater Spriggat|Crossbowman|Dark Spriggat</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Cryokineticist Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Cryokineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Cryokineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Cryokineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Cryokineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Cryokineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Cryokineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Dark Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Dark Spriggat_Iconic,Dark Spriggat|Dark Spriggat|Dark Spriggat|Dark Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Dark Spriggat_Support_Offensive,Pyro Shade|Frost Shade|Light Shade|Kineticist Shade|Psy Healer Shade|Mentalist Shade|Red Spriggat|Frost Spriggat|Golden Spriggat|Spriggat|Bowman|Bowman</Action>
+		<Action>SetList/Deck_Template_Spriggat_Dark Spriggat_Support_Utility,Shadowling|Shadowling|Light Blast|Feedback|Terror|Terror|Create Ice|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Spriggat_Dark Spriggat_Bloat,Shadowling|Shadowling|Poison Needles|Poison Needles|Poison Needles|Poison Needles|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Solid State Shield|Solid State Shield|Solid State Shield|Solid State Shield|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Spriggat_Dark Spriggat_Growth,Pyro Shade|Pyro Shade|Pyro Shade|Frost Shade|Frost Shade|Frost Shade|Light Shade|Light Shade|Light Shade|Kineticist Shade|Kineticist Shade|Kineticist Shade|Psy Healer Shade|Psy Healer Shade|Psy Healer Shade|Mentalist Shade|Mentalist Shade|Mentalist Shade|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Red Spriggat|Red Spriggat|Red Spriggat|Frost Spriggat|Frost Spriggat|Frost Spriggat|Golden Spriggat|Golden Spriggat|Golden Spriggat|Spriggat|Spriggat|Spriggat|Terror|Dark Shade|Dark Shade|Bowman|Crossbowman|Crossbowman|Crossbowman|Bowmaster|Bowmaster|Bowmaster|Pyrokurios|Pyrokurios|Pyrokurios|Library|Steam Engine|Bakery|Create Ice|Create Ice|Create Ice</Action>
+		<Action>SetList/Deck_Template_Spriggat_Dark Spriggat_Promise,Greater Spriggat|Feedback|Terror|Dark Shade</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Dark Spriggat Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Spriggat_Dark Spriggat_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Spriggat_Dark Spriggat_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Spriggat_Dark Spriggat_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Spriggat_Dark Spriggat_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Spriggat_Dark Spriggat_Growth]') (Promise: 'LASTINLIST[Deck_Template_Spriggat_Dark Spriggat_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Engineer</Action>
+		<Action>SetList/Deck_Template_Human_Engineer_Iconic,Engineer|Engineer|Engineer|Engineer</Action>
+		<Action>SetList/Deck_Template_Human_Engineer_Support_Offensive,Kineticist Shade|Bronze Golem|Golem|Defective Golem</Action>
+		<Action>SetList/Deck_Template_Human_Engineer_Support_Utility,Kinetic Gust|Kinetic Gust|Kinetic Gust|Leap|Leap|Leap|Steam Engine|Grape Shot</Action>
+		<Action>SetList/Deck_Template_Human_Engineer_Bloat,Bakery|Bakery|Bakery|Bakery|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Mind Blast|Mind Blast|Mind Blast|Mind Blast</Action>
+		<Action>SetList/Deck_Template_Human_Engineer_Growth,Kineticist|Kineticist|Kineticist|Kineticist Shade|Kineticist Shade|Golem|Golem|Bronze Golem|Bronze Golem|Defective Golem|Defective Golem|Defective Golem|Steam Engine|Steam Engine|Steam Engine|Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Grape Shot|Grape Shot|Grape Shot|Mind Control|Mind Control|Mind Control</Action>
+		<Action>SetList/Deck_Template_Human_Engineer_Promise,Kinetic Gust|Leap|Golem|Bronze Golem</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Engineer Decks Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Engineer_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Engineer_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Engineer_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Engineer_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Engineer_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Engineer_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Frost Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Frost Spriggat_Iconic,Frost Spriggat|Frost Spriggat|Frost Spriggat|Frost Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Frost Spriggat_Support_Offensive,Cryokineticist|Frost Shade</Action>
+		<Action>SetList/Deck_Template_Spriggat_Frost Spriggat_Support_Utility,Frost Armor|Frost Armor|Frost Armor|Create Ice|Create Ice|Terror</Action>
+		<Action>SetList/Deck_Template_Spriggat_Frost Spriggat_Iconic_Bloat,Gasul|Gasul|Gasul|Gasul|Poison Needles|Poison Needles|Poison Needles|Poison Needles|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Shadowling|Shadowling|Shadowling|Shadowling|Bandit|Bandit|Bandit|Bandit|Swordsman|Swordsman|Swordsman|Swordsman</Action>
+		<Action>SetList/Deck_Template_Spriggat_Frost Spriggat_Growth,Fury|Fury|Fury|Fury|Awareness|Awareness|Awareness|Awareness|Cryokineticist|Cryokineticist|Cryokineticist|Frost Shade|Frost Shade|Frost Shade|Greater Spriggat|Greater Spriggat|Greater Spriggat|Spriggat|Spriggat|Spriggat|Spriggat|Dark Shade|Skiakineticist|Terror</Action>
+		<Action>SetList/Deck_Template_Spriggat_Frost Spriggat_Promise|Frost Armor|Frost Shade|Greater Spriggat|Create Ice</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Frost Spriggat Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Spriggat_Frost Spriggat_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Spriggat_Frost Spriggat_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Spriggat_Frost Spriggat_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Spriggat_Frost Spriggat_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Spriggat_Frost Spriggat_Growth]') (Promise: 'LASTINLIST[Deck_Template_Spriggat_Frost Spriggat_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Lissit Gasul</Action>
+		<Action>SetList/Deck_Template_Lissit_Gasul_Iconic,Gasul|Gasul|Gasul|Gasul</Action>
+		<Action>SetList/Deck_Template_Lissit_Gasul_Support_Offensive,Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Sellsword|Sellsword|Sellsword|Berserker</Action>
+		<Action>SetList/Deck_Template_Lissit_Gasul_Support_Utility,Frost Armor|Twirl|Twirl|Twirl|Fury|Create Ice|Create Ice|Leap|Leap</Action>
+		<Action>SetList/Deck_Template_Lissit_Gasul_Bloat,Twirl|Frost Armor|Poison Needles|Poison Needles|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Leap|Leap</Action>
+		<Action>SetList/Deck_Template_Lissit_Gasul_Growth,Fury|Dacoit Cutter|Sellsword|Create Ice|Create Ice|Berserker|Berserker|Shadow Blast|Shadow Blast|Grape Shot|Dark Vortex</Action>
+		<Action>SetList/Deck_Template_Lissit_Gasul_Promise,Grape Shot|Dark Vortex|Mind Control</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Lissit Gasul Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Lissit_Gasul_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Lissit_Gasul_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Lissit_Gasul_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Lissit_Gasul_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Lissit_Gasul_Growth]') (Promise: 'LASTINLIST[Deck_Template_Lissit_Gasul_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Golden Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Golden Spriggat_Iconic,Golden Spriggat|Golden Spriggat|Golden Spriggat|Golden Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Golden Spriggat_Support_Offensive,Photokineticist|Light Shade|Light Blast|Light Blast|Sellsword|Sellsword|Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Golden Spriggat_Support_Utility,Awareness|Frost Armor|Stimulate|Stimulate|Create Ice|Merchant|Merchant</Action>
+		<Action>SetList/Deck_Template_Spriggat_Golden Spriggat_Bloat,Frost Armor|Frost Armor|Frost Armor|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Gasul|Gasul|Gasul|Gasul|Poison Needles|Poison Needles|Poison Needles|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Spriggat_Golden Spriggat_Growth,Stimulate|Stimulate|Light Blast|Light Shade|Light Shade|Photokineticist|Photokineticist|Photokineticist|Create Ice|Create Ice|Create Ice|Merchant|Merchant|Sellsword|Sellsword|Mind Control|Mind Control|Spriggat|Spriggat|Sprigat|Greater Spriggat|Greater Spriggat|Greater Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Golden Spriggat_Promise,Light Blast|Light Shade|Mind Control|Greater Spriggat</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Golden Spriggat Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Spriggat_Golden Spriggat_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Spriggat_Golden Spriggat_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Spriggat_Golden Spriggat_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Spriggat_Golden Spriggat_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Spriggat_Golden Spriggat_Growth]') (Promise: 'LASTINLIST[Deck_Template_Spriggat_Golden Spriggat_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Kineticist</Action>
+		<Action>SetList/Deck_Template_Human_Kineticist_Iconic,Kineticist|Kineticist|Kineticist|Kineticist</Action>
+		<Action>SetList/Deck_Template_Human_Kineticist_Support_Offensive,Barudit|Barudit|Spearman|Iron Jaw Trap|Iron Jaw Trap|Terror|Light Blast|Feedback</Action>
+		<Action>SetList/Deck_Template_Human_Kineticist_Support_Utility,Kinetic Gust|Kinetic Gust|Kinetic Gust|Merchant</Action>
+		<Action>SetList/Deck_Template_Human_Kineticist_Bloat,Barudit|Iron Jaw Trap|Merchant|Merchant|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Frost Armor|Frost Armor|Frost Armor|Frost Armor|Fury|Fury|Fury|Fury|Mind Shield|Mind Shield|Mind Shield|Mind Shield</Action>
+		<Action>SetList/Deck_Template_Human_Kineticist_Growth,Drake|Drake|Drake|Drake|Create Ice|Create Ice|Create Ice|Spearman|Spearman|Spearman|Kineticist Shade|Kineticist Shade|Defective Golem|Defective Golem|Defective Golem|Golem|Golem|Golem|Terror|Terror|Terror|Skiakineticist|Skiakineticist|Dark Shade|Dark Shade|Light Blast|Light Blast|Feedback|Feedback|Bowmaster|Blade Dancer</Action>
+		<Action>SetList/Deck_Template_Human_Kineticist_Promise,Defective Golem|Spearman|Golem|Kinetic Gust</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Kineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Kineticist</Action>
+		<Action>SetList/Deck_Template_Shadowling_Kineticist_Iconic,Kineticist Shade|Kineticist Shade|Kineticist Shade|Kineticist Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Kineticist_Support_Offensive,Barudit|Drake|Skiakineticist|Dark Shade|Kinetic Gust|Kinetic Gust</Action>
+		<Action>SetList/Deck_Template_Shadowling_Kineticist_Support_Utility,Fury|Fury|Twirl|Terror|Kinetic Gust|Kinetic Gust|Iron Jaw Trap|Create Ice</Action>
+		<Action>SetList/Deck_Template_Shadowling_Kineticist_Bloat,Barudit|Barudit|Barudit|Twirl|Twirl|Twirl|Bandit|Bandit|Bandit|Bandit|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Swordsman|Swordsman|Swordsman|Swordsman|Sellsword|Sellsword|Sellsword|Sellsword|Gasul|Gasul|Gasul|Gasul|Gasul|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Mind Blast|Mind Blast|Mind Blast|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Create Ice|Create Ice|Create Ice|Solid State Shield|Solid State Shield|Solid State Shield</Action>
+		<Action>SetList/Deck_Template_Shadowling_Kineticist_Growth,Drake|Drake|Drake|Blade Dancer|Blade Dancer|Blade Dancer|Bowmaster|Bowmaster|Bowmaster|Fury|Skiakineticist|Skiakineticist|Skiakineticist|Dark Shade|Dark Shade|Dark Shade|Golem|Defective Golem|Defective Golem</Action>
+		<Action>SetList/Deck_Template_Shadowling_Kineticist_Promise,Bowmaster|Fury|Terror|Golem</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Kineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Kineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Mentalist</Action>
+		<Action>SetList/Deck_Template_Human_Mentalist_Iconic,Mentalist|Mentalist|Mentalist|Mentalist</Action>
+		<Action>SetList/Deck_Template_Human_Mentalist_Support_Offensive,Mind Control|Spearman|Kineticist|Kineticist Shade|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Human_Mentalist_Support_Utility,Kinetic Gust|Poison Needles|Poison Needles|Frost Armor|Frost Armor|Fury|Awareness|Stimulate</Action>
+		<Action>SetList/Deck_Template_Human_Mentalist_Bloat,Mind Blast|Mind Blast|Mind Blast|Mind Blast|Poison Needles|Poison Needles|Fury|Fury|Frost Armor|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Mind Shield|Mind Shield|Mind Shield|Mind Shield</Action>
+		<Action>SetList/Deck_Template_Human_Mentalist_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Grape Shot|Grape Shot|Awareness|Mind Control|Kineticist|Kineticist Shade|Spearman|Spearman|Spearman|Psy Healer|Psy Healer|Psy Healer Shade|Psy Healer Shade|Library|Steam Engine|Steam Engine|Bakery|Bakery|Mant Lancer|Mant Lancer|Stimulate|Stimulate|Create Ice|Create Ice</Action>
+		<Action>SetList/Deck_Template_Human_Mentalist_Promise,Awareness|Mind Control|Mind Control|Library</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Mentalist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Mentalist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Mentalist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Mentalist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Mentalist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Mentalist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Mentalist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Mentalist</Action>
+		<Action>SetList/Deck_Template_Shadowling_Mentalist_Iconic,Mentalist Shade|Mentalist Shade|Mentalist Shade|Mentalist Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Mentalist_Support_Offensive,Dark Spriggat|Shadowling|Bowman|Pyro Shade|Frost Shade|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Shadowling_Mentalist_Support_Utility,Fury|Fury|Fury|Twirl|Twirl|Twirl</Action>
+		<Action>SetList/Deck_Template_Shadowling_Mentalist_Bloat,Shadowling|Shadowling|Shadowling|Bowman|Bowman|Bowman|Poison Needles|Poison Needles|Poison Needles|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield</Action>
+		<Action>SetList/Deck_Template_Shadowling_Mentalist_Growth,Twirl|Dark Spriggat|Dark Spriggat|Mind Control|Mind Control|Crossbowman|Crossbowman|Pyrokurios|Pyrokurios|Bowmaster|BowmasteR|Spriggat|Spriggat|Greater Spriggat|Greater Spriggat|Pyro Shade|Pyro Shade|Frost Shade|Frost Shade|Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Dark Vortex|Dark Vortex|Grape Shot|Grape Shot</Action>
+		<Action>SetList/Deck_Template_Shadowling_Mentalist_Promise,Fury|Dark Spriggat|Mind Control|Mind Control</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Mentalist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Mentalist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Mentalist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Mentalist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Mentalist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Mentalist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Mentalist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Photokineticist</Action>
+		<Action>SetList/Deck_Template_Human_Photokineticist_Iconic,Photokineticist|Photokineticist|Photokineticist|Photokineticist</Action>
+		<Action>SetList/Deck_Template_Human_Photokineticist_Support_Offensive,Cryokineticist|Frost Shade|Bowman|Bowman|Light Blast|Light Shade</Action>
+		<Action>SetList/Deck_Template_Human_Photokineticist_Support_Utility,Frost Armor|Fury|Awareness|Blinding Cloak|Create Ice|Iron Jaw Trap|Merchant|Merchant|Create Ice|Drain</Action>
+		<Action>SetList/Deck_Template_Human_Photokineticist_Bloat,Mind Blast|Mind Blast|Mind Blast|Mind Blast|Poison Needles|Poison Needles|Poison Needles|Bowman|Bowman|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Merchant|Merchant|Gasul|Gasul|Gasul|Gasul|Bandit|Bandit|Bandit|Bandit|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter</Action>
+		<Action>SetList/Deck_Template_Human_Photokineticist_Growth,Frost Armor|Frost Armor|Fury|Fury|Awareness|Awareness|Blinding Cloak|Blinding Cloak|Cryokineticist|Cryokineticist|Cryokineticist|Frost Shade|Frost Shade|Frost Shade|Crossbowman|Crossbowman|Bowmaster|Bowmaster|Pyrokurios|Pyrokurios|Mind Control|Mind Control|Mind Control|Shadow Blast|Shadow Blast|Shadow Blast|Grape Shot|Grape Shot|Dark Vortex|Dark Vortex|Bronze Golem|Bronze Golem|Blade Dancer|Blade Dancer|Create Ice|Create Ice|Light Blast|Light Shade|Light Shade|Drain|Drain|Drain</Action>
+		<Action>SetList/Deck_Template_Human_Photokineticist_Promise,Mind Control|Blinding Cloak|Grape Shot|Light Blast</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Photokineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Photokineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Photokineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Photokineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Photokineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Photokineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Photokineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Photokineticist</Action>
+		<Action>SetList/Deck_Template_Shadowling_Photokineticist_Iconic,Light Shade|Light Shade|Light Shade|Light Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Photokineticist_Support_Offensive,Fury|Fury|Light Blast|Pyro Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Photokineticist_Support_Utility,Fury|Twirl|Twirl|Frost Armor|Frost Armor|Awareness</Action>
+		<Action>SetList/Deck_Template_Shadowling_Photokineticist_Bloat,Twirl|Twirl|Frost Armor|Frost Armor|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Shadowling|Shadowling|Shadowling|Shadowling|Poison Needles|Poison Needles|Poison Needles|Poison Needles|Bandit|Bandit|Bandit|Bandit|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Create Ice|Create Ice|Create Ice|Create Ice|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Shadowling_Photokineticist_Growth,Awareness|Awareness|Light Blast|Light Blast|Bronze Golem|Bronze Golem|Mind Control|Mind Control|Shadow Blast|Shadow Blast|Grape Shot|Grape Shot|Pyro Shade|Pyro Shade|Pyro Shade|Pyro Shade|Feedback|Feedback|Feedback</Action>
+		<Action>SetList/Deck_Template_Shadowling_Photokineticist_Promise,Fury|Light Blast|Bronze Golem|Feedback</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Photokineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Photokineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Photokineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Photokineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Photokineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Photokineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Photokineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Psy Healer</Action>
+		<Action>SetList/Deck_Template_Human_Psy Healer_Iconic,Psy Healer|Psy Healer|Psy Healer|Psy Healer</Action>
+		<Action>SetList/Deck_Template_Human_Psy Healer_Support_Offensive,Light Blast|Feedback|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Spearman|Spearman</Action>
+		<Action>SetList/Deck_Template_Human_Psy Healer_Support_Utility,Kinetic Gust|Create Ice|Fury|Fury|Twirl|Twirl|Library|Library|Steam Engine|Steam Engine|Bakery|Bakery</Action>
+		<Action>SetList/Deck_Template_Human_Psy Healer_Bloat,Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|iron Jaw Trap|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Twirl|Twirl</Action>
+		<Action>SetList/Deck_Template_Human_Psy Healer_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Defective Golem|Defective Golem|Defective Golem|Mant Lancer|Mant Lancer|Mant Lancer|Bowman|Bowman|Crossbowman|Crossbowman|Crossbowman|Bowmaster|Bowmaster|Bowmaster|Pyrokurios|Pyrokurios|Pyokurios|Fury|Fury|Psy Healer Shade|Psy Healer Shade|Psy Healer Shade|Psy Healer Shade|Steam Engine|Library|Feedback|Feedback|Light Blast|Light Blast|Light Blast|Red Spriggat|Red Spriggat|Red Spriggat|Red Spriggat|Spearman|Spearman|Mentalist|Mentalist|Mentalist|Mentalist|Mentalist Shade|Mentalist Shade|Mentalist Shade|Mentalist Shade</Action>
+		<Action>SetList/Deck_Template_Human_Psy Healer_Promise,Feedback|Mant Lancer|Steam Engine|Library</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Psy Healer Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Psy Healer_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Psy Healer_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Psy Healer_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Psy Healer_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Psy Healer_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Psy Healer_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Psy Healer</Action>
+		<Action>SetList/Deck_Template_Shadowling_Psy Healer_Iconic,Psy Healer Shade|Psy Healer Shade|Psy Healer Shade|Psy Healer Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Psy Healer_Support_Offensive,Dark Spriggat|Fury|Fury</Action>
+		<Action>SetList/Deck_Template_Shadowling_Psy Healer_Support_Utility,Fury|Twirl|Twirl|Library|Terror|Terror</Action>
+		<Action>SetList/Deck_Template_Shadowling_Psy Healer_Bloat,Twirl|Twirl|Library|Library|Bowman|Bowman|Merchant|Merchant|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Shadowling|Shadowling|Shadowling|Shadowling</Action>
+		<Action>SetList/Deck_Template_Shadowling_Psy Healer_Growth,Dark Spriggat|Dark Spriggat|Steam Engine|Steam Engine|Bakery|Bakery|Bowman|Bowman|Bowmaster|Bowmaster|Crossbowman|Crossbowman|Pyrokurios|Pyrokurios|Create Ice|Create Ice|Spriggat|Sprigat|Greater Spriggat|Greater Spriggat|Mentalist Shade|Mentalist Shade|Cryo Shade|Cryo Shade|Pyro Shade|Pyro Shade|Red Spriggat|Red Spriggat|Red Spriggat|Terror|Terror|Dark Shade|Dark Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Psy Healer_Promise,Fury|Dark Spriggat|Dark Shade|Red Spriggat</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Psy Healer Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Psy Healer_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Psy Healer_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Psy Healer_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Psy Healer_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Psy Healer_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Psy Healer_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Pyrokineticist</Action>
+		<Action>SetList/Deck_Template_Human_Pyrokineticist_Iconic,Pyrokineticist|Pyrokineticist|Pyrokineticist|Pyrokineticist</Action>
+		<Action>SetList/Deck_Template_Human_Pyrokineticist_Support_Offensive,Pyrokurios|Pyrokurios|Pyrokurios|Pyro Shade</Action>
+		<Action>SetList/Deck_Template_Human_Pyrokineticist_Support_Utility,Kinetic Gust|Shadow Blast|Dacoit Cutter|Awareness|Bowman|Crossbowman</Action>
+		<Action>SetList/Deck_Template_Human_Pyrokineticist_Bloat,Mind Blast|Mind Blast|Mind Blast|Mind Blast|Bandit|Bandit|Bandit|Bandit|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Bowman|Bowman|Bowman</Action>
+		<Action>SetList/Deck_Template_Human_Pyrokineticist_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Shadow Blast|Shadow Blast|Shadow Blast|Mind Control|Mind Control|Dark Vortex|Dark Vortex|Dark Vortex|Bronze Golem|Bronze Golem|Bronze Golem|Grape Shot|Grape Shot|Grape Shot|Golem|Golem|Defective Golem|Defective Golem|Awareness|Awareness|Crossbowman|Bowmaster|Bowmaster|Light Blast|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Feedback</Action>
+		<Action>SetList/Deck_Template_Human_Pyrokineticist_Promise,Pyrokurios|Grape Shot|Bronze Golem|Dark Vortex</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Pyrokineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Pyrokineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Pyrokineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Pyrokineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Pyrokineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Pyrokineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Pyrokineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Pyrokineticist</Action>
+		<Action>SetList/Deck_Template_Shadowling_Pyrokineticist_Iconic,Pyro Shade|Pyro Shade|Pyro Shade|Pyro Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Pyrokineticist_Support_Offensive,Shadowling|Red Spriggat|Pyrokurios|Dacoit Cutter|Light Blast|Feedback</Action>
+		<Action>SetList/Deck_Template_Shadowling_Pyrokineticist_Support_Utility,Terror|Dark Shade|Skiakineticist|Twirl|Twirl|Fury|Fury|Poison Needles|Merchant</Action>
+		<Action>SetList/Deck_Template_Shadowling_Pyrokineticist_Support_Bloat,Shadowling|Shadowling|Shadowling|Twirl|Twirl|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Dacoit Cutter|Dacoit Cutter|Sellsword|Sellsword|Poison Needles|Poison Needles|Poison Needles|Bandit|Bandit|Bandit|Bandit</Action>
+		<Action>SetList/Deck_Template_Shadowling_Pyrokineticist_Support_Growth,Red Spriggat|Red Spriggat|Pyrokurios|Pyrokurios|Terror|Terror|Dark Shade|Dark Shade|Dark Shade|Skiakineticist|Skiakineticist|Fury|Fury|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Feedback|Merchant</Action>
+		<Action>SetList/Deck_Template_Shadowling_Pyrokineticist_Support_Promise,Red Spriggat|Pyrokurios|Pyrokineticist|Terror</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Pyrokineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Pyrokineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Pyrokineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Pyrokineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Pyrokineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Pyrokineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Pyrokineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Red Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Red Spriggat_Iconic,Red Spriggat|Red Spriggat|Red Spriggat|Red Spriggat</Action>
+		<Action>SetList/Deck_Template_Spriggat_Red Spriggat_Support_Offensive,Spriggat|Dacoit Cutter|Dacoit Cutter|Pyro Shade|Pyro Shade|Berserker</Action>
+		<Action>SetList/Deck_Template_Spriggat_Red Spriggat_Support_Utility,Frost Armor|Frost Armor|Fury|Terror|Light Blast|Awareness</Action>
+		<Action>SetList/Deck_Template_Spriggat_Red Spriggat_Bloat,Frost Armor|Frost Armor|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Spriggat_Red Spriggat_Growth,Spriggat|Spriggat|Spriggat|Greater Spriggat|Terror|Terror|Skiakineticist|Dark Shade|Dacoit Cutter|Dacoit Cutter|Light Blast|Light Blast|Light Blast|Feedback|Feedback|Pyro Shade|Pyro Shade|Pyrokineticist|Pyrokineticist|Pyrokineticist|Pyrokineticist|Pyrokurios|Pyrokurios|Pyrokurios|Grape Shot|Berserker|Awareness</Action>
+		<Action>SetList/Deck_Template_Spriggat_Red Spriggat_Promise,Greater Spriggat|Terror|Feedback|Pyrokurios</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spriggat Red Spriggat Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Spriggat_Red Spriggat_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Spriggat_Red Spriggat_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Spriggat_Red Spriggat_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Spriggat_Red Spriggat_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Spriggat_Red Spriggat_Growth]') (Promise: 'LASTINLIST[Deck_Template_Spriggat_Red Spriggat_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Skiakineticist</Action>
+		<Action>SetList/Deck_Template_Human_Skiakineticist_Iconic,Skiakineticist|Skiakineticist|Skiakineticist|Skiakineticist</Action>
+		<Action>SetList/Deck_Template_Human_Skiakineticist_Support_Offensive,Shadow Blast|Dark Shade|Dacoit Cutter|Shadowling</Action>
+		<Action>SetList/Deck_Template_Human_Skiakineticist_Support_Utility,Frost Armor|Frost Armor|Blinding Cloak|Terror|Library|Fury|Shadow Blast</Action>
+		<Action>SetList/Deck_Template_Human_Skiakineticist_Bloat,Frost Armor|Frost Armor|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Bandit|Bandit|Bandit|Bandit|Swordsman|Swordsman|Swordsman|Swordsman|Barudit|Barudit|Barudit|Barudit|Sellsword|Sellsword|Sellsword|Mind Blast|Mind Blast|Shadowling|Shadowling|Shadowling</Action>
+		<Action>SetList/Deck_Template_Human_Skiakineticist_Growth,Blinding Cloak|Blinding Cloak|Blinding Cloak|Terror|Terror|Psy Healer Shade|Psy Healer Shade|Steam Engine|Steam Engine|Bakery|Bakery|Mant Lancer|Mant Lancer|Shadow Blast|Shadow Blast|Fury|Fury|Dark Vortex|Dark Vortex|Dark Vortex|Spriggat|Spriggat|Greater Spriggat|Greater Spriggat|Pyro Shade|Pyro Shade</Action>
+		<Action>SetList/Deck_Template_Human_Skiakineticist_Promise,Terror|Psy Healer Shade|Dark Vortex|Shadow Blast</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Skiakineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human Skiakineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human Skiakineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human Skiakineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human Skiakineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human Skiakineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human Skiakineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Skiakineticist</Action>
+		<Action>SetList/Deck_Template_Shadowling_Skiakineticist_Iconic,Dark Shade|Dark Shade|Dark Shade|Dark Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Skiakineticist_Support_Offensive,Dark Spriggat|Dark Spriggat|Bowman|Shadowling|Pyro Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Skiakineticist_Support_Utility,Library|Bakery|Steam Engine|Create Ice|Fury|Fury|Merchant</Action>
+		<Action>SetList/Deck_Template_Shadowling_Skiakineticist_Bloat,Bowman|Bowman|Bowman|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Create Ice|Create Ice|Create Ice|Shadowling|Shadowling|Frost Armor|Frost Armor|Mind Blast|Mind Blast|Mind Blast|Mind Blast</Action>
+		<Action>SetList/Deck_Template_Shadowling_Skiakineticist_Growth,Dark Spriggat|Crossbowman|Crossbowman|Bowmaster|Bowmaster|Pyrokurios|Pyrokurios|Library|Bakery|Steam Engine|Engineer|Light Shade|Mentalist Shade|Kineticist Shade|Spriggat|Spriggat|Greater Spriggat|Fury|Fury|Merchant|Pyro Shade</Action>
+		<Action>SetList/Deck_Template_Shadowling_Skiakineticist_Promise,Dark Spriggat|Terror|Fury</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Shadowling Skiakineticist Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Shadowling_Skiakineticist_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Shadowling_Skiakineticist_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Shadowling_Skiakineticist_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Shadowling_Skiakineticist_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Shadowling_Skiakineticist_Growth]') (Promise: 'LASTINLIST[Deck_Template_Shadowling_Skiakineticist_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Spearman</Action>
+		<Action>SetList/Deck_Template_Human_Spearman_Iconic,Spearman|Spearman|Spearman|Spearman</Action>
+		<Action>SetList/Deck_Template_Human_Spearman_Support_Offensive,Frost Shade|Cryokineticist|Kineticist Shade|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Human_Spearman_Support_Utility,Frost Armor|Frost Armor|Awareness|Blinding Cloak|Twirl|Merchant|Create Ice</Action>
+		<Action>SetList/Deck_Template_Human_Spearman_Bloat,Twirl|Frost Armor|Frost Armor|Solid State Shield|Solid State Shield|Solid State Shield|Solid State Shield|Poison Needles|Poison Needles|Poison Needles|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Bandit|Bandit|Bandit|Bandit|Gasul|Gasul|Gasul|Gasul|Barudit|Barudit|Barudit|Barudit|Sellsword|Sellsword|Sellsword|Sellsword|Swordsman|Swordsman|Swordsman|Swordsman</Action>
+		<Action>SetList/Deck_Template_Human_Spearman_Growth,Awareness|Awareness|Awareness|Blinding Cloak|Blinding Cloak|Blinding Cloak|Mant Lancer|Mant Lancer|Mant Lancer|Cryokineticist|Cryokineticist|Cryokineticist|Defective Golem|Bronze Golem|Merchant|Create Ice|Kineticist Shade|Kineticist Shade|Kineticist|Kineticist|Kineticist</Action>
+		<Action>SetList/Deck_Template_Human_Spearman_Promise,Mant Lancer|Golem|Grape Shot|Dark Vortex</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Spearman Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Spearman_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Spearman_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Spearman_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Spearman_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Spearman_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Spearman_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spirit Spirit</Action>
+		<Action>SetList/Deck_Template_Spirit_Spirit_Iconic,Spirit|Spirit|Spirit|Spirit</Action>
+		<Action>SetList/Deck_Template_Spirit_Spirit_Support_Offensive,Cryokineticist|Frost Shade|Kinetic Gust|Sellsword|Dacoit Cutter</Action>
+		<Action>SetList/Deck_Template_Spirit_Spirit_Support_Utility,Mind Control|Drain|Drain|Twirl|Leap</Action>
+		<Action>SetList/Deck_Template_Spirit_Spirit_Bloat,Twirl|Twirl|Twirl|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Swordsman|Swordsman|Swordsman|Swordsman|Bandit|Bandit|Bandit|Bandit|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Leap|Leap|Leap</Action>
+		<Action>SetList/Deck_Template_Spirit_Spirit_Growth,Mind Control|Mind Control|Drain|Cryokineticist|Cryokineticist|Cryokineticist|Frost Shade|Frost Shade|Frost Shade|Shadow Blast|Shadow Blast|Grape Shot|Grape Shot|Kinetic Gust|Kinetic Gust|Kinetic Gust|Mant Lancer|Mant Lancer|Defective Golem|Golem|Golem|Spriggat|Spriggat|Greater Spriggat|Greater Spriggat|Drake|Drake|Sellsword|Sellsword|Sellsword|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Bowman|Bowman|Crossbowman|Crossbowman|Pyrokurios|Pyrokurios|Bowmaster|Bowmaster|Dark Vortex|Dark Vortex|Golden Spriggat|Frost Spriggat</Action>
+		<Action>SetList/Deck_Template_Spirit_Spirit_Promise,Mind Control|Drain|Smuggler|Defective Golem</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Spirit Spirit Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Spirit_Spirit_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Spirit_Spirit_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Spirit_Spirit_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Spirit_Spirit_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Spirit_Spirit_Growth]') (Promise: 'LASTINLIST[Deck_Template_Spirit_Spirit_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Golem Stone Golem</Action>
+		<Action>SetList/Deck_Template_Golem_Stone Golem_Iconic,Golem|Golem|Golem|Golem</Action>
+		<Action>SetList/Deck_Template_Golem_Stone Golem_Support_Offensive,Kinetic Gust|Awareness|Blinding Cloak|Defective Golem|Defective Golem|Leap</Action>
+		<Action>SetList/Deck_Template_Golem_Stone Golem_Support_Utility,Merchant|Merchant|Create Ice|Create Ice|Steam Engine|Steam Engine|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Golem_Stone Golem_Bloat,Mind Blast|Mind Blast|Mind Blast|Mind Blast|Frost Armor|Frost Armor|Frost Armor|Frost Armor|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Barudit|Barudit|Barudit|Barudit|Gasul|Gasul|Gasul|Gasul|Bandit|Bandit|Bandit|Bandit|Shadowling|Shadowling|Shadowling|Shadowling|Poison Needles|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Golem_Stone Golem_Growth,Kinetic Gust|Kinetic Gust|Kinetic Gust|Kineticist Shade|Kineticist Shade|Kineticist Shade|Kineticist Shade|Kineticist|Kineticist|Kineticist|Kineticist|Merchant|Merchant|Create Ice|Steam Engine|Steam Engine|Blinding Cloak|Blinding Cloak|Awareness|Awareness|Bronze Golem|Defective Golem|Leap|Iron Jaw Trap|Iron Jaw Trap</Action>
+		<Action>SetList/Deck_Template_Golem_Stone Golem_Promise,Create Ice|Defective Golem|Bronze Golem|Spirit</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Golem Stone Golem Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Golem_Stone Golem_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Golem_Stone Golem_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Golem_Stone Golem_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Golem_Stone Golem_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Golem_Stone Golem_Growth]') (Promise: 'LASTINLIST[Deck_Template_Golem_Stone Golem_Promise]'))</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Swordsman</Action>
+		<Action>SetList/Deck_Template_Human_Swordsman_Iconic,Swordsman|Swordsman|Swordsman|Swordsman</Action>
+		<Action>SetList/Deck_Template_Human_Swordsman_Support_Offensive,Sellsword|Sellsword|Sellsword|Dacoit Cutter|Bowman|Bowman|Shadowling|Gasul</Action>
+		<Action>SetList/Deck_Template_Human_Swordsman_Support_Utility,Merchant|Create Ice|Create Ice|Frost Armor|Awareness|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Human_Swordsman_Bloat,Bandit|Bandit|Bandit|Bandit|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Iron Jaw Trap|Shadowling|Shadowling|Barudit|Barudit|Gasul|Gasul|Awareness|Awareness|Frost Armor|Frost Armor|Fury|Fury|Mind Blast|Mind Blast|Mind Blast|Mind Blast|Mind Shield|Mind Shield|Mind Shield|Mind Shield|Poison Needles|Poison Needles|Poison Needles</Action>
+		<Action>SetList/Deck_Template_Human_Swordsman_Growth,Golem|Sellsword|Dacoit Cutter|Dacoit Cutter|Dacoit Cutter|Bowman|Bowman|Blade Dancer|Blade Dancer|Blade Dancer|Kinetic Gust|Kinetic Gust|Kinetic Gust|Kinetic Gust|Grape Shot|Grape Shot|Grape Shot|Shadow Blast|Shadow Blast|Shadow Blast|Shadow Blast|Defective Golem</Action>
+		<Action>SetList/Deck_Template_Human_Swordsman_Promise,Golem|Blade Dancer|Grape Shot|Defective Golem</Action>
+		<Action>Log/DECK TEMPLATE GENERATION - Human Swordsman Contain Card Counts: (Iconic: 'LASTINLIST[Deck_Template_Human_Swordsman_Iconic]') (Support_Offense: 'LASTINLIST[Deck_Template_Human_Swordsman_Support_Offensive]') (Support_Utility: 'LASTINLIST[Deck_Template_Human_Swordsman_Support_Utility]') (Bloat: 'LASTINLIST[Deck_Template_Human_Swordsman_Bloat]') (Growth: 'LASTINLIST[Deck_Template_Human_Swordsman_Growth]') (Promise: 'LASTINLIST[Deck_Template_Human_Swordsman_Promise]'))</Action>
 	</Script>
 
 	<Script>Generate Person Confirm
@@ -261,115 +382,144 @@
 	</Script>
 
 	<Script>Generate Booster Data
-		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Poison Needles|Feint</Action>
-		<Action>SetList/Variety Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios|Poison Needles|Feint</Action>
+		<Action>SetList/All Cards,Assassin|Bakery|Bandit|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spirit|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Focus|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Bronze Golem|Dark Shade|Dark Spriggat|Engineer|Frost Shade|Frost Spriggat|Golden Spriggat|Kineticist|Kineticist Shade|Light Shade|Mentalist Shade|Psy Healer Shade|Pyro Shade|Red Spriggat|Skiakineticist|Berserker|Blade Dancer|Bowmaster|Mant Lancer|Pyrokurios|Create Ice|Dacoit Cutter|Defective Golem|Sellsword|Grape Shot|Poison Needles|Twirl</Action>
+		<Action>SetList/Variety Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Bronze Golem|Dark Shade|Dark Spriggat|Engineer|Frost Shade|Frost Spriggat|Golden Spriggat|Kineticist|Kineticist Shade|Light Shade|Mentalist Shade|Psy Healer Shade|Pyro Shade|Red Spriggat|Skiakineticist|Berserker|Blade Dancer|Bowmaster|Mant Lancer|Pyrokurios|Create Ice|Dacoit Cutter|Defective Golem|Sellsword|Grape Shot|Poison Needles|Twirl</Action>
 		<Action>SetVal/Variety Pack Cost,=:10</Action>
 		<Action>SetVal/Variety Pack Count,=:4</Action>
-		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Sellsword|Shadowling Pyrokineticist|Shadowling Mentalist|Shadowling Photokineticist|Shadowling Cryokineticist|Shadowling Psy Healer|Cryokurios</Action>
+		<Action>SetList/Unit Pack,Assassin|Bakery|Barudit|Bowman|Crossbowman|Cryokineticist|Drake|Gasul|Golem|Greater Spriggat|Iron Jaw Trap|Library|Mantis Rider|Mentalist|Merchant|Photokineticist|Pyrokineticist|Psy Healer|Smuggler|Solid State Shield|Shadowling|Spearman|Spriggat|Steam Engine|Swordsman|Bronze Golem|Dark Shade|Dark Spriggat|Engineer|Frost Shade|Frost Spriggat|Golden Spriggat|Kineticist|Kineticist Shade|Light Shade|Mentalist Shade|Psy Healer Shade|Pyro Shade|Red Spriggat|Skiakineticist|Berserker|Blade Dancer|Bowmaster|Mant Lancer|Pyrokurios|Dacoit Cutter|Defective Golem|Sellsword</Action>
 		<Action>SetVal/Unit Pack Cost,=:7</Action>
 		<Action>SetVal/Unit Pack Count,=:3</Action>
-		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Poison Needles|Feint</Action>
+		<Action>SetList/Technique Pack,Awareness|Blinding Cloak|Dark Vortex|Drain|Feedback|Frost Armor|Fury|Kinetic Gust|Leap|Light Blast|Mind Blast|Mind Control|Mind Shield|Shadow Blast|Stimulate|Create Ice|Grape Shot|Poison Needles|Twirl</Action>
 		<Action>SetVal/Technique Pack Cost,=:7</Action>
 		<Action>SetVal/Technique Pack Count,=:3</Action>
 		<Action>SetList/Custom Pack,Sellsword</Action>
 		<Action>SetVal/Unit Pack Cost,=:6</Action>
 		<Action>SetVal/Unit Pack Count,=:1</Action>
-		<Action>SetList/Assassin Pack</Action>
-		<Action>CombineLists/Assassin Pack,Template_Assassin_Growth|Template_Assassin_Start</Action>
-		<Action>SetVal/Assassin Pack Count,=:2</Action>
-		<Action>SetVal/Assassin Pack Cost,=:6</Action>
-		<Action>SetList/Axefighter Pack</Action>
-		<Action>CombineLists/Axefighter Pack,Template_Axefighter_Growth|Template_Axefighter_Start</Action>
-		<Action>SetVal/Axefighter Pack Count,=:3</Action>
-		<Action>SetVal/Axefighter Pack Cost,=:5</Action>
-		<Action>SetList/Barudit Pack</Action>
-		<Action>CombineLists/Barudit Pack,Template_Barudit_Growth|Template_Barudit_Start</Action>
-		<Action>SetVal/Barudit Pack Count,=:2</Action>
-		<Action>SetVal/Barudit Pack Cost,=:6</Action>
-		<Action>SetList/Bowman Pack</Action>
-		<Action>CombineLists/Bowman Pack,Template_Bowman_Growth|Template_Bowman_Start</Action>
-		<Action>SetVal/Bowman Pack Count,=:2</Action>
-		<Action>SetVal/Bowman Pack Cost,=:6</Action>
-		<Action>SetList/Bronze Golem Pack</Action>
-		<Action>CombineLists/Bronze Golem Pack,Template_Bronze Golem_Growth|Template_Bronze Golem_Start</Action>
-		<Action>SetVal/Bronze Golem Pack Count,=:2</Action>
-		<Action>SetVal/Bronze Golem Pack Cost,=:8</Action>
-		<Action>SetList/Cavalier Pack</Action>
-		<Action>CombineLists/Cavalier Pack,Template_Cavalier_Growth|Template_Cavalier_Start</Action>
-		<Action>SetVal/Cavalier Pack Count,=:2</Action>
-		<Action>SetVal/Cavalier Pack Cost,=:6</Action>
-		<Action>SetList/Crossbowman Pack</Action>
-		<Action>CombineLists/Crossbowman Pack,Template_Crossbowman_Growth|Template_Crossbowman_Start</Action>
-		<Action>SetVal/Crossbowman Pack Count,=:2</Action>
-		<Action>SetVal/Crossbowman Pack Cost,=:7</Action>
-		<Action>SetList/Cryokineticist Pack</Action>
-		<Action>CombineLists/Cryokineticist Pack,Template_Cryokineticist_Growth|Template_Cryokineticist_Start</Action>
-		<Action>SetVal/Cryokineticist Pack Count,=:2</Action>
-		<Action>SetVal/Cryokineticist Pack Cost,=:6</Action>
-		<Action>SetList/Dark Spriggat Pack</Action>
-		<Action>CombineLists/Dark Spriggat Pack,Template_Dark Spriggat_Growth|Template_Dark Spriggat_Start</Action>
-		<Action>SetVal/Dark Spriggat Pack Count,=:2</Action>
-		<Action>SetVal/Dark Spriggat Pack Cost,=:8</Action>
-		<Action>SetList/Engineer Pack</Action>
-		<Action>CombineLists/Engineer Pack,Template_Engineer_Growth|Template_Engineer_Start</Action>
-		<Action>SetVal/Engineer Pack Count,=:2</Action>
-		<Action>SetVal/Engineer Pack Cost,=:6</Action>
-		<Action>SetList/Frost Spriggat Pack</Action>
-		<Action>CombineLists/Frost Spriggat Pack,Template_Frost Spriggat_Growth|Template_Frost Spriggat_Start</Action>
-		<Action>SetVal/Frost Spriggat Pack Count,=:2</Action>
-		<Action>SetVal/Frost Spriggat Pack Cost,=:8</Action>
-		<Action>SetList/Gasul Pack</Action>
-		<Action>CombineLists/Gasul Pack,Template_Gasul_Growth|Template_Gasul_Start</Action>
-		<Action>SetVal/Gasul Pack Count,=:2</Action>
-		<Action>SetVal/Gasul Pack Cost,=:5</Action>
-		<Action>SetList/Golden Spriggat Pack</Action>
-		<Action>CombineLists/Golden Spriggat Pack,Template_Golden Spriggat_Growth|Template_Golden Spriggat_Start</Action>
-		<Action>SetVal/Golden Spriggat Pack Count,=:2</Action>
-		<Action>SetVal/Golden Spriggat Pack Cost,=:8</Action>
-		<Action>SetList/Kineticist Pack</Action>
-		<Action>CombineLists/Kineticist Pack,Template_Kineticist_Growth|Template_Kineticist_Start</Action>
-		<Action>SetVal/Kineticist Pack Count,=:2</Action>
-		<Action>SetVal/Kineticist Pack Cost,=:6</Action>
-		<Action>SetList/Mentalist Pack</Action>
-		<Action>CombineLists/Mentalist Pack,Template_Mentalist_Growth|Template_Mentalist_Start</Action>
-		<Action>SetVal/Mentalist Pack Count,=:2</Action>
-		<Action>SetVal/Mentalist Pack Cost,=:6</Action>
-		<Action>SetList/Photokineticist Pack</Action>
-		<Action>CombineLists/Photokineticist Pack,Template_Photokineticist_Growth|Template_Photokineticist_Start</Action>
-		<Action>SetVal/Photokineticist Pack Count,=:2</Action>
-		<Action>SetVal/Photokineticist Pack Cost,=:6</Action>
-		<Action>SetList/Psy Healer Pack</Action>
-		<Action>CombineLists/Psy Healer Pack,Template_Psy Healer_Growth|Template_Psy Healer_Start</Action>
-		<Action>SetVal/Psy Healer Pack Count,=:2</Action>
-		<Action>SetVal/Psy Healer Pack Cost,=:6</Action>
-		<Action>SetList/Pyrokineticist Pack</Action>
-		<Action>CombineLists/Pyrokineticist Pack,Template_Pyrokineticist_Growth|Template_Pyrokineticist_Start</Action>
-		<Action>SetVal/Pyrokineticist Pack Count,=:2</Action>
-		<Action>SetVal/Pyrokineticist Pack Cost,=:6</Action>
-		<Action>SetList/Pyrokineticist Pack</Action>
-		<Action>CombineLists/Red Spriggat Pack,Template_Red Spriggat_Growth|Template_Red Spriggat_Start</Action>
-		<Action>SetVal/Red Spriggat Pack Count,=:2</Action>
-		<Action>SetVal/Red Spriggat Pack Cost,=:8</Action>
-		<Action>SetList/Skiakineticist Pack</Action>
-		<Action>CombineLists/Skiakineticist Pack,Template_Skiakineticist_Growth|Template_Skiakineticist_Start</Action>
-		<Action>SetVal/Skiakineticist Pack Count,=:2</Action>
-		<Action>SetVal/Skiakineticist Pack Cost,=:6</Action>
-		<Action>SetList/Spearman Pack</Action>
-		<Action>CombineLists/Spearman Pack,Template_Spearman_Growth|Template_Spearman_Start</Action>
-		<Action>SetVal/Spearman Pack Count,=:2</Action>
-		<Action>SetVal/Spearman Pack Cost,=:6</Action>
-		<Action>SetList/Spirit Pack</Action>
-		<Action>CombineLists/Spirit Pack,Template_Spirit_Growth|Template_Spirit_Start</Action>
-		<Action>SetVal/Spirit Pack Count,=:2</Action>
-		<Action>SetVal/Spirit Pack Cost,=:9</Action>
-		<Action>SetList/Stone Golem Pack</Action>
-		<Action>CombineLists/Stone Golem Pack,Template_Stone Golem_Growth|Template_Stone Golem_Start</Action>
-		<Action>SetVal/Stone Golem Pack Count,=:2</Action>
-		<Action>SetVal/Stone Golem Pack Cost,=:9</Action>
-		<Action>SetList/Swordsman Pack</Action>
-		<Action>CombineLists/Swordsman Pack,Template_Swordsman_Growth|Template_Swordsman_Start</Action>
-		<Action>SetVal/Swordsman Pack Count,=:3</Action>
-		<Action>SetVal/Swordsman Pack Cost,=:5</Action>
+		<Action>SetList/Human_Assassin_Pack</Action>
+		<Action>CombineLists/Human_Assassin_Pack,Deck_Template_Human_Assassin_Iconic|Deck_Template_Human_Assassin_Support_Offensive|Deck_Template_Human_Assassin_Support_Utility|Deck_Template_Human_Assassin_Growth|Deck_Template_Human_Assassin_Bloat|Template_Assassin_Promise</Action>
+		<Action>SetVal/Human_Assassin_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Assassin_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Axefighter_Pack</Action>
+		<Action>CombineLists/Human_Axefighter_Pack,Deck_Template_Human_Axefighter_Iconic|Deck_Template_Human_Axefighter_Support_Offensive|Deck_Template_Human_Axefighter_Support_Utility|Deck_Template_Human_Axefighter_Growth|Deck_Template_Human_Axefighter_Bloat|Template_Human_Axefighter_Promise</Action>
+		<Action>SetVal/Human_Axefighter_Pack_Count,=:3</Action>
+		<Action>SetVal/Human_Axefighter_Pack_Cost,=:5</Action>
+		<Action>SetList/Lissit_Barudit_Pack</Action>
+		<Action>CombineLists/Lissit_Barudit_Pack,Deck_Template_Lissit_Barudit_Iconic|Deck_Template_Lissit_Barudit_Support_Offensive|Deck_Template_Lissit_Barudit_Support_Utility|Deck_Template_Lissit_Barudit_Growth|Deck_Template_Lissit_Barudit_Bloat|Template_Lissit_Barudit_Promise</Action>
+		<Action>SetVal/Lissit_Barudit_Pack_Count,=:2</Action>
+		<Action>SetVal/Lissit_Barudit_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Bowman_Pack</Action>
+		<Action>CombineLists/Human_Bowman_Pack,Deck_Template_Human_Bowman_Iconic|Deck_Template_Human_Bowman_Support_Offensive|Deck_Template_Human_Bowman_Support_Utility|Deck_Template_Human_Bowman_Growth|Deck_Template_Human_Bowman_Bloat|Template_Human_Bowman_Promise</Action>
+		<Action>SetVal/Human_Bowman_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Bowman_Pack_Cost,=:6</Action>
+		<Action>SetList/Golem_Bronze Golem_Pack</Action>
+		<Action>CombineLists/Golem_Bronze Golem_Pack,Deck_Template_Golem_Bronze Golem_Iconic|Deck_Template_Golem_Bronze Golem_Support_Offensive|Deck_Template_Golem_Bronze Golem_Support_Utility|Deck_Template_Golem_Bronze Golem_Growth|Deck_Template_Golem_Bronze Golem_Bloat|Template_Golem_Bronze Golem_Promise</Action>
+		<Action>SetVal/Golem_Bronze Golem_Pack_Count,=:2</Action>
+		<Action>SetVal/Golem_Bronze Golem_Pack_Cost,=:8</Action>
+		<Action>SetList/Human_Cavalier_Pack</Action>
+		<Action>CombineLists/Human_Cavalier_Pack,Deck_Template_Human_Cavalier_Iconic|Deck_Template_Human_Cavalier_Support_Offensive|Deck_Template_Human_Cavalier_Support_Utility|Deck_Template_Human_Cavalier_Growth|Deck_Template_Human_Cavalier_Bloat|Template_Human_Cavalier_Promise</Action>
+		<Action>SetVal/Human_Cavalier_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Cavalier_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Crossbowman_Pack</Action>
+		<Action>CombineLists/Human_Crossbowman_Pack,Deck_Template_Human_Crossbowman_Iconic|Deck_Template_Human_Crossbowman_Support_Offensive|Deck_Template_Human_Crossbowman_Support_Utility|Deck_Template_Human_Crossbowman_Growth|Deck_Template_Human_Crossbowman_Bloat|Template_Human_Crossbowman_Promise</Action>
+		<Action>SetVal/Human_Crossbowman_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Crossbowman_Pack_Cost,=:7</Action>
+		<Action>SetList/Human_Cryokineticist_Pack</Action>
+		<Action>CombineLists/Human_Cryokineticist_Pack,Deck_Template_Human_Cryokineticist_Iconic|Deck_Template_Human_Cryokineticist_Support_Offensive|Deck_Template_Human_Cryokineticist_Utility|Deck_Template_Human_Cryokineticist_Growth|Deck_Template_Human_Cryokineticist_Bloat|Template_Human_Cryokineticist_Promise</Action>
+		<Action>SetVal/Human_Cryokineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Cryokineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Shadowling_Cryokineticist_Pack</Action>
+		<Action>CombineLists/Shadowling_Cryokineticist_Pack,Deck_Template_Shadowling_Cryokineticist_Iconic|Deck_Template_Shadowling_Cryokineticist_Support_Offensive|Deck_Template_Shadowling_Cryokineticist_Support_Utility|Deck_Template_Shadowling_Cryokineticist_Growth|Deck_Template_Shadowling_Cryokineticist_Bloat|Template_Shadowling_Cryokineticist_Promise</Action>
+		<Action>SetVal/Shadowling_Cryokineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Cryokineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Spriggat_Dark Spriggat_Pack</Action>
+		<Action>CombineLists/Spriggat_Dark Spriggat_Pack_Count_Pack,Deck_Template_Spriggat_Dark Spriggat_Pack_Count_Iconic|Deck_Template_Spriggat_Dark Spriggat_Pack_Count_Support_Offensive|Deck_Template_Spriggat_Dark Spriggat_Pack_Count_Utility|Deck_Template_Spriggat_Dark Spriggat_Pack_Count_Growth|Deck_Template_Spriggat_Dark Spriggat_Pack_Count_Bloat|Template_Spriggat_Dark Spriggat_Pack_Count_Promise</Action>
+		<Action>SetVal/Spriggat_Dark Spriggat_Pack_Count,=:2</Action>
+		<Action>SetVal/Spriggat_Dark Spriggat_Pack_Cost,=:8</Action>
+		<Action>SetList/Human_Engineer_Pack</Action>
+		<Action>CombineLists/Human_Human_Engineer_Pack,Deck_Template_Human_Engineer_Iconic|Deck_Template_Human_Engineer_Support_Offensive|Deck_Template_Human_Engineer_Support_Utility|Deck_Template_Human_Engineer_Growth|Deck_Template_Human_Engineer_Bloat|Template_Human_Engineer_Promise</Action>
+		<Action>SetVal/Human_Engineer_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Engineer_Pack_Cost,=:6</Action>
+		<Action>SetList/Spriggat_Frost Spriggat_Pack</Action>
+		<Action>CombineLists/Spriggat_Frost Spriggat_Pack,Deck_Template_Spriggat_Frost Spriggat_Iconic|Deck_Template_Spriggat_Frost Spriggat_Support_Offensive|Deck_Template_Spriggat_Frost Spriggat_Utility|Deck_Template_Spriggat_Frost Spriggat_Growth|Deck_Template_Spriggat_Frost Spriggat_Bloat|Template_Spriggat_Frost Spriggat_Promise</Action>
+		<Action>SetVal/Spriggat_Frost Spriggat_Pack_Count,=:2</Action>
+		<Action>SetVal/Spriggat_Frost Spriggat_Pack_Cost,=:8</Action>
+		<Action>SetList/Lissit_Gasul_Pack</Action>
+		<Action>CombineLists/Lissit_Gasul_Pack,Deck_Template_Lissit_Gasul_Iconic|Deck_Template_Lissit_Gasul_Utility_Offensive|Deck_Template_Lissit_Gasul_Utility_Support|Deck_Template_Lissit_Gasul_Growth|Deck_Template_Lissit_Gasul_Bloat|Template_Lissit_Gasul_Promise</Action>
+		<Action>SetVal/Lissit_Gasul_Pack_Count,=:2</Action>
+		<Action>SetVal/Lissit_Gasul_Pack_Cost,=:5</Action>
+		<Action>SetList/Spriggat_Golden Spriggat_Pack</Action>
+		<Action>CombineLists/Spriggat_Golden Spriggat_Pack,Deck_Template_Spriggat_Golden Spriggat_Iconic|Deck_Template_Spriggat_Golden Spriggat_Support_Offensive|Deck_Template_Spriggat_Golden Spriggat_Support_Utility|Deck_Template_Spriggat_Golden Spriggat_Growth|Deck_Template_Spriggat_Golden Spriggat_Bloat|Template_Spriggat_Golden Spriggat_Promise</Action>
+		<Action>SetVal/Spriggat_Golden Spriggat_Pack_Count,=:2</Action>
+		<Action>SetVal/Spriggat_Golden Spriggat_Pack_Cost,=:8</Action>
+		<Action>SetList/Human_Kineticist_Pack</Action>
+		<Action>CombineLists/Human_Human_Kineticist_Pack,Deck_Template_Human_Kineticist_Iconic|Deck_Template_Human_Kineticist_Support_Offensive|Deck_Template_Human_Kineticist_Support_Utility|Deck_Template_Human_Kineticist_Growth|Deck_Template_Human_Kineticist_Bloat|Template_Human_Kineticist_Promise</Action>
+		<Action>SetVal/Human_Kineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Kineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Shadowling_Kineticist_Pack</Action>
+		<Action>CombineLists/Human_Shadowling_Kineticist_Pack,Deck_Template_Shadowling_Kineticist_Iconic|Deck_Template_Shadowling_Kineticist_Support_Offensive|Deck_Template_Shadowling_Kineticist_Utility|Deck_Template_Shadowling_Kineticist_Growth|Deck_Template_Shadowling_Kineticist_Bloat|Template_Shadowling_Kineticist_Promise</Action>
+		<Action>SetVal/Shadowling_Kineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Kineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Mentalist_Pack</Action>
+		<Action>CombineLists/Human_Mentalist_Pack,Deck_Template_Human_Mentalist_Iconic|Deck_Template_Human_Mentalist_Support_Offensive|Deck_Template_Human_Mentalist_Utility|Deck_Template_Human_Mentalist_Growth|Deck_Template_Human_Mentalist_Bloat|Template_Human_Mentalist_Promise</Action>
+		<Action>SetVal/Human_Mentalist_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Mentalist_Pack_Cost,=:6</Action>
+		<Action>SetList/Shadowling_Mentalist_Pack</Action>
+		<Action>CombineLists/Shadowling_Mentalist_Pack,Deck_Template_Shadowling_Mentalist_Iconic|Deck_Template_Shadowling_Mentalist_Support_Offensive|Deck_Template_Shadowling_Mentalist_Support_Utility|Deck_Template_Shadowling_Mentalist_Growth|Deck_Template_Shadowling_Mentalist_Bloat|Template_Shadowling_Mentalist_Promise</Action>
+		<Action>SetVal/Shadowling_Mentalist_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Mentalist_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Photokineticist_Pack</Action>
+		<Action>CombineLists/Human_Photokineticist_Pack,Deck_Template_Human_Photokineticist_Iconic|Deck_Template_Human_Photokineticist_Utility_Support_Offensive|Deck_Template_Human_Photokineticist_Support_Utility|Deck_Template_Human_Photokineticist_Growth|Deck_Template_Human_Photokineticist_Bloat|Template_Human_Photokineticist _Promise</Action>
+		<Action>SetVal/Human_Photokineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Photokineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Shadowling_Photokineticist_Pack</Action>
+		<Action>CombineLists/Human_Shadowling_Photokineticist_Pack,Deck_Template_Shadowling_Photokineticist_Iconic|Deck_Template_Shadowling_Photokineticist_Support_Offensive|Deck_Template_Shadowling_Photokineticist_Support_Utility|Deck_Template_Shadowling_Photokineticist_Growth|Deck_Template_Shadowling_Photokineticist_Bloat|Template_Shadowling_Photokineticist_Promise</Action>
+		<Action>SetVal/Shadowling_Photokineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Photokineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Psy Healer_Pack</Action>
+		<Action>CombineLists/Human_Human_Psy Healer_Pack,Deck_Template_Human_Psy Healer_Iconic|Deck_Template_Human_Psy Healer_Support_Offensive|Deck_Template_Human_Psy Healer_Support_Utility|Deck_Template_Human_Psy Healer_Growth|Deck_Template_Human_Psy Healer_Bloat|Template_Human_Psy Healer_Promise</Action>
+		<Action>SetVal/Human_Psy Healer_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Psy Healer_Pack_Cost,=:6</Action>
+		<Action>SetList/Shadowling_Psy Healer_Pack</Action>
+		<Action>CombineLists/Shadowling_Psy Healer_Pack,Deck_Template_Shadowling_Psy Healer_Iconic|Deck_Template_Shadowling_Psy Healer_Support_Offensive|Deck_Template_Shadowling_Psy Healer_Support_Utility|Deck_Template_Shadowling_Psy Healer_Growth|Deck_Template_Shadowling_Psy Healer_Bloat|Template_Shadowling_Psy Healer_Promise</Action>
+		<Action>SetVal/Shadowling_Psy Healer_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Psy Healer_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Pyrokineticist_Pack</Action>
+		<Action>CombineLists/Human_Pyrokineticist_Pack,Deck_Template_Human_Pyrokineticist_Iconic|Deck_Template_Human_Pyrokineticist_Support_Offensive|Deck_Template_Human_Pyrokineticist_Support_Utility|Deck_Template_Human_Pyrokineticist_Growth|Deck_Template_Human_Pyrokineticist_Bloat|Template_Human_Pyrokineticist_Promise</Action>
+		<Action>SetVal/Human_Pyrokineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Pyrokineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Human_Pyrokineticist_Pack</Action>
+		<Action>SetList/Shadowling_Pyrokineticist_Pack</Action>
+		<Action>CombineLists/Shadowling_Pyrokineticist_Pack,Deck_Template_Shadowling_Pyrokineticist_Support_Iconic|Deck_Template_Shadowling_Pyrokineticist_Support_Offensive|Deck_Template_Shadowling_Pyrokineticist_Utility|Deck_Template_Shadowling_Pyrokineticist_Growth|Deck_Template_Shadowling_Pyrokineticist_Bloat|Template_Shadowling_Pyrokineticist_Promise</Action>
+		<Action>SetVal/Shadowling_Pyrokineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Pyrokineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Spriggat_Red Spriggat_Pack</Action>
+		<Action>CombineLists/Spriggat_Red Spriggat_Pack,Deck_Template_Spriggat_Red Spriggat_Iconic|Deck_Template_Spriggat_Red Spriggat_Support_Offensive|Deck_Template_Spriggat_Red Spriggat_Support_Utility|Deck_Template_Spriggat_Red Spriggat_Growth|Deck_Template_Spriggat_Red Spriggat_Bloat|Template_Spriggat_Red Spriggat_Promise</Action>
+		<Action>SetVal/Spriggat_Red Spriggat_Pack_Count,=:2</Action>
+		<Action>SetVal/Spriggat_Red Spriggat_Pack_Cost,=:8</Action>
+		<Action>SetList/Human_Skiakineticist_Pack</Action>
+		<Action>CombineLists/Human_Skiakineticist_Pack,Deck_Template_Human_Skiakineticist_Iconic|Deck_Template_Human_Skiakineticist_Support_Offensive|Deck_Template_Human_Skiakineticist_Support_Utility|Deck_Template_Human_Skiakineticist_Growth|Deck_Template_Human_Skiakineticist_Bloat|Template_Human_Skiakineticist_Promise</Action>
+		<Action>SetVal/Human_Skiakineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Skiakineticist_Pack_Cost,=:6</Action>
+		<Action>SetList/Shadowling_Skiakineticist_Pack</Action>
+		<Action>CombineLists/Shadowling_Skiakineticist_Pack,Deck_Template_Shadowling_Skiakineticist_Iconic|Deck_Template_Shadowling_Skiakineticist_Support_Offensive|Deck_Template_Shadowling_Skiakineticist_Support_Utility|Deck_Template_Shadowling_Skiakineticist_Growth|Deck_Template_Shadowling_Skiakineticist_Bloat|Template_Shadowling_Skiakineticist_Promise</Action>
+		<Action>SetVal/Shadowling_Skiakineticist_Pack_Count,=:2</Action>
+		<Action>SetVal/Shadowling_Skiakineticist_Cost,=:6</Action>
+		<Action>SetList/Huamn_Spearman_Pack</Action>
+		<Action>CombineLists/Human_Spearman_Pack,Deck_Template_Human_Spearman_Iconic|Deck_Template_Human_Spearman_Support_Offensive|Deck_Template_Human_Spearman_Support_Utility|Deck_Template_Human_Spearman_Growth|Deck_Template_Human_Spearman_Bloat|Template_Human_Spearman_Promise</Action>
+		<Action>SetVal/Human_Spearman_Pack_Count,=:2</Action>
+		<Action>SetVal/Human_Spearman_Pack_Cost,=:6</Action>
+		<Action>SetList/Spirit_Spirit_Pack</Action>
+		<Action>CombineLists/Spirit_Spirit_Pack,Deck_Template_Spirit_Spirit_Iconic|Deck_Template_Spirit_Spirit_Support_Offensive|Deck_Template_Spirit_Spirit_Support_Utility|Deck_Template_Spirit_Spirit_Growth|Deck_Template_Spirit_Spirit_Bloat|Template_Spirit_Spirit_Promise</Action>
+		<Action>SetVal/Spirit_Spirit_Pack_Count,=:2</Action>
+		<Action>SetVal/Spirit_Spirit_Pack_Cost,=:9</Action>
+		<Action>SetList/Golem_Stone_Golem_Pack</Action>
+		<Action>CombineLists/Golem_Stone_Golem_Pack,Deck_Template_Golem_Stone_Golem_Iconic|Deck_Template_Golem_Stone_Golem_Support_Offensive|Deck_Template_Golem_Stone_Golem_Support_Utility|Deck_Template_Golem_Stone_Golem_Growth|Deck_Template_Golem_Stone_Golem_Bloat|Template_Golem_Stone_Golem_Promise</Action>
+		<Action>SetVal/Golem_Stone_Golem_Pack,=:2</Action>
+		<Action>SetVal/Golem_Stone_Golem_Pack Cost,=:9</Action>
+		<Action>SetList/Human_Swordsman_Pack</Action>
+		<Action>CombineLists/Human_Swordsman_Pack,Deck_Template_Human_Swordsman_Iconic|Deck_Template_Human_Swordsman_Support_Offensive|Deck_Template_Human_Swordsman_Support_Utility|Deck_Template_Human_Swordsman_Growth|Deck_Template_Human_Swordsman_Bloat|Template_Human_Swordsman_Promise</Action>
+		<Action>SetVal/Human_Swordsman_Pack_Count,=:3</Action>
+		<Action>SetVal/Human_Swordsman_Pack_Cost,=:5</Action>
 	</Script>
 
 	<Script>Open Booster Pack
@@ -384,8 +534,8 @@
 		<Action>SetList/Special Decks</Action>
 		<Action>SetList/40 Bandit Blitz Deck,Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit|Blitz Bandit</Action>
 		<Action>AddToList/Special Decks,40 Bandit Blitz Deck</Action>
-		<Action>SetList/All Custom Cards Test Deck,Bronze Golem|Dark Spriggat|Dark Shade|Engineer|Frost Shade|Frost Spriggat|Golden Spriggat|Kineticist|Kineticist Shade|Light Shade|Mentalist Shade|Psy Healer Shade|Pyro Shade|Red Spriggat|Skiakineticist|Berserker|Blade Dancer|Bowmaster|Mant Lancer|Pyrokurios|Dacoit Cutter|Defective Golem|Sellsword|Grape Shot|Poison Needles|Twirl</Action>
-		<Action>AddToList/Special Decks,Custom Card WIP Test Deck</Action>
+		<Action>SetList/All Custom Cards Test Deck,Bronze Golem|Create Ice|Dark Shade|Dark Spriggat|Engineer|Frost Shade|Frost Spriggat|Golden Spriggat|Kineticist|Kineticist Shade|Light Shade|Mentalist Shade|Psy Healer Shade|Pyro Shade|Red Spriggat|Skiakineticist|Berserker|Blade Dancer|Bowmaster|Mant Lancer|Pyrokurios|Create Ice|Dacoit Cutter|Defective Golem|Sellsword|Grape Shot|Poison Needles|Twirl</Action>
+		<Action>AddToList/Special Decks,All Custom Cards Test Deck</Action>
 		<Action>SetList/Spirit Test,Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit|Spirit</Action>
 		<Action>AddToList/Special Decks,Spirit Test</Action>
 	</Script>
