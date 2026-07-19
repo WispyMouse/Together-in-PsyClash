@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/18/2026 7:03:37 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/18/2026 10:31:54 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -324,7 +324,7 @@
 	</Script>
 
 	<Script>Play Against Deck
-		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,1,-STR:Deck To Play-,-STR:Opponent Name-,1,2</Action>
+		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,0,-STR:Deck To Play-,-STR:Opponent Name-,1,2</Action>
 	</Script>
 
 	<Script>Add Play Against Special Deck
@@ -365,7 +365,7 @@
 		</Branch>
 		<Branch num="1" name="Play PsyClash">/
 			<Action>PlayMusic/There Will Be Blood</Action>
-			<Action>CardGame/Psy Clash Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2-Deck,-FNAME2-,1,2</Action>
+			<Action>CardGame/Psy Clash Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,0,-FNAME2-Deck,-FNAME2-,1,2</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
 		<Branch num="2" name="Show Me Your Deck">-FNAME2-/The player should not see this
@@ -447,7 +447,7 @@
 			<Action>SetAura/+:6,true,true</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
 			<Action>SetValByVal/Count,=,-CHAR2CLASS- Pack Count</Action>
-			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2CLASS- Pack</Action>
+			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2RACE-_-CHAR2CLASS-_Pack</Action>
 			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
 			<Action>PlaySound/Firework</Action>
 			<Action>Wait/1</Action>

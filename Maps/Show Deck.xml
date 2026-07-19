@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Show Deck" maptype="Cut Scene: Static" maxplayers="1" musictrack="Getting To Know You" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/12/2026 2:34:55 AM">
+<Level mapname="Show Deck" maptype="Cut Scene: Static" maxplayers="1" musictrack="Getting To Know You" winAura="0" nextbattle="Card Shop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/18/2026 10:21:15 PM">
 
 	<Narration> -DIA:Introduction-</Narration>
 
 	<Script>Show Deck
 		<Action>SetList/Player DeckInactive</Action>
 		<Action>CombineLists/Player DeckInactive,-STR:Viewed Deck-Inactive</Action>
-		<Action>ShowDeck/-STR:Viewed Deck-</Action>
 		<Action>Log/LOGMESSAGE: The "inactive" cards are always at 'Player DeckInactive'. We need to clear that list, and then put the cards that are actually inactive for that character. In most cases, this is to help the player remove cards from their deck, but also to prevent the player from removing cards from others.</Action>
+		<Action>SetList/Deck Proxy</Action>
+		<Action>CombineLists/Deck Proxy,-STR:Viewed Deck-</Action>
+		<Action>SortList/Deck Proxy</Action>
+		<Action>ShowDeck/Deck Proxy</Action>
 	</Script>
 
 	<Script>Leave
 		<Action>IfStringRun/Viewed Deck,PlayerDeck,Save Player Changes,false</Action>
 		<Action>IfStringRun/Viewed Deck,PlayerDeck,Reset Deck Changes,true</Action>
-		<Action>RemoveString/Viewed Deck</Action>
 		<Action>NewScene/Card Shop,-VAL:Roam Y-,-VAL:Roam X-,-STR:Roam Facing-</Action>
+		<Action>Log/LOGMESSAGE: Viewed Deck: '-STR:Viewed Deck-'</Action>
 	</Script>
 
 	<Script>Reset Deck Changes
@@ -31,13 +34,12 @@
 		<Action>CombineLists/PlayerDeck,Player Deck</Action>
 		<Action>SetList/PlayerDeckInactive</Action>
 		<Action>CombineLists/PlayerDeckInactive,Player DeckInactive</Action>
-		<Action>RemoveList/Player DeckInactive</Action>
+		<Action>RemoveList/Proxy DeckInactive</Action>
 	</Script>
 
 	<Dialogue trigger="None/" convID="Introduction" r="true">
 		<Branch num="0" name="">/The player shouldn't see this
 			<Action>SetString/Viewed Deck,-STR:Deck To Show-</Action>
-			<Action>RemoveString/Deck To Show</Action>
 			<Action>GoToNextBranch/</Action>
 			<Reply>Ooops/NextBranch</Reply>
 		</Branch>
