@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/14/2026 3:10:48 AM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/18/2026 7:03:37 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -153,19 +153,20 @@
 
 	<Script>Place People
 		<Action>Log/'Card Players' contains LASTINLIST[Card Players] members, 'Shop Staff' contains LASTINLIST[Shop Staff] members</Action>
-		<Action>SetSeed/-VAL:Random Seed-</Action>
 		<Action>Run/Set Current Challenger</Action>
+		<Action>SetSeed/-VAL:Random Seed-</Action>
 		<Action>SetList/Shuffled Card Players</Action>
 		<Action>CombineLists/Shuffled Card Players,Card Players</Action>
 		<Action>RemoveFromList/Shuffled Card Players,-STR:Avatar Character-</Action>
 		<Action>RemoveFromList/Shuffled Card Players,-STR:Current Challenger-</Action>
-		<Action>SpawnUnit/0,-STR:Current Challenger-,2,4,Right,Use:Challenger Table Talk Script</Action>
-		<Action>FaceUnit/-STR:Current Challenger-,Right</Action>
 		<Action>ShuffleList/Shuffled Card Players</Action>
 		<Action>SetList/Shuffled Shop Staff</Action>
 		<Action>CombineLists/Shuffled Shop Staff,Shop Staff</Action>
 		<Action>RemoveFromList/Shuffled Shop Staff,-STR:Avatar Character-</Action>
+		<Action>RemoveFromList/Shuffled Card Staff,-STR:Current Challenger-</Action>
 		<Action>ShuffleList/Shuffled Shop Staff</Action>
+		<Action>SpawnUnit/0,-STR:Current Challenger-,2,4,Right,Use:Challenger Table Talk Script</Action>
+		<Action>FaceUnit/-STR:Current Challenger-,Right</Action>
 		<Action>SetString/Today Shop Staff,LIST{Shuffled Shop Staff,0}</Action>
 		<Action>SpawnUnit/0,-STR:Today Shop Staff-,2,12,Down,Use:Counter Talk Script</Action>
 		<Action>FaceUnit/-STR:Today Shop Staff-,Down</Action>
@@ -206,8 +207,8 @@
 
 	<Script>Note If Closest
 		<Action>Log/LOGMESSAGE: Checking if character index -VAL:Character Index- name LIST{Today Card Players,-VAL:Character Index-} is the closest to -CHAR2X- and -CHAR2Y-. Previous closest is -VAL:Closest Distance-</Action>
-		<Action>IfValRun/_Dist,l,-VAL:Closest Distance-,Set Current Character as Closest</Action>
 		<Action>GetDistToSpace/LIST{Today Card Players,-VAL:Character Index-},-CHAR2Y-,-CHAR2X-</Action>
+		<Action>IfValRun/_Dist,l,-VAL:Closest Distance-,Set Current Character as Closest</Action>
 	</Script>
 
 	<Script>Set Current Character as Closest
@@ -285,6 +286,7 @@
 	</Script>
 
 	<Script>Confirm Set New Challenger
+		<Action>SetSeed/-VAL:Random Seed-</Action>
 		<Action>SetList/Shuffled Card Players</Action>
 		<Action>CombineLists/Shuffled Card Players,Card Players</Action>
 		<Action>RemoveFromList/Shuffled Card Players,-STR:Avatar Character-</Action>
@@ -307,13 +309,14 @@
 	</Script>
 
 	<Script>Set Today Packs
-		<Action>SetList/Today Packs,Variety Pack|Unit Pack|Technique Pack|Custom Pack|PICK{Assassin Pack|Axefighter Pack|Barudit Pack|Bowman Pack|Bronze Golem Pack|Cavalier Pack|Crossbowman Pack|Cryokineticist Pack|Dark Spriggat Pack|Engineer Pack|Frost Spriggat Pack|Gasul Pack|Golden Spriggat Pack|Kineticist Pack|Menalist Pack|Photokineticist Pack|Red Sprigat Pack|Skiakineticist Pack|Spearman Pack|Spirit Pack|Stone Golem Pack|Swordsman Pack}</Action>
+		<Action>SetList/Today Packs,Variety Pack|Unit Pack|Technique Pack|Custom Pack|PICK{Human_Assassin_Pack|Human_Axefighter_Pack|Lissit_Barudit_Pack|Human_Bowman_Pack|Spriggat_Golden Spriggat Pack|Golem_Bronze Golem_Pack|Human_Cavalier_Pack|Human_Crossbowman_Pack|Human_Cryokineticist_Pack|Shadowling_Cryokineticist_Pack|Spriggat_Dark Spriggat_Pack|Human_Engineer_Pack|Spriggat_Frost Spriggat_Pack|Lissit_Gasul_Pack|Spriggat_Golden Spriggat_Pack|Human_Kineticist_Pack|Shadowling_Kineticist_Pack|Human_Menalist_Pack|Shadowling_Mentalist_Pack|Human_Photokineticist_Pack|Shadowling_Photokineticist_Pack|Spriggat_Red Sprigat_Pack|Human_Skiakineticist_Pack|Shadowling_Skiakineticist_Pack|Human_Spearman_Pack|Spirit_Spirit_Pack|Golem_Stone Golem_Pack|Human_Swordsman_Pack}</Action>
 	</Script>
 
 	<Script>Add Buy Pack Reply
-		<Action>SetValByVal/Pack Price Point,=,-STR:Pack- Cost</Action>
-		<Action>SetValByVal/Pack Count,=,-STR:Pack- Count</Action>
-		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Pack Price Point- Aura: Purchase &lt;sprite name="Book"&gt;-STR:Pack- with -VAL:Pack Count- Cards|Run|Set Pack Script;;Pack;;-STR:Pack-;;Count;;-VAL:Pack Count-;;Price Point;;-VAL:Pack Price Point-</Action>
+		<Action>SetValByVal/Pack Price Point,=,-STR:Pack-_Cost</Action>
+		<Action>SetValByVal/Pack Count,=,-STR:Pack-_Count</Action>
+		<Action>SetStringByString/Pack Name,-STR:Pack-_Name</Action>
+		<Action>AddReply/-STR:Conversation Name-,-STR:Conversation Target-,Pay &lt;sprite name="Aura"&gt;-VAL:Pack Price Point- Aura: Purchase &lt;sprite name="Book"&gt;-STR:Pack Name- with -VAL:Pack Count- Cards|Run|Set Pack Script;;Pack;;-STR:Pack-;;Count;;-VAL:Pack Count-;;Price Point;;-VAL:Pack Price Point-</Action>
 	</Script>
 
 	<Script>Debug Machine Script
@@ -321,7 +324,7 @@
 	</Script>
 
 	<Script>Play Against Deck
-		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,1,-STR:Deck-,-STR:Opponent Name-,1,2</Action>
+		<Action>CardGame/Debug Machine Game End,Debug Machine Game End,PlayerDeck,-STR:Opponent Name-,Yellow,20,1,-STR:Deck To Play-,-STR:Opponent Name-,1,2</Action>
 	</Script>
 
 	<Script>Add Play Against Special Deck

@@ -74,7 +74,7 @@
     <u cardID="Pyrokurios" name="Pyrokurios" cost="4" type="Unit" img="Sprite/Pyrokurios_M" sprite="Pyrokurios_Male" defaultAnim="Cast" power="2" health="2" atkSound="Blast Pyro" freeTargeting="true" onHitOpponent="Health,-:4,Opponent" description="If possible, damages a minion instead of attacking. When hitting player: +4 extra damage." set="Promoted Classes"></u>
   </Set>
   <Set name="Concept">
-	<u cardID="Create Ice" name="Create Ice" cost="1" type="Unit" img="Button/CreateIce" playSound="Breath Frost" sprite="IceSpikes" defaultAnim="None" power="0" health="6" cantAttack="true" onTurn="Energy,+:1,Owner/Draw,+:1,Owner/Health,=:0,Self" description="Cannot attack. On turn start: Melts. Owner gains 1 card and 1 energy." set="Concept"></u>
+	<u cardID="Create Ice" name="Create Ice" cost="1" type="Unit" img="Button/Create Ice" playSound="Breath Frost" sprite="IceSpikes" defaultAnim="None" power="0" health="6" cantAttack="true" onTurn="Energy,+:1,Owner/Draw,+:1,Owner/Health,=:0,Self" description="Cannot attack. On turn start: Melts. Owner gains 1 card and 1 energy." set="Concept"></u>
     <u cardID="Dacoit Cutter" name="Dacoit Cutter" cost="1" type="Unit" img="Sprite/Axefighter_F" sprite="Axefighter_Female" defaultAnim="Throw Axe" power="2" health="1" atkSound="Swoosh Axe" onPlayed="Health,-:2,Owner/Health,f:1,Owner/Draw,+:1,Owner" description="When played: 2 nonlethal damage to owner. Owner gains a card." set="Concept"></u>
     <!-- Defective Golem Design: Base game Golem is 4/5/8. This knocks a point off the cost, but has inconsistent power statistics. -->
 	<!-- Defective Golem Bug: Megalith sprite wasn't working, so using Stone Golem -->
