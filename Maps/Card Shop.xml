@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/18/2026 10:31:54 PM">
+<Level mapname="Card Shop" maptype="Single Player" maxplayers="1" battleBG="" musictrack="Dance of the Isles" winAura="0" winMorale="0" lossMorale="0" nextbattle="Next Day" defeatScene="" saveable="true" procgen="false" campaign="Together in PsyClash" lastEdited="7/19/2026 1:24:33 PM">
 
 	<Army num="0" AI="false" aiProfile="Balanced" name="Army 1" color="Blue" alliedWith="" assignRoster="-1"></Army>
 	<Army num="1" AI="true" aiProfile="Balanced" name="Army 2" color="Red" alliedWith="" assignRoster="-1"></Army>
@@ -438,7 +438,7 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Win" r="true">
-		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit and a -STR:Pack- booster, containing  &lt;sprite name="Book"&gt;-STR:Gained Cards String-!]
+		<Branch num="0" name="">-STR:Person-/Good game, you win. [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit and a -STR:Pack Name- booster, containing  &lt;sprite name="Book"&gt;-STR:Gained Cards String-!]
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>AssignSpeaker/-STR:Person-</Action>
@@ -446,8 +446,9 @@
 			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
 			<Action>SetAura/+:6,true,true</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
-			<Action>SetValByVal/Count,=,-CHAR2CLASS- Pack Count</Action>
-			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2RACE-_-CHAR2CLASS-_Pack</Action>
+			<Action>SetStringByString/Pack Name,-CHAR2SPECIES-_-CHAR2CLASS-_Pack_Name</Action>
+			<Action>SetValByVal/Count,=,-CHAR2SPECIES-_-CHAR2CLASS-_Pack_Count</Action>
+			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2SPECIES-_-CHAR2CLASS-_Pack</Action>
 			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
 			<Action>PlaySound/Firework</Action>
 			<Action>Wait/1</Action>
@@ -458,7 +459,7 @@
 
 	<Dialogue trigger="None/" convID="Psy Clash Game Lose" r="true">
 		<Branch num="0" name="">-STR:Person-/Ahah, looks like I won this one. [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit]
-			<Action>AddPortrait/-STR:Person-,-STR:Person,right</Action>
+			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
@@ -500,7 +501,7 @@
 		</Branch>
 		<Branch num="1" name="Play PsyClash">/
 			<Action>PlayMusic/There Will Be Blood</Action>
-			<Action>CardGame/Psy Clash Challenger Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,1,-FNAME2-Deck,-FNAME2-,1,2</Action>
+			<Action>CardGame/Psy Clash Challenger Game Win,Psy Clash Game Lose,PlayerDeck,-FNAME2-,Red,20,0,-FNAME2-Deck,-FNAME2-,1,2</Action>
 			<Action>EndConvImmediately/</Action>
 		</Branch>
 		<Branch num="2" name="Show Me Your Deck">-FNAME2-/The player should not see this
@@ -534,17 +535,18 @@
 	</Dialogue>
 
 	<Dialogue trigger="None/" convID="Psy Clash Challenger Game Win" r="true">
-		<Branch num="0" name="">-STR:Person-/Good game, you win.  [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit and a -STR:Pack- booster, containing  &lt;sprite name="Book"&gt;-STR:Gained Cards String-!]-NL-I'm the challenger for this week, and now that you've won, everyone's decks gets better. Go rest at the lamp post outside and come back tomorrow for a new challenger.
+		<Branch num="0" name="">-STR:Person-/Good game, you win.  [You gained &lt;sprite name="Aura"&gt;6 Aura in Store Credit and a -STR:Pack Name- booster, containing  &lt;sprite name="Book"&gt;-STR:Gained Cards String-!]-NL-I'm the challenger for this week, and now that you've won, everyone's decks gets better. Go rest at the lamp post outside and come back tomorrow for a new challenger.
 			<Action>ChangeTriggerCharacter/-STR:Avatar Character-</Action>
 			<Action>ChangeSecondaryCharacter/-STR:Person-</Action>
 			<Action>SetVal/Current Challenger Status,=:2</Action>
 			<Action>AssignSpeaker/-STR:Person-</Action>
+			<Action>SetStringByString/Pack Name,-CHAR2SPECIES-_-CHAR2CLASS-_Pack_Name</Action>
 			<Action>AddPortrait/-STR:Avatar Character-,-STR:Avatar Character-,left</Action>
 			<Action>AddPortrait/-STR:Person-,-STR:Person-,right</Action>
 			<Action>SetAura/+:10,true,true</Action>
-			<Action>SetValByVal/Count,=,-CHAR2CLASS- Pack Count</Action>
-			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2CLASS- Pack</Action>
-			<Action>ListToString/Count,=,-CHAR2CLASS- Pack Count</Action>
+			<Action>SetValByVal/Count,=,-CHAR2SPECIES-_-CHAR2CLASS-_Pack_Count</Action>
+			<Action>Run/Open Booster Pack,Count,-VAL:Count-,Pack,-CHAR2SPECIES-_-CHAR2CLASS-_Pack</Action>
+			<Action>ListToString/Gained Cards,;; &lt;sprite name="Book"&gt;,Gained Cards String</Action>
 			<Action>PlayMusic/Dance of the Isles</Action>
 			<Action>PlaySound/Firework</Action>
 			<Action>Wait/1</Action>

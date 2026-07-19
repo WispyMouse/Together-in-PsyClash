@@ -74,7 +74,7 @@
     <u cardID="Pyrokurios" name="Pyrokurios" cost="4" type="Unit" img="Sprite/Pyrokurios_M" sprite="Pyrokurios_Male" defaultAnim="Cast" power="2" health="2" atkSound="Blast Pyro" freeTargeting="true" onHitOpponent="Health,-:4,Opponent" description="If possible, damages a minion instead of attacking. When hitting player: +4 extra damage." set="Promoted Classes"></u>
   </Set>
   <Set name="Concept">
-	<u cardID="Create Ice" name="Create Ice" cost="1" type="Unit" img="Button/Create Ice" playSound="Breath Frost" sprite="IceSpikes" defaultAnim="None" power="0" health="6" cantAttack="true" onTurn="Energy,+:1,Owner/Draw,+:1,Owner/Health,=:0,Self" description="Cannot attack. On turn start: Melts. Owner gains 1 card and 1 energy." set="Concept"></u>
+	<u cardID="Create Ice" name="Create Ice" cost="1" type="Unit" img="Button/Create Ice" playSound="Breath Frost" sprite="SolidStateShield" defaultAnim="None" power="0" health="6" cantAttack="true" onTurn="Energy,+:1,Owner/Draw,+:1,Owner/Health,=:0,Self" description="Cannot attack. On turn start: Melts. Owner gains 1 card and 1 energy." set="Concept"></u>
     <u cardID="Dacoit Cutter" name="Dacoit Cutter" cost="1" type="Unit" img="Sprite/Axefighter_F" sprite="Axefighter_Female" defaultAnim="Throw Axe" power="2" health="1" atkSound="Swoosh Axe" onPlayed="Health,f:3,Owner/Health,-:2,Owner/Draw,+:1,Owner" description="When played: 2 nonlethal damage to owner. Owner gains a card." set="Concept"></u>
     <!-- Defective Golem Design: Base game Golem is 4/5/8. This knocks a point off the cost, but has inconsistent power statistics. -->
 	<!-- Defective Golem Bug: Megalith sprite wasn't working, so using Stone Golem -->
@@ -87,7 +87,7 @@
 	<!-- Feint Bug: Self discard throws exception -->
 	<!-- <u cardID="Feint" name="Feint" cost="0" type="Psy" img="Button/Feint" playSound="Swoosh Throw" onPlayed="Draw,=:0,Owner/Draw,+:3,Owner" description="Discard your hand and draw two cards." set="Concept"></u> -->
 	<u cardID="Grape Shot" name="Grape Shot" cost="2" type="Psy" img="Button/Grape Shot" playSound="PyroBlast_3" canTarget="Enemy Minions" onPlayed="Health,-:1,Target/Health,-:1,AllEnemies" description="Chosen minion: take 1 damage. All enemy minions lose 1 health." set="Concept"></u>
-	<u cardID="Poison Needles" name="Poison Needles" cost="0" type="Psy" img="Button/Poison Bolt" playSound="FireworkAlt" canTarget="Enemy Minions" onPlayed="Health,f:1|-:1,Target/Health,f:2|-:1" description="Chosen minion: Target takes 1 nonlethal damage. Opponent takes 1 nonlethal damage." set="Concept"></u>
+	<u cardID="Poison Needles" name="Poison Needles" cost="0" type="Psy" img="Button/Poison Bolt" playSound="FireworkAlt" canTarget="Enemy Minions" onPlayed="Health,f:2|-:1,Target/Health,f:2|-:1" description="Chosen minion: Target takes 1 nonlethal damage. Opponent takes 1 nonlethal damage." set="Concept"></u>
     <u cardID="Twirl" name="Twirl" cost="0" type="Psy" img="Button/Twirl" playSound="Swoosh Leap" canTarget="Own Minions" onPlayed="Power,r:4,Target/Power,+:1,Target" description="Chosen ally minion: set random Power 1-4." set="Concept"></u>
   </Set>
   <Set name="Challenge Cards">
