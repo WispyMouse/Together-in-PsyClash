@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/19/2026 12:51:44 PM">
+<PersistentDialogue desc="Dialogue and scripts that are universally available in every scene in the campaign (e.g. death monologues or scripts used in items and skills)." campaign="Together in PsyClash" lastEdited="7/19/2026 1:36:34 PM">
 
 	<Script>Generate Roster
 		<Action>Run/Set Class Deck Templates</Action>
@@ -541,7 +541,7 @@
 		<Action>SetList/Shadowling_Skiakineticist_Pack</Action>
 		<Action>CombineLists/Shadowling_Skiakineticist_Pack,Deck_Template_Shadowling_Skiakineticist_Iconic|Deck_Template_Shadowling_Skiakineticist_Support_Offensive|Deck_Template_Shadowling_Skiakineticist_Support_Utility|Deck_Template_Shadowling_Skiakineticist_Growth|Deck_Template_Shadowling_Skiakineticist_Bloat|Deck_Template_Shadowling_Skiakineticist_Promise</Action>
 		<Action>SetVal/Shadowling_Skiakineticist_Pack_Count,=:2</Action>
-		<Action>SetVal/Shadowling_Skiakineticist_Cost,=:6</Action>
+		<Action>SetVal/Shadowling_Skiakineticist_Pack_Cost,=:6</Action>
 		<Action>SetString/Shadowling_Skiakineticist_Pack_Name,Shadowling Skiakineticist Pack</Action>
 		<Action>SetList/Huamn_Spearman_Pack</Action>
 		<Action>CombineLists/Human_Spearman_Pack,Deck_Template_Human_Spearman_Iconic|Deck_Template_Human_Spearman_Support_Offensive|Deck_Template_Human_Spearman_Support_Utility|Deck_Template_Human_Spearman_Growth|Deck_Template_Human_Spearman_Bloat|Deck_Template_Human_Spearman_Promise</Action>

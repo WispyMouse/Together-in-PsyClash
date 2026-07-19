@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/19/2026 12:57:28 PM">
+<Level mapname="Introduction" maptype="Cut Scene: Static" maxplayers="1" musictrack="Bazaar" winAura="0" nextbattle="CardShop" saveable="true" saveCheck="false" campaign="Together in PsyClash" lastEdited="7/19/2026 1:37:24 PM">
 
 	<Narration>  -DIA:Introduction- -PIC:Card_Tournament_Dese_Alt-</Narration>
 
@@ -35,7 +35,7 @@
 		<Branch num="2" name="" showSingleReplies="true">v.0.1.3/v.01.3 - July 19th 2026-NL-Custom and generated characters are cast in Shop Staff and Card Player roles. Winning or losing a PsyClash game awards Aura. Use Aura to buy packs. Defeat the current Challenger to advance in difficulty. Avatar can be configured. Decks can be viewed and edited. Deck debug tool allows for challenging any player. 25 total custom cards. Opponents use custom cards and award packs based on their class.
 			<Reply>Known issues.../NextBranch</Reply>
 		</Branch>
-		<Branch num="3" name="" showSingleReplies="true">KNOWN ISSUES/Create Ice sprite is SolidStateShield. Salary is sometimes updated - you never need to pay that.
+		<Branch num="3" name="" showSingleReplies="true">KNOWN ISSUES/Create Ice sprite is SolidStateShield. Salary is sometimes updated - you never need to pay that. If I misspelled any card names, that will likely lock up the game when they would appear on screen.
 			<Reply>Start!/NewScene/Gameplay Dispatch Point</Reply>
 		</Branch>
 	</Dialogue>
