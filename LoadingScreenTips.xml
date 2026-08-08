@@ -1,0 +1,8 @@
+﻿<LoadingScreenTips>
+
+	<Language langName="English">
+
+		<Tip name="tip01" txt="TIP: This is a tip!"></Tip>
+	</Language>
+
+</LoadingScreenTips>
